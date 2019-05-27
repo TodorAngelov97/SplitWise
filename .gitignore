@@ -1,0 +1,7 @@
+my_local_setup.conf
+*.exe
+*.bin
+*.project
+*.iml
+*.idea
+/out

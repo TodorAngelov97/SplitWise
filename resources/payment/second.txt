@@ -1,0 +1,75 @@
+//19.02
+
+TOPIC: git remote
+					origin URL
+$git remote add <name-of0-remote> <adress>
+origin- taka se imenuva remote-a ot koito izliza vsichko
+$git remote -v -> pokazwa kakvoimame
+
+$git push  -> дава най-новата версия от локално  в глоаблноgi
+$git pull-> взима най новата версия от репото
+
+$git push --set-upstream origin master // setva go kato default pri push
+
+TOPIC : satshi
+$git stash zapisva gi w neshto kato commit nqkakva informaciq koqto ne iskame da 
+hodi w repotogit r
+$git stash list -> pokazva stashove
+$git stash show -> dava poveche info
+$git stash apply -> kazva vzemi tezi problemi i gi napravi w konrkretnata direktoriq
+$git checkout <file> maha promenite, vrushta nazad
+$git stash pop /stasha se razglejda kato stack, vzima nai gornoto parche apply-va go
+i sled tova go mahas
+$git stash drop -> kato pop samo che ne slaga promenite v rabotnata direktoriqgit 
+
+$ssh-keygan -> ssh key password
+$git reset -gi> mesti head-a
+$git reset HEAD~2 -> VRUSHTAME DVA COMMIT-A NAZAD //vrusha komitite nazad 
+no ne promenq informaciq za failovete v tqh
+
+
+$git reset --hard ->vrushta i filovete nazad vse edno na vseki fail --git checkout
+
+$git pull -r //--rebase ako ima konflikt shte se opita da sloji nov commit 
+git staus -> rebase-vash opitvash se da slojish roditel tozi commit
+vim file оправяме файла
+разменяне на два реда
+pri neuspeh->
+$git rebase --continue
+
+pulla vinagi s rebase 
+
+$git clone "link" kopira ot link suzdava papka s imeto na repoto
+
+rm -rf read mail read fast
+
+$vim .gitignore -> neshta koito iskame da ignorirame pri add.
+//vsichko za lokalnata diriktoriq
+
+git add -f .hml -> nasilvame gita da bude dobaveno
+
+//BRANCH
+
+$git branch -v pokazva vsicki branchove
+$git branch name //suzdava nov branch
+$git checkout name // switchva brancha
+
+merge --> slivame branch i master
+//kak murge-vame
+$git checkout master
+$git merge secondBranch
+//ready
+
+
+//fast forward -> merge-wame i nqma konflikt
+
+opciq not fast forward
+--no-ff
+
+
+$git rebase master //updateva do kudeto e master-a // kato pull rebase
+
+//GIT reabase -I
+//pochti vinagi da prisustva -i
+$git reabase -i(interactive)// moje da prenaredi commit-ite
+$git rebase -i HEAD~2
