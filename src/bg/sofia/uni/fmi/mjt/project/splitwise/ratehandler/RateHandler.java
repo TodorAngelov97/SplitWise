@@ -38,7 +38,7 @@ public class RateHandler {
 				DollarRate rate = gson.fromJson(getJson(), DollarRate.class);
 				return rate.getRate();
 			}
-			LevaRate rate = gson.fromJson(getJson(), LevaRate.class);
+			LevRate rate = gson.fromJson(getJson(), LevRate.class);
 			return rate.getRate();
 		} catch (JsonSyntaxException e) {
 			System.err.println("Exception thrown by Json: " + e.getMessage());
@@ -70,3 +70,4 @@ public class RateHandler {
 		System.out.println(rater.getRate());
 	}
 }
+	

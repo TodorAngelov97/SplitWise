@@ -1,10 +1,10 @@
 package bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.currency;
 
-public class Leva implements Currency {
+public class Lev implements Currency {
 
 	private double BGN;
 
-	public Leva(double BGN) {
+	public Lev(double BGN) {
 		this.BGN = BGN;
 	}
 

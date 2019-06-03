@@ -91,7 +91,7 @@ public class Server {
     }
 
     public synchronized void addFriendNotification(String username, String notification) {
-        usersNotifications.get(username).addFrindNotification(notification);
+        usersNotifications.get(username).addFriendNotification(notification);
     }
 
     public synchronized void addGroupNotificatioon(String username, String notification) {

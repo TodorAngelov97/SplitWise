@@ -19,7 +19,7 @@ public class Notifications {
 		return friendsNotifications.size() + groupsNotifications.size() == 0;
 	}
 
-	public void addFrindNotification(String nofitication) {
+	public void addFriendNotification(String nofitication) {
 		friendsNotifications.add(nofitication);
 	}
 
@@ -49,3 +49,4 @@ public class Notifications {
 	}
 
 }
+
