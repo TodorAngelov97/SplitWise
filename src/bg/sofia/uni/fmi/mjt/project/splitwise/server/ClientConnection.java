@@ -379,7 +379,7 @@ public class ClientConnection implements Runnable {
     private boolean sendNotification(String receiver, String message) {
 
         if (server.isActive(receiver)) {
-            Socket toUser = server.getSokcet(receiver);
+            Socket toUser = server.getSocket(receiver);
             PrintWriter toWriter;
             try {
                 toWriter = new PrintWriter(toUser.getOutputStream(), true);
@@ -402,7 +402,7 @@ public class ClientConnection implements Runnable {
 
     private void sendGroupNotification(String receiver, String message) {
         if (!sendNotification(receiver, message)) {
-            server.addGroupNotificatioon(receiver, message);
+            server.addGroupNotification(receiver, message);
         }
     }
 

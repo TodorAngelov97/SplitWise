@@ -41,7 +41,7 @@ public class Server {
 
     }
 
-    public int getNumberOfFirneds(String username) {
+    public int getNumberOfFriends(String username) {
         return friendsList.get(username).size();
     }
 
@@ -94,7 +94,7 @@ public class Server {
         usersNotifications.get(username).addFriendNotification(notification);
     }
 
-    public synchronized void addGroupNotificatioon(String username, String notification) {
+    public synchronized void addGroupNotification(String username, String notification) {
         usersNotifications.get(username).addGroupNotification(notification);
     }
 
@@ -119,7 +119,7 @@ public class Server {
         return activeUsers.containsKey(username);
     }
 
-    public synchronized Socket getSokcet(String username) {
+    public synchronized Socket getSocket(String username) {
         return activeUsers.get(username);
     }
 
