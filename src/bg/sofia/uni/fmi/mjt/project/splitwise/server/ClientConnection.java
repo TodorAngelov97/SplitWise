@@ -15,16 +15,15 @@ public class ClientConnection implements Runnable {
     private static final int MINUS = -1;
     private static final String NOTIFICATION = "*Notification*";
     private static final String ERROR_MESSAGE = "Wrong number of arguments.";
-    private String username;
     private Socket socket;
     //	private String currency;
-//	private double rate;
-    private Server server;
+    //	private double rate;
+    private Domain domain;
 
     public ClientConnection(Socket socket, Server server) {
 
         this.socket = socket;
-        this.server = server;
+        this.domain = new Domain(server);
 //		currency = "BGN";
 //		rate = 1.0;
     }

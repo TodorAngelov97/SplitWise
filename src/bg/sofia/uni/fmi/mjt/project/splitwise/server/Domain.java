@@ -9,5 +9,17 @@ public class Domain {
         this.username = null;
     }
 
-    
+    public Server getServer() {
+        return server;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+
 }
