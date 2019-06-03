@@ -8,12 +8,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class CommandLogIn extends ActionCommand {
+public class CommandLogin extends ActionCommand {
 
     private BufferedReader reader;
     private Server server;
 
-    public CommandLogIn(Domain domain, PrintWriter writer) {
+    public CommandLogin(Domain domain, PrintWriter writer) {
         super(domain, writer);
         setServer(domain);
     }
