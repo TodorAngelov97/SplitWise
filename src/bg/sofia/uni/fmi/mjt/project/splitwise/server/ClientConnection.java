@@ -142,7 +142,7 @@ public class ClientConnection implements Runnable {
             if (!server.isUsernameContained(friend)) {
                 writer.println(String.format("User with name: %s does not exists.", friend));
             } else if (server.getFriendsList(username).containsKey(friend)) {
-                writer.println(String.format("User with name: %s already in your friendlist.", friend));
+                writer.println(String.format("User with name: %s already in your friend list.", friend));
             } else if (username.equals(friend)) {
                 writer.println("You can not add yourself as a friend.");
 
@@ -166,7 +166,7 @@ public class ClientConnection implements Runnable {
                 return;
             } else if (!server.getFriendsList(username).containsKey(friend)) {
                 writer.println(String.format(
-                        "This user %s is not in your friendlist, you have to added before spliting money.", friend));
+                        "This user %s is not in your friend list, you have to added before splitting money.", friend));
                 return;
             }
 
@@ -180,7 +180,7 @@ public class ClientConnection implements Runnable {
 //            String paymentMessage = String.format("Splitted %s %s between you and %s for %s.%n", amount, currency,
 //                    friend, tokens[3]);
 
-            String paymentMessage = String.format("Splitted %s  between you and %s for %s.%n", amount,
+            String paymentMessage = String.format("Split %s  between you and %s for %s.%n", amount,
                     friend, tokens[3]);
 
             writer.printf(paymentMessage);
@@ -219,7 +219,7 @@ public class ClientConnection implements Runnable {
 //            String paymentMessage = String.format("Splitted %s %s between you and group %s.%n", initialSum, currency,
 //                    group);
 
-            String paymentMessage = String.format("Splitted %s  between you and group %s.%n", initialSum,
+            String paymentMessage = String.format("Split %s  between you and group %s.%n", initialSum,
                     group);
 
             writer.printf(paymentMessage);
@@ -241,7 +241,7 @@ public class ClientConnection implements Runnable {
 
     private void getStatus(PrintWriter writer) {
         if (server.getFriendsList(username).isEmpty() && server.getGroupsOfUser(username).isEmpty()) {
-            writer.println("You don't hava any added friends and groups");
+            writer.println("You don't have any added friends and groups");
             return;
         }
         if (!server.getFriendsList(username).isEmpty()) {
@@ -337,7 +337,7 @@ public class ClientConnection implements Runnable {
             messageLine.append(String.format("You owe %s %s", MINUS * result));
 
         } else {
-            messageLine.append("Good accounts good freinds");
+            messageLine.append("Good accounts good friends");
         }
 
     }
