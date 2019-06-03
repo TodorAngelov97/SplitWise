@@ -3,7 +3,6 @@ package bg.sofia.uni.fmi.mjt.project.splitwise.server;
 import bg.sofia.uni.fmi.mjt.project.splitwise.Friend;
 import bg.sofia.uni.fmi.mjt.project.splitwise.Group;
 import bg.sofia.uni.fmi.mjt.project.splitwise.UserProfile;
-import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.RateHandler;
 
 import java.io.*;
 import java.net.Socket;
@@ -115,12 +114,12 @@ public class ClientConnection implements Runnable {
     private void login(PrintWriter writer, String[] tokens, BufferedReader reader) {
         this.username = tokens[1];
         String password = tokens[2];
-        if (!server.isLogedIn(username, password, writer)) {
+        if (!server.isLoggedIn(username, password, writer)) {
             while (true) {
                 try {
                     String line = reader.readLine();
                     String[] newTokens = line.split("\\s+");
-                    if (server.isLogedIn(newTokens[0], newTokens[1], writer)) {
+                    if (server.isLoggedIn(newTokens[0], newTokens[1], writer)) {
                         break;
                     }
                 } catch (IOException e) {
