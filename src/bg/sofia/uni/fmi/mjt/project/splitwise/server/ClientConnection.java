@@ -21,7 +21,7 @@ import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.RateHandler;
 
 public class ClientConnection implements Runnable {
 	private static final int MINUS = -1;
-	private static final String NOTIFICATION = "*Notifciation*";
+	private static final String NOTIFICATION = "*Notification*";
 	private static final String ERROR_MESSAGE = "Wrong number of arguments.";
 	private String username;
 	private Socket socket;
