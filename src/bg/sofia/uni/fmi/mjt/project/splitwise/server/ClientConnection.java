@@ -19,13 +19,16 @@ public class ClientConnection implements Runnable {
     //	private String currency;
     //	private double rate;
     private Domain domain;
+    private String username;
+    private Server server;
 
     public ClientConnection(Socket socket, Server server) {
 
         this.socket = socket;
-        this.domain = new Domain(server);
+//        this.domain = new Domain(server);
 //		currency = "BGN";
 //		rate = 1.0;
+        this.server = server;
     }
 
     @Override
