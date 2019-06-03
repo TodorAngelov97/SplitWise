@@ -48,8 +48,8 @@ public class ClientConnectionTest {
 		Mockito.when(socket.getInputStream()).thenReturn(stream);
 		Mockito.when(socket.getOutputStream()).thenReturn(System.out);
 
-		ClientConnection cleintConnection = new ClientConnection(socket, server);
-		cleintConnection.run();
+		ClientConnection clientConnection = new ClientConnection(socket, server);
+		clientConnection.run();
 		assertEquals(initial + 1, server.getNumberOfUsers());
 	}
 
