@@ -32,7 +32,7 @@ public class Server {
     private Map<String, Map<String, Group>> groups;
     private Map<String, Notifications> usersNotifications;
     private Map<String, File> filesWithHistoryOfPay;
-    private Map<String, Double> ratesOfCurrencies;
+    private Map<String, Double> ratesOfCurrencies;//not used yet -->implements switch currency
     private String fileName;
 
     public Server(ServerSocket socketOfServer, String fileName) {
