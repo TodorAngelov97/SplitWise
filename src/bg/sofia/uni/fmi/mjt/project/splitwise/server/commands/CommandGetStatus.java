@@ -24,14 +24,19 @@ public class CommandGetStatus extends ActionCommand {
 
     @Override
     public void executeCommand(String[] tokens) {
-        getStatus();
+        String command = tokens[INDEX_OF_COMMAND];
+        if (isMatched(command)) {
+            getStatus();
+        }
     }
 
     @Override
     protected boolean isMatched(String command) {
+        if ("get-status".equals(command)) {
+            return true;
+        }
         return false;
     }
-
 
     //refactoring big big
     private void getStatus() {
