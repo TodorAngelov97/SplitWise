@@ -42,16 +42,20 @@ public class CommandSplitMoney extends ActionCommand {
 
             String amount = tokens[1];
             transactMoney(username, friend, amount);
+
+            //first method
             String paymentMessage = String.format("Split %s  between you and %s for %s.%n", amount,
                     friend, tokens[3]);
-
             writer.printf(paymentMessage);
             writeInPaymentFile(paymentMessage);
+
+            //second method
             StringBuilder message = new StringBuilder();
             message.append("Current status: ");
             getStatusForOneClient(message, server.getFriendsList(username).get(friend).getAmount());
-
             writer.println(message.toString());
+
+            //third method
             String reasonForPayment = tokens[3];
             String friendMessage = String.format("You owe  %s %s %s %n", server.getProfileNames(username), amount,
                     reasonForPayment);
