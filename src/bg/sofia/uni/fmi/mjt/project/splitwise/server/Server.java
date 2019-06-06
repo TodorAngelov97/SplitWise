@@ -103,7 +103,7 @@ public class Server {
     }
 
     private synchronized boolean hasNotifications(String username) {
-        return !(usersNotifications.get(username).isEmpty());
+        return !(usersNotifications.get(username).isNotEmpty());
     }
 
     public synchronized void printUserNotifications(PrintWriter writer, String username) {
@@ -237,8 +237,8 @@ public class Server {
     }
 
     private void startNewThreadForUser(Socket socket) {
-        ClientConnection runnable = new ClientConnection(socket, this);
-        new Thread(runnable).start();
+//        ClientConnection runnable = new ClientConnection(socket, this);
+//        new Thread(runnable).start();
     }
 
     public static void main(String[] args) {

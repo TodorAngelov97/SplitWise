@@ -46,7 +46,7 @@ public class Group {
 		return groupFriends.size() + 1;
 	}
 
-	public Set<Map.Entry<String, Friend>> getAllMembersInGroup() {
+	public Set<Map.Entry<String, Friend>> getMembersInGroup() {
 		return groupFriends.entrySet();
 	}
 

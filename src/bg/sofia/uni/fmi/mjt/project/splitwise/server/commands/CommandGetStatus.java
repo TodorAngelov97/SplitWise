@@ -105,7 +105,7 @@ public class CommandGetStatus extends ActionCommand {
         String username = getDomain().getUsername();
         for (Map.Entry<String, Group> group : allGroups) {
             writer.println(String.format("* %s", group.getKey()));
-            getStatusForFriends(server.getGroupsOfUser(username).get(group.getKey()).getAllMembersInGroup(), writer);
+            getStatusForFriends(server.getGroupsOfUser(username).get(group.getKey()).getMembersInGroup(), writer);
         }
     }
 }
