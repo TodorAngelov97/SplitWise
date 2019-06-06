@@ -5,11 +5,11 @@ import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
 
 import java.io.PrintWriter;
 
-public class CommandPayed extends ActionCommand {
+public class CommandPay extends ActionCommand {
 
     private Server server;
 
-    public CommandPayed(Domain domain, PrintWriter writer) {
+    public CommandPay(Domain domain, PrintWriter writer) {
         super(domain, writer);
         setServer();
     }
