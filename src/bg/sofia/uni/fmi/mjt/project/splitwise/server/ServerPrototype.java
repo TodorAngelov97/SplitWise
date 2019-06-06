@@ -240,6 +240,11 @@ public class ServerPrototype {
         new Thread(runnable).start();
     }
 
+
+    public int getNumberOfFriends(String username) {
+        return usersData.get(username).getFriends().size();
+    }
+
     public static void main(String[] args) {
         try {
             Server server = new Server(new ServerSocket(PORT), FILE_NAME);
