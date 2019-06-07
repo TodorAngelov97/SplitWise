@@ -3,6 +3,7 @@ package bg.sofia.uni.fmi.mjt.project.splitwise.server.commands;
 import bg.sofia.uni.fmi.mjt.project.splitwise.UserProfile;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Domain;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
+import bg.sofia.uni.fmi.mjt.project.splitwise.server.ServerOld;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -97,6 +98,6 @@ public class CommandSignUp extends ActionCommand {
         String lastName = tokens[LAST_NAME_INDEX];
         String username = getDomain().getUsername();
 
-        server.addNewUser(username, new UserProfile(username, password, firstName, lastName));
+        server.addUser(username, new UserProfile(username, password, firstName, lastName));
     }
 }

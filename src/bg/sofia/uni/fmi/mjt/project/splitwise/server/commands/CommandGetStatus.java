@@ -51,11 +51,11 @@ public class CommandGetStatus extends ActionCommand {
         //one method
         if (!isFriendListEmpty(username)) {
             writer.println("Friends:");
-            getStatusForFriends(server.getFriendsList(username).entrySet(), writer);
+            getStatusForFriends(server.getFriends(username).entrySet(), writer);
         }
         if (!isGroupListEmpty(username)) {
             writer.println("Groups:");
-            getStatusForGroups(server.getGroupsOfUser(username).entrySet(), writer);
+            getStatusForGroups(server.getGroups(username).entrySet(), writer);
         }
     }
 
@@ -64,11 +64,11 @@ public class CommandGetStatus extends ActionCommand {
     }
 
     private boolean isFriendListEmpty(String username) {
-        return server.getFriendsList(username).isEmpty();
+        return server.hasNotFriends(username);
     }
 
     private boolean isGroupListEmpty(String username) {
-        return server.getGroupsOfUser(username).isEmpty();
+        return server.hasNotGroups(username);
     }
 
 
@@ -105,7 +105,7 @@ public class CommandGetStatus extends ActionCommand {
         String username = getDomain().getUsername();
         for (Map.Entry<String, Group> group : allGroups) {
             writer.println(String.format("* %s", group.getKey()));
-            getStatusForFriends(server.getGroupsOfUser(username).get(group.getKey()).getMembersInGroup(), writer);
+            getStatusForFriends(server.getMembersInGroup(username, group.getKey()), writer);
         }
     }
 }

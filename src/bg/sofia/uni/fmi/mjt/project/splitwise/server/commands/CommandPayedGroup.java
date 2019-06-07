@@ -39,8 +39,8 @@ public class CommandPayedGroup extends ActionCommand {
             String group = tokens[2];
             String friend = tokens[3];
             String username = getDomain().getUsername();
-            server.getGroupsOfUser(username).get(group).decreaseAmountOfFriend(friend, amount);
-            server.getGroupsOfUser(friend).get(group).increaseAmountOfFriend(username, amount);
+            server.decreaseAmountOfGroupMember(username, group, friend, amount);
+            server.increaseAmountOfGroupMember(friend, group, username, amount);
             sendMessageAfterPayed(writer, amount, friend, true);
         }
     }

@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
+import bg.sofia.uni.fmi.mjt.project.splitwise.server.ServerOld;
 
 public class Client {
 
@@ -147,7 +147,7 @@ public class Client {
 
 	public static void main(String[] args) {
 		try {
-			Client c = new Client(new Socket("localhost", Server.PORT));
+			Client c = new Client(new Socket("localhost", ServerOld.PORT));
 			c.execute();
 		} catch (UnknownHostException e) {
 			System.err.println("Exception thrown by Socket: " + e.getMessage());

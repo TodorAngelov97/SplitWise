@@ -1,7 +1,7 @@
 package bg.sofia.uni.fmi.mjt.project.splitwise;
 
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.ClientConnection;
-import bg.sofia.uni.fmi.mjt.project.splitwise.server.ServerPrototype;
+import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +18,7 @@ public class ClientConnectionTest {
 
     private static final String USER_KIRO_NAME = "kiro";
     private static final String USER_TODOR_NAME = "todor";
-    private ServerPrototype server;
+    private Server server;
     private static final String TEST_DATA_PATH = "resources/testData.json";
     private static final String ORIGINAL_PATH = "resources/originalTestData.json";
 
@@ -28,7 +28,7 @@ public class ClientConnectionTest {
     public void setUp() throws IOException {
 
         serverSocket = new ServerSocket(8080);
-        server = new ServerPrototype(serverSocket, TEST_DATA_PATH);
+        server = new Server(serverSocket, TEST_DATA_PATH);
 
     }
 

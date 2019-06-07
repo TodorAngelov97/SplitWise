@@ -42,13 +42,13 @@ public class CommandPay extends ActionCommand {
             String friend = tokens[2];
             double amount = Double.parseDouble(tokens[1]);
             String username = getDomain().getUsername();
-            server.getFriendsList(username).get(friend).decrease(amount);
-            server.getFriendsList(friend).get(username).increase(amount);
+            server.decreaseAmountOfFriend(username, friend, amount);
+            server.increaseAmountOfFriend(friend, username, amount);
             sendMessageAfterPayed(writer, amount, friend, false);
         }
     }
 
-    private void sendMessageAfterPayed(PrintWriter writer, double amount, String friend, boolean b) {
+    private void sendMessageAfterPayed(PrintWriter writer, double amount, String friend, boolean isGroup) {
 
     }
 

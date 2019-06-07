@@ -20,9 +20,9 @@ public class ClientConnection implements Runnable {
     //	private double rate;
     private Domain domain;
     private String username;
-    private ServerPrototype server;
+    private Server server;
 
-    public ClientConnection(Socket socket, ServerPrototype server) {
+    public ClientConnection(Socket socket, Server server) {
 
         this.socket = socket;
 //        this.domain = new Domain(server);
@@ -356,6 +356,7 @@ public class ClientConnection implements Runnable {
     }
 
     private void createGroup(PrintWriter writer, String[] tokens) throws IOException {
+
         if (tokens.length >= 4) {
             String nameOfGroup = tokens[1];
             List<String> friends = new ArrayList<>();

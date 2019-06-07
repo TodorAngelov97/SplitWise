@@ -52,7 +52,7 @@ public class CommandSplitMoney extends ActionCommand {
             //second method
             StringBuilder message = new StringBuilder();
             message.append("Current status: ");
-            getStatusForOneClient(message, server.getFriendsList(username).get(friend).getAmount());
+            getStatusForOneClient(message, server.getFriendAmount(username, friend));
             writer.println(message.toString());
 
             //third method
@@ -84,15 +84,14 @@ public class CommandSplitMoney extends ActionCommand {
     }
 
     private boolean isUserNotInFriendList(String username, String friend) {
-        return !(server.getFriendsList(username).containsKey(friend));
+        return !(server.isUserInFriends(username, friend));
     }
 
     /////////////////////
     private void transactMoney(String username, String friend, String s) {
         double amount = Double.parseDouble(s) / 2;
-        server.getFriendsList(username).get(friend).increase(amount);
-        server.getFriendsList(friend).get(username).decrease(amount);
-
+        server.increaseAmountOfFriend(username, friend, amount);
+        server.decreaseAmountOfFriend(friend, username, amount);
     }
 
     private void writeInPaymentFile(String paymentMessage) {

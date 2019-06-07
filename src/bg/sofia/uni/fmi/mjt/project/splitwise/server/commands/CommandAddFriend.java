@@ -49,7 +49,7 @@ public class CommandAddFriend extends ActionCommand {
         String username = getDomain().getUsername();
         if (!server.isUsernameContained(friend)) {
             writer.println(String.format("User with name: %s does not exists.", friend));
-        } else if (server.getFriendsList(username).containsKey(friend)) {
+        } else if (server.isUserInFriends(username, friend)) {
             writer.println(String.format("User with name: %s already in your friend list.", friend));
         } else if (username.equals(friend)) {
             writer.println("You can not add yourself as a friend.");
@@ -62,8 +62,8 @@ public class CommandAddFriend extends ActionCommand {
 
     private void addToFriendList(String username, String friend) {
         Server server = getDomain().getServer();
-        server.getFriendsList(username).put(friend, new Friend());
-        server.getFriendsList(friend).put(username, new Friend());
+        server.addFriend(username, friend);
+        server.addFriend(friend, username);
 
         PrintWriter writer = getWriter();
         writer.println("Successfully added friend with name: " + friend);
@@ -71,6 +71,6 @@ public class CommandAddFriend extends ActionCommand {
 
     //NOT YET FIGURE OUT THE LOGIC
     private void sendFriendNotification(String friend, String message) {
-
+        Server server = getDomain().getServer();
     }
 }

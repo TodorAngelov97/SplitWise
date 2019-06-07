@@ -47,7 +47,7 @@ public class CommandLogin extends ActionCommand {
 
         PrintWriter writer = getWriter();
         writer.println("Successful login.");
-        server.printUserNotifications(writer, username);
+        server.printUserNotifications(username, writer);
     }
 
     private void loginWithCorrectData(String[] tokens) {
