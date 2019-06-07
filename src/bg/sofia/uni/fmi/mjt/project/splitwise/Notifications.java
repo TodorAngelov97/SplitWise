@@ -19,8 +19,8 @@ public class Notifications {
 		return friendsNotifications.size() + groupsNotifications.size() == 0;
 	}
 
-	public void addFrindNotification(String nofitication) {
-		friendsNotifications.add(nofitication);
+	public void addFriendNotification(String notification) {
+		friendsNotifications.add(notification);
 	}
 
 	public void addGroupNotification(String notification) {
