@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Server {
 
@@ -45,7 +46,7 @@ public class Server {
         return friendsList.get(username).size();
     }
 
-    public int getNumberOfUsers() {
+    public synchronized int getNumberOfUsers() {
         return justProfiles.size();
     }
 
@@ -63,23 +64,23 @@ public class Server {
 
     private void initializeConstructor(ServerSocket socketOfServer) {
         this.socketOfServer = socketOfServer;
-        activeUsers = new HashMap<>();
+        activeUsers = new ConcurrentHashMap<>();
         justProfiles = new HashSet<>();
-        allProfiles = new HashMap<>();
-        friendsList = new HashMap<>();
-        groups = new HashMap<>();
-        filesWithHistoryOfPay = new HashMap<>();
-        usersNotifications = new HashMap<>();
-        ratesOfCurrencies = new HashMap<>();
+        allProfiles = new ConcurrentHashMap<>();
+        friendsList = new ConcurrentHashMap<>();
+        groups = new ConcurrentHashMap<>();
+        filesWithHistoryOfPay = new ConcurrentHashMap<>();
+        usersNotifications = new ConcurrentHashMap<>();
+        ratesOfCurrencies = new ConcurrentHashMap<>();
         loadUser();
 
     }
 
-    public synchronized File getFile(String username) {
+    public File getFile(String username) {
         return filesWithHistoryOfPay.get(username);
     }
 
-    public synchronized void addFile(String username) {
+    public void addFile(String username) {
         String filePath = PATH_TO_PAYMENT_DIR + username;
         File newFile = new File(filePath);
         try {
@@ -90,23 +91,23 @@ public class Server {
         }
     }
 
-    public synchronized void addFriendNotification(String username, String notification) {
+    public void addFriendNotification(String username, String notification) {
         usersNotifications.get(username).addFriendNotification(notification);
     }
 
-    public synchronized void addGroupNotification(String username, String notification) {
+    public void addGroupNotification(String username, String notification) {
         usersNotifications.get(username).addGroupNotification(notification);
     }
 
-    private synchronized String getUserNotifications(String username) {
+    private String getUserNotifications(String username) {
         return usersNotifications.get(username).getAllNotifications();
     }
 
-    private synchronized boolean hasNotifications(String username) {
+    private boolean hasNotifications(String username) {
         return !(usersNotifications.get(username).isEmpty());
     }
 
-    public synchronized void printUserNotifications(PrintWriter writer, String username) {
+    public void printUserNotifications(PrintWriter writer, String username) {
         if (hasNotifications(username)) {
             writer.println(getUserNotifications(username));
         } else {
@@ -115,45 +116,45 @@ public class Server {
         }
     }
 
-    public synchronized boolean isActive(String username) {
+    public boolean isActive(String username) {
         return activeUsers.containsKey(username);
     }
 
-    public synchronized Socket getSocket(String username) {
+    public Socket getSocket(String username) {
         return activeUsers.get(username);
     }
 
-    public synchronized boolean isUsernameContained(String user) {
+    public boolean isUsernameContained(String user) {
         return allProfiles.containsKey(user);
 
     }
 
-    public synchronized boolean isGroupNameContained(String user) {
+    public boolean isGroupNameContained(String user) {
         return allProfiles.containsKey(user);
 
     }
 
-    public synchronized boolean isCorrectPassword(String user, String password) {
+    public boolean isCorrectPassword(String user, String password) {
         return allProfiles.get(user).getPassword().equals(password);
     }
 
-    public synchronized String getProfileNames(String username) {
+    public String getProfileNames(String username) {
         return allProfiles.get(username).getProfileNames();
     }
 
-    public synchronized Map<String, Friend> getFriendsList(String username) {
+    public Map<String, Friend> getFriendsList(String username) {
         return friendsList.get(username);
     }
 
-    public synchronized void removeUser(String username) {
+    public void removeUser(String username) {
         activeUsers.remove(username);
     }
 
-    public synchronized Map<String, Group> getGroupsOfUser(String username) {
+    public Map<String, Group> getGroupsOfUser(String username) {
         return groups.get(username);
     }
 
-    public synchronized boolean isLoggedIn(String name, String password, PrintWriter writer) {
+    public boolean isLoggedIn(String name, String password, PrintWriter writer) {
 
         if (!isUsernameContained(name)) {
             writer.println("Non-existent user");
@@ -175,8 +176,10 @@ public class Server {
         }
     }
 
-    public synchronized void addNewUser(String username, UserProfile newUserProfile) {
-        justProfiles.add(newUserProfile);
+    public void addNewUser(String username, UserProfile newUserProfile) {
+        synchronized (this) {
+            justProfiles.add(newUserProfile);
+        }
         allProfiles.put(username, newUserProfile);
         friendsList.put(username, new HashMap<>());
         groups.put(username, new HashMap<>());
@@ -203,7 +206,7 @@ public class Server {
         }
     }
 
-    public synchronized void saveUserInFile() {
+    public void saveUserInFile() {
 
         try (Writer writer = new FileWriter(fileName)) {
             Gson gson = new GsonBuilder().create();
@@ -232,7 +235,7 @@ public class Server {
         }
     }
 
-    public synchronized void addNewActiveUser(String username, Socket socket) {
+    public void addNewActiveUser(String username, Socket socket) {
         activeUsers.put(username, socket);
     }
 
