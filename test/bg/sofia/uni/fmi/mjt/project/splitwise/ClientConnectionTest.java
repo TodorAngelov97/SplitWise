@@ -71,7 +71,7 @@ public class ClientConnectionTest {
 	@Test
 	public void testAddFriend() throws IOException {
 		Socket socket = Mockito.mock(Socket.class);
-		int initial = server.getNumberOfFirneds(USER_TODOR_NAME);
+		int initial = server.getNumberOfFriends(USER_TODOR_NAME);
 		String inputData = "sign-up kiro kiro kiro kiro kiro \n" + "add-friend todor \n" + "logout";
 		InputStream stream = new ByteArrayInputStream(inputData.getBytes(StandardCharsets.UTF_8));
 		Mockito.when(socket.getInputStream()).thenReturn(stream);
@@ -79,7 +79,7 @@ public class ClientConnectionTest {
 
 		ClientConnection clientConnection = new ClientConnection(socket, server);
 		clientConnection.run();
-		assertEquals(initial + 1, server.getNumberOfFirneds(USER_TODOR_NAME));
+		assertEquals(initial + 1, server.getNumberOfFriends(USER_TODOR_NAME));
 	}
 
 	@Test

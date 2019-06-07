@@ -41,7 +41,7 @@ public class Server {
 
     }
 
-    public int getNumberOfFirneds(String username) {
+    public int getNumberOfFriends(String username) {
         return friendsList.get(username).size();
     }
 
