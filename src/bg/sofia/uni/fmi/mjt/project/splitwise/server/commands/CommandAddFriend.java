@@ -68,7 +68,6 @@ public class CommandAddFriend extends ActionCommand {
         writer.println("Successfully added friend with name: " + friend);
     }
 
-    //NOT YET FIGURE OUT THE LOGIC
     private void sendFriendNotification(String friend, String message) {
         Server server = getDomain().getServer();
         server.sendFriendNotification(friend, message);
