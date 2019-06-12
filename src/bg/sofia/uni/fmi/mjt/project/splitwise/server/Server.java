@@ -152,7 +152,7 @@ public class Server {
         return usersData.get(username).getFile();
     }
 
-    public void addFriendNotification(String receiver, String message) {
+    public void sendNotificationToNotActive(String receiver, String message) {
         usersData.get(receiver).addFriendNotification(message);
     }
 
@@ -214,7 +214,7 @@ public class Server {
 
     public void sendFriendNotification(String receiver, String message) {
         if (!sendNotification(receiver, message)) {
-            addFriendNotification(receiver, message);
+            sendNotificationToNotActive(receiver, message);
         }
     }
 
@@ -270,6 +270,29 @@ public class Server {
     public int getNumberOfFriends(String username) {
         return usersData.get(username).getFriends().size();
     }
+
+    public void sendNofiticationToFriend(String receiver, String message) {
+        if (isActive(receiver)) {
+            sendNotificationToActive(receiver, message);
+        } else {
+            sendNotificationToNotActive(receiver, message);
+        }
+    }
+
+    private void sendNotificationToActive(String receiver, String message) {
+        Socket toUser = getSocket(receiver);
+        PrintWriter toWriter;
+        try {
+            toWriter = new PrintWriter(toUser.getOutputStream(), true);
+            final String NOTIFICATION = "*Notification*";
+            toWriter.print(String.format("[%s] ", NOTIFICATION));
+            toWriter.println(message);
+        } catch (IOException e) {
+            System.out.println("Problem with application, try again later.");
+            System.err.println("Exception thrown by Print Writer: " + e.getMessage());
+        }
+    }
+
 
     public static void main(String[] args) {
         try {

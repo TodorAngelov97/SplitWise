@@ -1,6 +1,5 @@
 package bg.sofia.uni.fmi.mjt.project.splitwise.server.commands;
 
-import bg.sofia.uni.fmi.mjt.project.splitwise.Friend;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Domain;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
 
@@ -72,5 +71,6 @@ public class CommandAddFriend extends ActionCommand {
     //NOT YET FIGURE OUT THE LOGIC
     private void sendFriendNotification(String friend, String message) {
         Server server = getDomain().getServer();
+        server.sendFriendNotification(friend, message);
     }
 }

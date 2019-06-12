@@ -401,7 +401,7 @@ public class ClientConnection implements Runnable {
 
     private void sendFriendNotification(String receiver, String message) {
         if (!sendNotification(receiver, message)) {
-            server.addFriendNotification(receiver, message);
+            server.sendNotificationToNotActive(receiver, message);
         }
     }
 
