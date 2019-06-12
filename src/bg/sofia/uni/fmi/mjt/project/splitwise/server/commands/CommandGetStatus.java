@@ -38,17 +38,14 @@ public class CommandGetStatus extends ActionCommand {
         return false;
     }
 
-    //refactoring big big
     private void getStatus() {
 
         String username = getDomain().getUsername();
         PrintWriter writer = getWriter();
-        //checkIsListEmpty ?
         if (areListsEmpty(username)) {
             writer.println("You don't have any added friends and groups");
             return;
         }
-        //one method
         if (!isFriendListEmpty(username)) {
             writer.println("Friends:");
             getStatusForFriends(server.getFriends(username).entrySet(), writer);
@@ -70,8 +67,7 @@ public class CommandGetStatus extends ActionCommand {
     private boolean isGroupListEmpty(String username) {
         return server.hasNotGroups(username);
     }
-
-
+    
     private void getStatusForFriends(Set<Map.Entry<String, Friend>> allFriends, PrintWriter writer) {
 
         for (Map.Entry<String, Friend> friend : allFriends) {
