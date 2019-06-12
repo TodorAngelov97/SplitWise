@@ -53,5 +53,4 @@ public class CommandPayedGroup extends ActionCommand {
             messenger.sendGroupMessageAfterPayed(amount, friend);
         }
     }
-
 }
