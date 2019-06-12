@@ -301,6 +301,15 @@ public class Server {
         }
     }
 
+    public void writeInPaymentFile(String paymentMessage, String username) {
+        File file = getFile(username);
+        try (FileWriter fileWriter = new FileWriter(file, true); BufferedWriter writer = new BufferedWriter(fileWriter)) {
+            writer.write(paymentMessage);
+        } catch (IOException e) {
+            System.err.println("Exception thrown by fileWriter: " + e.getMessage());
+        }
+    }
+
     public static void main(String[] args) {
         try {
             ServerOld server = new ServerOld(new ServerSocket(PORT), FILE_NAME);

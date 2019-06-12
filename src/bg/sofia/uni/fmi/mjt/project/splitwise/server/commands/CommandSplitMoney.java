@@ -20,11 +20,17 @@ public class CommandSplitMoney extends ActionCommand {
 
     @Override
     public void executeCommand(String[] tokens) {
-        splitMoney(tokens);
+        String command = tokens[INDEX_OF_COMMAND];
+        if (isMatched(command)) {
+            splitMoney(tokens);
+        }
     }
 
     @Override
     protected boolean isMatched(String command) {
+        if ("split-group".equals(command)) {
+            return true;
+        }
         return false;
     }
 
@@ -33,7 +39,6 @@ public class CommandSplitMoney extends ActionCommand {
         if (tokens.length != 4) {
             writer.println(ERROR_MESSAGE);
         } else {
-
             String friend = tokens[2];
             String username = getDomain().getUsername();
 
@@ -43,26 +48,20 @@ public class CommandSplitMoney extends ActionCommand {
             String amount = tokens[1];
             transactMoney(username, friend, amount);
 
-            //first method
-            String paymentMessage = String.format("Split %s  between you and %s for %s.%n", amount,
-                    friend, tokens[3]);
-            writer.printf(paymentMessage);
-            writeInPaymentFile(paymentMessage);
-
-            //second method
-            StringBuilder message = new StringBuilder();
-            message.append("Current status: ");
-            getStatusForOneClient(message, server.getFriendAmount(username, friend));
-            writer.println(message.toString());
-
-            //third method
             String reasonForPayment = tokens[3];
-            String friendMessage = String.format("You owe  %s %s %s %n", server.getProfileNames(username), amount,
-                    reasonForPayment);
-            sendFriendNotification(friend, friendMessage);
+
+            sendPaymentMessage(amount, friend, reasonForPayment);
+            printCurrentStatus(friend);
+            sendFriendNotification(amount, reasonForPayment, friend);
         }
     }
 
+    private void sendFriendNotification(String amount, String reasonForPayment, String friend) {
+        String username = getDomain().getUsername();
+        String friendMessage = String.format("You owe  %s %s %s %n", server.getProfileNames(username), amount,
+                reasonForPayment);
+        sendFriendNotification(friend, friendMessage);
+    }
 
     private void checkIsUsernameContained(PrintWriter writer, String friend) {
         if (isUsernameNotContained(friend)) {
@@ -87,22 +86,52 @@ public class CommandSplitMoney extends ActionCommand {
         return !(server.isUserInFriends(username, friend));
     }
 
-    /////////////////////
-    private void transactMoney(String username, String friend, String s) {
-        double amount = Double.parseDouble(s) / 2;
+    private void transactMoney(String username, String friend, String preAmount) {
+        double amount = Double.parseDouble(preAmount) / 2;
         server.increaseAmountOfFriend(username, friend, amount);
         server.decreaseAmountOfFriend(friend, username, amount);
     }
 
-    private void writeInPaymentFile(String paymentMessage) {
-
+    private void sendPaymentMessage(String amount, String friend, String reasonForPayment) {
+        String paymentMessage = String.format("Split %s  between you and %s for %s.%n", amount,
+                friend, reasonForPayment);
+        PrintWriter writer = getWriter();
+        writer.printf(paymentMessage);
+        writeInPaymentFile(paymentMessage);
     }
 
-    private void getStatusForOneClient(StringBuilder message, double amonut) {
+    private void printCurrentStatus(String friend) {
+        StringBuilder message = new StringBuilder();
+        message.append("Current status: ");
+        String username = getDomain().getUsername();
+        getStatusForOneClient(message, server.getFriendAmount(username, friend));
+        PrintWriter writer = getWriter();
+        writer.println(message.toString());
+    }
 
+    private void writeInPaymentFile(String paymentMessage) {
+        String username = getDomain().getUsername();
+        server.writeInPaymentFile(paymentMessage, username);
+    }
+
+    private void getStatusForOneClient(StringBuilder message, double amount) {
+        double result = amountAfterRoundUp(amount);
+        if (amount > 0) {
+            message.append(String.format("Owes you %s %s.", result));
+        } else if (amount < 0) {
+            final int MINUS = -1;
+            message.append(String.format("You owe %s %s", MINUS * result));
+        } else {
+            message.append("Good accounts good friends");
+        }
+    }
+
+    private double amountAfterRoundUp(double amount) {
+        double scale = Math.pow(10, 2);
+        return Math.round(amount * scale) / scale;
     }
 
     private void sendFriendNotification(String friend, String friendMessage) {
-
+        server.sendFriendNotification(friend, friendMessage);
     }
 }
