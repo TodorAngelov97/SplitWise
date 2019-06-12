@@ -16,7 +16,7 @@ public class ClientConnection implements Runnable {
     private static final String NOTIFICATION = "*Notification*";
     private static final String ERROR_MESSAGE = "Wrong number of arguments.";
     private Socket socket;
-    //	private String currency;
+//    private String currency;
     //	private double rate;
     private Domain domain;
     private String username;
@@ -314,7 +314,7 @@ public class ClientConnection implements Runnable {
 
         StringBuilder message = new StringBuilder();
         message.append("Current status: ");
-        // getStatusForOneClient(message, amount * rate);
+//         getStatusForOneClient(message, amount * rate);
         message.append(String.format("%nYou payed %s to %s", amount, receiver));
         writer.println(message.toString());
 

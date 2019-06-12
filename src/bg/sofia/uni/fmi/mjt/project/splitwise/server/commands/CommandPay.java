@@ -2,6 +2,7 @@ package bg.sofia.uni.fmi.mjt.project.splitwise.server.commands;
 
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Domain;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
+import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.utils.Messenger;
 
 import java.io.PrintWriter;
 
@@ -44,12 +45,9 @@ public class CommandPay extends ActionCommand {
             String username = getDomain().getUsername();
             server.decreaseAmountOfFriend(username, friend, amount);
             server.increaseAmountOfFriend(friend, username, amount);
-            sendMessageAfterPayed(writer, amount, friend, false);
+            Domain domain = getDomain();
+            Messenger messenger = new Messenger(domain, writer);
+            messenger.sendFriendMessageAfterPayed(amount, friend);
         }
     }
-
-    private void sendMessageAfterPayed(PrintWriter writer, double amount, String friend, boolean isGroup) {
-
-    }
-
 }

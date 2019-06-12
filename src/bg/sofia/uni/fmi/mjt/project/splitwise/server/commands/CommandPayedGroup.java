@@ -48,6 +48,4 @@ public class CommandPayedGroup extends ActionCommand {
     private void sendMessageAfterPayed(PrintWriter writer, double amount, String friend, boolean b) {
 
     }
-
-
 }

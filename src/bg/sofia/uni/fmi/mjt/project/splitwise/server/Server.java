@@ -260,7 +260,6 @@ public class Server {
         activeUsers.put(username, socket);
     }
 
-    //
 
     private void startNewThreadForUser(Socket socket) {
         ClientConnection runnable = new ClientConnection(socket, this);
