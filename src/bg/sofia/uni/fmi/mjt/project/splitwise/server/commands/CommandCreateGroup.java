@@ -34,7 +34,6 @@ public class CommandCreateGroup extends ActionCommand {
         }
     }
 
-
     //improve logic
     private void create(String[] tokens) {
 //
