@@ -2,6 +2,7 @@ package bg.sofia.uni.fmi.mjt.project.splitwise.server.commands;
 
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Domain;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
+import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.utils.Messenger;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,12 +22,18 @@ public class CommandPayedGroup extends ActionCommand {
     }
 
     @Override
-    public void executeCommand(String[] tokens) {
-//        payedGroup(tokens);
+    public void executeCommand(String[] tokens) throws IOException {
+        String command = tokens[INDEX_OF_COMMAND];
+        if (isMatched(command)) {
+            payedGroup(tokens);
+        }
     }
 
     @Override
     protected boolean isMatched(String command) {
+        if ("payed-group".equals(command)) {
+            return true;
+        }
         return false;
     }
 
@@ -41,11 +48,10 @@ public class CommandPayedGroup extends ActionCommand {
             String username = getDomain().getUsername();
             server.decreaseAmountOfGroupMember(username, group, friend, amount);
             server.increaseAmountOfGroupMember(friend, group, username, amount);
-            sendMessageAfterPayed(writer, amount, friend, true);
+            Domain domain = getDomain();
+            Messenger messenger = new Messenger(domain, writer);
+            messenger.sendGroupMessageAfterPayed(amount, friend);
         }
     }
 
-    private void sendMessageAfterPayed(PrintWriter writer, double amount, String friend, boolean b) {
-
-    }
 }
