@@ -3,6 +3,7 @@ package bg.sofia.uni.fmi.mjt.project.splitwise.server;
 import bg.sofia.uni.fmi.mjt.project.splitwise.Friend;
 import bg.sofia.uni.fmi.mjt.project.splitwise.Group;
 import bg.sofia.uni.fmi.mjt.project.splitwise.UserProfile;
+import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.*;
 
 import java.io.*;
 import java.net.Socket;
@@ -16,19 +17,21 @@ public class ClientConnection implements Runnable {
     private static final String NOTIFICATION = "*Notification*";
     private static final String ERROR_MESSAGE = "Wrong number of arguments.";
     private Socket socket;
-//    private String currency;
+    //    private String currency;
     //	private double rate;
     private Domain domain;
     private String username;
     private Server server;
+    private List<Command> commands;
 
     public ClientConnection(Socket socket, Server server) {
 
         this.socket = socket;
-//        this.domain = new Domain(server);
+        this.domain = new Domain(server, socket);
 //		currency = "BGN";
 //		rate = 1.0;
         this.server = server;
+
     }
 
     @Override
@@ -36,11 +39,19 @@ public class ClientConnection implements Runnable {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter writer = new PrintWriter(socket.getOutputStream(), true)) {
 
+            initializeCommands(writer, reader);
             while (true) {
                 String commandInput = reader.readLine();
 
                 if (commandInput != null) {
+
                     String[] tokens = commandInput.split("\\s+");
+
+                    for (Command command : commands) {
+                        // ako ima if
+                        command.executeCommand(tokens);
+
+                    }
                     String command = tokens[0];
 
                     if ("sign-up".equals(command)) {
@@ -81,9 +92,21 @@ public class ClientConnection implements Runnable {
                 socket.close();
             } catch (IOException e) {
                 System.err.println("Error with closing socket" + e.getMessage());
-
             }
         }
+    }
+
+    private void initializeCommands(PrintWriter writer, BufferedReader reader) {
+        commands.add(new CommandAddFriend(domain, writer));
+        commands.add(new CommandCreateGroup(domain, writer));
+        commands.add(new CommandGetStatus(domain, writer));
+        commands.add(new CommandHistoryOfPayment(domain, writer));
+        commands.add(new CommandLogin(domain, writer));
+        commands.add(new CommandPay(domain, writer));
+        commands.add(new CommandPayedGroup(domain, writer));
+        commands.add(new CommandSignUp(domain, writer, reader));
+        commands.add(new CommandSplitMoney(domain, writer));
+        commands.add(new CommandSplitGroupMoney(domain, writer));
     }
 
     private void signUp(PrintWriter writer, String[] tokens, BufferedReader reader) {
