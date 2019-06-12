@@ -152,11 +152,11 @@ public class Server {
         return usersData.get(username).getFile();
     }
 
-    public void sendNotificationToNotActive(String receiver, String message) {
+    public void sendFriendNotificationToNotActive(String receiver, String message) {
         usersData.get(receiver).addFriendNotification(message);
     }
 
-    public void addGroupNotification(String receiver, String message) {
+    public void sendGroupNotificationToNotActive(String receiver, String message) {
         usersData.get(receiver).addGroupNotification(message);
     }
 
@@ -214,7 +214,7 @@ public class Server {
 
     public void sendFriendNotification(String receiver, String message) {
         if (!sendNotification(receiver, message)) {
-            sendNotificationToNotActive(receiver, message);
+            sendFriendNotificationToNotActive(receiver, message);
         }
     }
 
@@ -261,11 +261,11 @@ public class Server {
     }
 
     //
+
     private void startNewThreadForUser(Socket socket) {
         ClientConnection runnable = new ClientConnection(socket, this);
         new Thread(runnable).start();
     }
-
 
     public int getNumberOfFriends(String username) {
         return usersData.get(username).getFriends().size();
@@ -275,7 +275,7 @@ public class Server {
         if (isActive(receiver)) {
             sendNotificationToActive(receiver, message);
         } else {
-            sendNotificationToNotActive(receiver, message);
+            sendFriendNotificationToNotActive(receiver, message);
         }
     }
 
@@ -293,6 +293,14 @@ public class Server {
         }
     }
 
+
+    public void sendGroupNotification(String receiver, String message) {
+        if (isActive(receiver)) {
+            sendNotificationToActive(receiver, message);
+        } else {
+            sendGroupNotificationToNotActive(receiver, message);
+        }
+    }
 
     public static void main(String[] args) {
         try {

@@ -401,13 +401,13 @@ public class ClientConnection implements Runnable {
 
     private void sendFriendNotification(String receiver, String message) {
         if (!sendNotification(receiver, message)) {
-            server.sendNotificationToNotActive(receiver, message);
+            server.sendFriendNotificationToNotActive(receiver, message);
         }
     }
 
     private void sendGroupNotification(String receiver, String message) {
         if (!sendNotification(receiver, message)) {
-            server.addGroupNotification(receiver, message);
+            server.sendGroupNotificationToNotActive(receiver, message);
         }
     }
 

@@ -1,8 +1,12 @@
 package bg.sofia.uni.fmi.mjt.project.splitwise.server.commands;
 
+import bg.sofia.uni.fmi.mjt.project.splitwise.Group;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Domain;
+import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommandCreateGroup extends ActionCommand {
     public CommandCreateGroup(Domain domain, PrintWriter writer) {
@@ -34,28 +38,30 @@ public class CommandCreateGroup extends ActionCommand {
         }
     }
 
-    //improve logic
     private void create(String[] tokens) {
-//
-//        String nameOfTheGroup = tokens[1];
-//        List<String> friends = new ArrayList<>();
-//        for (int i = 2; i < tokens.length; ++i) {
-//            friends.add(tokens[i]);
-//        }
-//        Group group = new Group(friends);
-//        server.getGroupsOfUser(username).put(nameOfTheGroup, group);
-//
-//        writer.printf(String.format("You created the group %s.%n", nameOfTheGroup));
-//
-//        friends.add(username);
-//        for (int i = 2; i < tokens.length; ++i) {
-//            List<String> newStr = new ArrayList<>(friends);
-//            newStr.remove(tokens[i]);
-//            server.getGroupsOfUser(tokens[i]).put(nameOfTheGroup, new Group(newStr));
-//
-//            String message = String.format("* %s:%n%s created group with you.", nameOfTheGroup,
-//                    server.getProfileNames(username));
-//            sendGroupNotification(tokens[i], message);
-//        }
+        PrintWriter writer = getWriter();
+        if (tokens.length < 4) {
+            writer.println(ERROR_MESSAGE);
+        } else {
+            String nameOfGroup = tokens[1];
+            List<String> friends = new ArrayList<>();
+            for (int i = 2; i < tokens.length; ++i) {
+                friends.add(tokens[i]);
+            }
+            Group group = new Group(friends);
+            Server server = getDomain().getServer();
+            String username = getDomain().getUsername();
+            server.addGroup(username, nameOfGroup, group);
+            writer.printf(String.format("You created the group %s.%n", nameOfGroup));
+            friends.add(username);
+            for (int i = 2; i < tokens.length; ++i) {
+                List<String> newStr = new ArrayList<>(friends);
+                newStr.remove(tokens[i]);
+                server.addGroup(tokens[i], nameOfGroup, new Group(newStr));
+                String message = String.format("* %s:%n%s created group with you.", nameOfGroup,
+                        server.getProfileNames(username));
+                server.sendGroupNotification(tokens[i], message);
+            }
+        }
     }
 }
