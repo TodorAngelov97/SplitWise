@@ -1,9 +1,8 @@
 package bg.sofia.uni.fmi.mjt.project.splitwise.server.commands;
 
-import bg.sofia.uni.fmi.mjt.project.splitwise.UserProfile;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.UserProfile;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Domain;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
-import bg.sofia.uni.fmi.mjt.project.splitwise.server.ServerOld;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,8 +1,8 @@
 package bg.sofia.uni.fmi.mjt.project.splitwise.server;
 
-import bg.sofia.uni.fmi.mjt.project.splitwise.Friend;
-import bg.sofia.uni.fmi.mjt.project.splitwise.Group;
-import bg.sofia.uni.fmi.mjt.project.splitwise.UserProfile;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Friend;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Group;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.UserProfile;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.*;
 
 import java.io.*;

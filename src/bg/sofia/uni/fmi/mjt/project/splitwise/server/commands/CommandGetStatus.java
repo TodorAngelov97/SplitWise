@@ -1,7 +1,7 @@
 package bg.sofia.uni.fmi.mjt.project.splitwise.server.commands;
 
-import bg.sofia.uni.fmi.mjt.project.splitwise.Friend;
-import bg.sofia.uni.fmi.mjt.project.splitwise.Group;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Friend;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Group;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Domain;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
 

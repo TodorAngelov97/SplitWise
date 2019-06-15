@@ -1,10 +1,8 @@
-package bg.sofia.uni.fmi.mjt.project.splitwise;
+package bg.sofia.uni.fmi.mjt.project.splitwise.utilitis;
 
 public class UserProfile {
 
-    /**
-     *
-     */
+
     private String username;
     private String password;
     private String firstName;

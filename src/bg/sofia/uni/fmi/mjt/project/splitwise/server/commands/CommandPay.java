@@ -2,7 +2,7 @@ package bg.sofia.uni.fmi.mjt.project.splitwise.server.commands;
 
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Domain;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
-import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.utils.Messenger;
+import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.utilities.Messenger;
 
 import java.io.PrintWriter;
 

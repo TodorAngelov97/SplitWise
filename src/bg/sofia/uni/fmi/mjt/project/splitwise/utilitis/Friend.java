@@ -1,4 +1,4 @@
-package bg.sofia.uni.fmi.mjt.project.splitwise;
+package bg.sofia.uni.fmi.mjt.project.splitwise.utilitis;
 
 public class Friend {
 	private double amount;

@@ -1,9 +1,9 @@
 package bg.sofia.uni.fmi.mjt.project.splitwise.server;
 
-import bg.sofia.uni.fmi.mjt.project.splitwise.Friend;
-import bg.sofia.uni.fmi.mjt.project.splitwise.Group;
-import bg.sofia.uni.fmi.mjt.project.splitwise.Notifications;
-import bg.sofia.uni.fmi.mjt.project.splitwise.UserProfile;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Friend;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Group;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Notifications;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.UserProfile;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;

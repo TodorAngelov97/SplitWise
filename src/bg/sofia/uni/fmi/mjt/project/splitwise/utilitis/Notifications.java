@@ -1,4 +1,4 @@
-package bg.sofia.uni.fmi.mjt.project.splitwise;
+package bg.sofia.uni.fmi.mjt.project.splitwise.utilitis;
 
 import java.util.ArrayList;
 import java.util.List;
