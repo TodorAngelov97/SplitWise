@@ -28,7 +28,7 @@ public class SplitMoneyCommand extends ActionCommand {
 
     @Override
     protected boolean isMatched(String command) {
-        if ("split-group".equals(command)) {
+        if ("split".equals(command)) {
             return true;
         }
         return false;

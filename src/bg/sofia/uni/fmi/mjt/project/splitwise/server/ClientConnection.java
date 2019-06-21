@@ -1,16 +1,13 @@
 package bg.sofia.uni.fmi.mjt.project.splitwise.server;
 
+import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.*;
 import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Friend;
 import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Group;
 import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.UserProfile;
-import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.*;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ClientConnection implements Runnable {
     private static final int MINUS = -1;
@@ -22,7 +19,7 @@ public class ClientConnection implements Runnable {
     private Domain domain;
     private String username;
     private Server server;
-    private List<Command> commands;
+    private Map<String, Command> commands;
 
     public ClientConnection(Socket socket, Server server) {
 
@@ -31,7 +28,7 @@ public class ClientConnection implements Runnable {
 //		currency = "BGN";
 //		rate = 1.0;
         this.server = server;
-
+        commands = new HashMap<>();
     }
 
     @Override
@@ -47,12 +44,15 @@ public class ClientConnection implements Runnable {
 
                     String[] tokens = commandInput.split("\\s+");
 
-                    for (Command command : commands) {
-                        // ako ima if
-                        command.executeCommand(tokens);
-
-                    }
                     String command = tokens[0];
+                    if (commands.containsKey(command)) {
+                        Command customCommand = commands.get(command);
+                        customCommand.executeCommand(tokens);
+                    } else if ("logout".equals(command)) {
+                        return;
+                    } else {
+                        writer.println("Wrong command, try again.");
+                    }
 
                     if ("sign-up".equals(command)) {
                         signUp(writer, tokens, reader);
@@ -96,17 +96,18 @@ public class ClientConnection implements Runnable {
         }
     }
 
+    //add enum
     private void initializeCommands(PrintWriter writer, BufferedReader reader) {
-        commands.add(new AddFriendCommand(domain, writer));
-        commands.add(new CreateGroupCommand(domain, writer));
-        commands.add(new GetStatusCommand(domain, writer));
-        commands.add(new HistoryOfPaymentCommand(domain, writer));
-        commands.add(new LoginCommand(domain, writer));
-        commands.add(new PayCommand(domain, writer));
-        commands.add(new PayedGroupCommand(domain, writer));
-        commands.add(new SignUpCommand(domain, writer, reader));
-        commands.add(new SplitMoneyCommand(domain, writer));
-        commands.add(new SplitGroupMoneyCommand(domain, writer));
+        commands.put("add", new AddFriendCommand(domain, writer));
+        commands.put("create", new CreateGroupCommand(domain, writer));
+        commands.put("get-status", new GetStatusCommand(domain, writer));
+        commands.put("history-of-payment", new HistoryOfPaymentCommand(domain, writer));
+        commands.put("login", new LoginCommand(domain, writer));
+        commands.put("payed", new PayCommand(domain, writer));
+        commands.put("payed-group", new PayedGroupCommand(domain, writer));
+        commands.put("sign-up", new SignUpCommand(domain, writer, reader));
+        commands.put("split", new SplitMoneyCommand(domain, writer));
+        commands.put("split-group", new SplitGroupMoneyCommand(domain, writer));
     }
 
     private void signUp(PrintWriter writer, String[] tokens, BufferedReader reader) {
