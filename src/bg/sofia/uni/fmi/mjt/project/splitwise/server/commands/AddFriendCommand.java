@@ -12,7 +12,6 @@ public class AddFriendCommand extends ActionCommand {
     private PrintWriter writer;
     private String username;
 
-
     public AddFriendCommand(Domain domain, PrintWriter writer) {
         super(domain, writer);
         server = getDomain().getServer();
