@@ -9,14 +9,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class CommandSignUp extends ActionCommand {
+public class SignUpCommand extends ActionCommand {
 
     private BufferedReader reader;
 
     //isCorrect?
     private Server server;
 
-    public CommandSignUp(Domain domain, PrintWriter writer, BufferedReader reader) {
+    public SignUpCommand(Domain domain, PrintWriter writer, BufferedReader reader) {
         super(domain, writer);
         this.reader = reader;
         setServer(domain);

@@ -7,12 +7,12 @@ import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.utilities.Messenge
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class CommandPayedGroup extends ActionCommand {
+public class PayedGroupCommand extends ActionCommand {
 
 
     private Server server;
 
-    public CommandPayedGroup(Domain domain, PrintWriter writer) {
+    public PayedGroupCommand(Domain domain, PrintWriter writer) {
         super(domain, writer);
         setServer();
     }

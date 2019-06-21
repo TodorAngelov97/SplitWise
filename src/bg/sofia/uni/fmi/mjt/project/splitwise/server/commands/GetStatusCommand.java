@@ -9,11 +9,11 @@ import java.io.PrintWriter;
 import java.util.Map;
 import java.util.Set;
 
-public class CommandGetStatus extends ActionCommand {
+public class GetStatusCommand extends ActionCommand {
 
     private Server server;
 
-    public CommandGetStatus(Domain domain, PrintWriter writer) {
+    public GetStatusCommand(Domain domain, PrintWriter writer) {
         super(domain, writer);
         setServer();
     }

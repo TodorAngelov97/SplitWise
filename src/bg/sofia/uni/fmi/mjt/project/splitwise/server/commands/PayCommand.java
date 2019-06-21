@@ -6,11 +6,11 @@ import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.utilities.Messenge
 
 import java.io.PrintWriter;
 
-public class CommandPay extends ActionCommand {
+public class PayCommand extends ActionCommand {
 
     private Server server;
 
-    public CommandPay(Domain domain, PrintWriter writer) {
+    public PayCommand(Domain domain, PrintWriter writer) {
         super(domain, writer);
         setServer();
     }

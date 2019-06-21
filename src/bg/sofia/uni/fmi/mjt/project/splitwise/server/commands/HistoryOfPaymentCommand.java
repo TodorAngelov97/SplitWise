@@ -6,10 +6,10 @@ import bg.sofia.uni.fmi.mjt.project.splitwise.server.ServerOld;
 
 import java.io.*;
 
-public class CommandHistoryOfPayment extends ActionCommand {
+public class HistoryOfPaymentCommand extends ActionCommand {
 
 
-    public CommandHistoryOfPayment(Domain domain, PrintWriter writer) {
+    public HistoryOfPaymentCommand(Domain domain, PrintWriter writer) {
         super(domain, writer);
     }
 

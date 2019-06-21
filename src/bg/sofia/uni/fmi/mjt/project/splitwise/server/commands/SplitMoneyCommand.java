@@ -5,11 +5,11 @@ import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
 
 import java.io.PrintWriter;
 
-public class CommandSplitMoney extends ActionCommand {
+public class SplitMoneyCommand extends ActionCommand {
 
     private Server server;
 
-    public CommandSplitMoney(Domain domain, PrintWriter writer) {
+    public SplitMoneyCommand(Domain domain, PrintWriter writer) {
         super(domain, writer);
         setServer();
     }

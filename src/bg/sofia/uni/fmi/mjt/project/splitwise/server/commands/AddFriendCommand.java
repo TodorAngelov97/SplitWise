@@ -5,10 +5,10 @@ import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
 
 import java.io.PrintWriter;
 
-public class CommandAddFriend extends ActionCommand {
+public class AddFriendCommand extends ActionCommand {
 
 
-    public CommandAddFriend(Domain domain, PrintWriter writer) {
+    public AddFriendCommand(Domain domain, PrintWriter writer) {
         super(domain, writer);
     }
 

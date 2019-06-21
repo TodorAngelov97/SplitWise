@@ -8,8 +8,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandCreateGroup extends ActionCommand {
-    public CommandCreateGroup(Domain domain, PrintWriter writer) {
+public class CreateGroupCommand extends ActionCommand {
+    public CreateGroupCommand(Domain domain, PrintWriter writer) {
         super(domain, writer);
     }
 

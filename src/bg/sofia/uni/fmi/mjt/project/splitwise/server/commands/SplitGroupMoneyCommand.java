@@ -6,9 +6,9 @@ import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class CommandSplitGroupMoney extends ActionCommand {
+public class SplitGroupMoneyCommand extends ActionCommand {
 
-    public CommandSplitGroupMoney(Domain domain, PrintWriter writer) {
+    public SplitGroupMoneyCommand(Domain domain, PrintWriter writer) {
         super(domain, writer);
     }
 

@@ -97,16 +97,16 @@ public class ClientConnection implements Runnable {
     }
 
     private void initializeCommands(PrintWriter writer, BufferedReader reader) {
-        commands.add(new CommandAddFriend(domain, writer));
-        commands.add(new CommandCreateGroup(domain, writer));
-        commands.add(new CommandGetStatus(domain, writer));
-        commands.add(new CommandHistoryOfPayment(domain, writer));
-        commands.add(new CommandLogin(domain, writer));
-        commands.add(new CommandPay(domain, writer));
-        commands.add(new CommandPayedGroup(domain, writer));
-        commands.add(new CommandSignUp(domain, writer, reader));
-        commands.add(new CommandSplitMoney(domain, writer));
-        commands.add(new CommandSplitGroupMoney(domain, writer));
+        commands.add(new AddFriendCommand(domain, writer));
+        commands.add(new CreateGroupCommand(domain, writer));
+        commands.add(new GetStatusCommand(domain, writer));
+        commands.add(new HistoryOfPaymentCommand(domain, writer));
+        commands.add(new LoginCommand(domain, writer));
+        commands.add(new PayCommand(domain, writer));
+        commands.add(new PayedGroupCommand(domain, writer));
+        commands.add(new SignUpCommand(domain, writer, reader));
+        commands.add(new SplitMoneyCommand(domain, writer));
+        commands.add(new SplitGroupMoneyCommand(domain, writer));
     }
 
     private void signUp(PrintWriter writer, String[] tokens, BufferedReader reader) {
