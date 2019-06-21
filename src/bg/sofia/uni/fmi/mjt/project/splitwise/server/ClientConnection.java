@@ -32,6 +32,8 @@ public class ClientConnection implements Runnable {
         commands = new HashMap<>();
     }
 
+
+    //one more method for while true;
     @Override
     public void run() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -39,8 +41,8 @@ public class ClientConnection implements Runnable {
 
             initializeCommands(writer, reader);
             while (true) {
-                String commandInput = reader.readLine();
 
+                String commandInput = reader.readLine();
                 if (commandInput != null) {
 
                     String[] tokens = commandInput.split("\\s+");
@@ -109,6 +111,10 @@ public class ClientConnection implements Runnable {
         commands.put(Commands.SIGN_UP.getCommand(), new SignUpCommand(domain, writer, reader));
         commands.put(Commands.SPLIT.getCommand(), new SplitMoneyCommand(domain, writer));
         commands.put(Commands.SPLIT_GROUP.getCommand(), new SplitGroupMoneyCommand(domain, writer));
+    }
+
+    private void execute(){
+
     }
 
     private void signUp(PrintWriter writer, String[] tokens, BufferedReader reader) {

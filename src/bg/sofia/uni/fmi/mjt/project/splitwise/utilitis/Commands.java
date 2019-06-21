@@ -9,7 +9,7 @@ public enum Commands {
     LOGIN("login"),
     PAYED("payed"),
     PAYED_GROUP("payed-group"),
-    SIGN_UP("sgin-up"),
+    SIGN_UP("sign-up"),
     SPLIT("split"),
     SPLIT_GROUP("split-group");
 
