@@ -1,6 +1,7 @@
 package bg.sofia.uni.fmi.mjt.project.splitwise.server;
 
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.*;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
 import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Friend;
 import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Group;
 import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.UserProfile;
@@ -96,18 +97,18 @@ public class ClientConnection implements Runnable {
         }
     }
 
-    //add enum
     private void initializeCommands(PrintWriter writer, BufferedReader reader) {
-        commands.put("add", new AddFriendCommand(domain, writer));
-        commands.put("create", new CreateGroupCommand(domain, writer));
-        commands.put("get-status", new GetStatusCommand(domain, writer));
-        commands.put("history-of-payment", new HistoryOfPaymentCommand(domain, writer));
-        commands.put("login", new LoginCommand(domain, writer));
-        commands.put("payed", new PayCommand(domain, writer));
-        commands.put("payed-group", new PayedGroupCommand(domain, writer));
-        commands.put("sign-up", new SignUpCommand(domain, writer, reader));
-        commands.put("split", new SplitMoneyCommand(domain, writer));
-        commands.put("split-group", new SplitGroupMoneyCommand(domain, writer));
+
+        commands.put(Commands.ADD.getCommand(), new AddFriendCommand(domain, writer));
+        commands.put(Commands.CREATE.getCommand(), new CreateGroupCommand(domain, writer));
+        commands.put(Commands.GET_STATUS.getCommand(), new GetStatusCommand(domain, writer));
+        commands.put(Commands.HISTORY_OF_PAYMENT.getCommand(), new HistoryOfPaymentCommand(domain, writer));
+        commands.put(Commands.LOGIN.getCommand(), new LoginCommand(domain, writer));
+        commands.put(Commands.PAYED.getCommand(), new PayCommand(domain, writer));
+        commands.put(Commands.PAYED_GROUP.getCommand(), new PayedGroupCommand(domain, writer));
+        commands.put(Commands.SIGN_UP.getCommand(), new SignUpCommand(domain, writer, reader));
+        commands.put(Commands.SPLIT.getCommand(), new SplitMoneyCommand(domain, writer));
+        commands.put(Commands.SPLIT_GROUP.getCommand(), new SplitGroupMoneyCommand(domain, writer));
     }
 
     private void signUp(PrintWriter writer, String[] tokens, BufferedReader reader) {
