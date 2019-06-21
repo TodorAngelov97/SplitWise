@@ -1,9 +1,10 @@
 package bg.sofia.uni.fmi.mjt.project.splitwise.server.commands;
 
-import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Friend;
-import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Group;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Domain;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Friend;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Group;
 
 import java.io.PrintWriter;
 import java.util.Map;
@@ -12,15 +13,16 @@ import java.util.Set;
 public class GetStatusCommand extends ActionCommand {
 
     private Server server;
+    private PrintWriter writer;
+    private String username;
 
     public GetStatusCommand(Domain domain, PrintWriter writer) {
         super(domain, writer);
-        setServer();
+        server = getDomain().getServer();
+        writer = getWriter();
+        username = getDomain().getUsername();
     }
 
-    private void setServer() {
-        server = getDomain().getServer();
-    }
 
     @Override
     public void executeCommand(String[] tokens) {
@@ -32,16 +34,11 @@ public class GetStatusCommand extends ActionCommand {
 
     @Override
     protected boolean isMatched(String command) {
-        if ("get-status".equals(command)) {
-            return true;
-        }
-        return false;
+        return Commands.GET_STATUS.getCommand().equals(command);
     }
 
     private void getStatus() {
 
-        String username = getDomain().getUsername();
-        PrintWriter writer = getWriter();
         if (areListsEmpty(username)) {
             writer.println("You don't have any added friends and groups");
             return;
@@ -67,7 +64,7 @@ public class GetStatusCommand extends ActionCommand {
     private boolean isGroupListEmpty(String username) {
         return server.hasNotGroups(username);
     }
-    
+
     private void getStatusForFriends(Set<Map.Entry<String, Friend>> allFriends, PrintWriter writer) {
 
         for (Map.Entry<String, Friend> friend : allFriends) {
@@ -98,7 +95,6 @@ public class GetStatusCommand extends ActionCommand {
 
     private void getStatusForGroups(Set<Map.Entry<String, Group>> allGroups, PrintWriter writer) {
 
-        String username = getDomain().getUsername();
         for (Map.Entry<String, Group> group : allGroups) {
             writer.println(String.format("* %s", group.getKey()));
             getStatusForFriends(server.getMembersInGroup(username, group.getKey()), writer);
