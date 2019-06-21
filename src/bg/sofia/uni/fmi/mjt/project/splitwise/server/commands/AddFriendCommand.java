@@ -63,8 +63,6 @@ public class AddFriendCommand extends ActionCommand {
     private void addToFriendList(String friend) {
         server.addFriend(username, friend);
         server.addFriend(friend, username);
-
-        PrintWriter writer = getWriter();
         writer.println("Successfully added friend with name: " + friend);
     }
 
