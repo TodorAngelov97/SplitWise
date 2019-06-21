@@ -3,16 +3,22 @@ package bg.sofia.uni.fmi.mjt.project.splitwise.server.commands;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Domain;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.utilities.Messenger;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
 
 import java.io.PrintWriter;
 
 public class PayCommand extends ActionCommand {
 
     private Server server;
+    private PrintWriter writer;
+    private String username;
+
 
     public PayCommand(Domain domain, PrintWriter writer) {
         super(domain, writer);
-        setServer();
+        server = getDomain().getServer();
+        writer = getWriter();
+        username = getDomain().getUsername();
     }
 
     private void setServer() {
@@ -29,20 +35,15 @@ public class PayCommand extends ActionCommand {
 
     @Override
     protected boolean isMatched(String command) {
-        if ("payed".equals(command)) {
-            return true;
-        }
-        return false;
+        return Commands.PAYED.getCommand().equals(command);
     }
 
     private void getPayed(String[] tokens) {
-        PrintWriter writer = getWriter();
         if (tokens.length != 3) {
             writer.println(ERROR_MESSAGE);
         } else {
             String friend = tokens[2];
             double amount = Double.parseDouble(tokens[1]);
-            String username = getDomain().getUsername();
             server.decreaseAmountOfFriend(username, friend, amount);
             server.increaseAmountOfFriend(friend, username, amount);
             Domain domain = getDomain();
