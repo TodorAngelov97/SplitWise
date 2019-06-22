@@ -2,21 +2,23 @@ package bg.sofia.uni.fmi.mjt.project.splitwise.server.commands;
 
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Domain;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
 
 import java.io.PrintWriter;
 
 public class SplitMoneyCommand extends ActionCommand {
 
     private Server server;
+    private PrintWriter writer;
+    private String username;
 
     public SplitMoneyCommand(Domain domain, PrintWriter writer) {
         super(domain, writer);
-        setServer();
+        server = getDomain().getServer();
+        writer = getWriter();
+        username = getDomain().getUsername();
     }
 
-    private void setServer() {
-        server = getDomain().getServer();
-    }
 
     @Override
     public void executeCommand(String[] tokens) {
@@ -28,25 +30,20 @@ public class SplitMoneyCommand extends ActionCommand {
 
     @Override
     protected boolean isMatched(String command) {
-        if ("split".equals(command)) {
-            return true;
-        }
-        return false;
+        return Commands.SPLIT.getCommand().equals(command);
     }
 
     private void splitMoney(String[] tokens) {
-        PrintWriter writer = getWriter();
         if (tokens.length != 4) {
             writer.println(ERROR_MESSAGE);
         } else {
             String friend = tokens[2];
-            String username = getDomain().getUsername();
 
             checkIsUsernameContained(writer, friend);
-            checkIsUserInFriendList(username, friend, writer);
+            checkIsUserInFriendList(friend, writer);
 
             String amount = tokens[1];
-            transactMoney(username, friend, amount);
+            transactMoney(friend, amount);
 
             String reasonForPayment = tokens[3];
 
@@ -57,7 +54,6 @@ public class SplitMoneyCommand extends ActionCommand {
     }
 
     private void sendFriendNotification(String amount, String reasonForPayment, String friend) {
-        String username = getDomain().getUsername();
         String friendMessage = String.format("You owe  %s %s %s %n", server.getProfileNames(username), amount,
                 reasonForPayment);
         sendFriendNotification(friend, friendMessage);
@@ -74,19 +70,19 @@ public class SplitMoneyCommand extends ActionCommand {
         return !(server.isUsernameContained(friend));
     }
 
-    private void checkIsUserInFriendList(String username, String friend, PrintWriter writer) {
-        if (isUserNotInFriendList(username, friend)) {
+    private void checkIsUserInFriendList(String friend, PrintWriter writer) {
+        if (isUserNotInFriendList(friend)) {
             writer.println(String.format(
                     "This user %s is not in your friend list, you have to added before splitting money.", friend));
             return;
         }
     }
 
-    private boolean isUserNotInFriendList(String username, String friend) {
+    private boolean isUserNotInFriendList(String friend) {
         return !(server.isUserInFriends(username, friend));
     }
 
-    private void transactMoney(String username, String friend, String preAmount) {
+    private void transactMoney(String friend, String preAmount) {
         double amount = Double.parseDouble(preAmount) / 2;
         server.increaseAmountOfFriend(username, friend, amount);
         server.decreaseAmountOfFriend(friend, username, amount);

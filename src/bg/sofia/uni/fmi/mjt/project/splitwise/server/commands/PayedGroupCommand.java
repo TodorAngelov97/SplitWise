@@ -3,6 +3,7 @@ package bg.sofia.uni.fmi.mjt.project.splitwise.server.commands;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Domain;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.utilities.Messenger;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,15 +12,16 @@ public class PayedGroupCommand extends ActionCommand {
 
 
     private Server server;
+    private PrintWriter writer;
+    private String username;
 
     public PayedGroupCommand(Domain domain, PrintWriter writer) {
         super(domain, writer);
-        setServer();
+        server = getDomain().getServer();
+        username = getDomain().getUsername();
+        writer = getWriter();
     }
 
-    private void setServer() {
-        server = getDomain().getServer();
-    }
 
     @Override
     public void executeCommand(String[] tokens) throws IOException {
@@ -31,21 +33,16 @@ public class PayedGroupCommand extends ActionCommand {
 
     @Override
     protected boolean isMatched(String command) {
-        if ("payed-group".equals(command)) {
-            return true;
-        }
-        return false;
+        return Commands.PAYED_GROUP.getCommand().equals(command);
     }
 
     private void payedGroup(String[] tokens) throws IOException {
-        PrintWriter writer = getWriter();
         if (tokens.length != 4) {
             writer.println(ERROR_MESSAGE);
         } else {
             double amount = Double.parseDouble(tokens[1]);
             String group = tokens[2];
             String friend = tokens[3];
-            String username = getDomain().getUsername();
             server.decreaseAmountOfGroupMember(username, group, friend, amount);
             server.increaseAmountOfGroupMember(friend, group, username, amount);
             Domain domain = getDomain();

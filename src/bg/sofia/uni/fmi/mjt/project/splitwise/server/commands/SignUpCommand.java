@@ -1,8 +1,9 @@
 package bg.sofia.uni.fmi.mjt.project.splitwise.server.commands;
 
-import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.UserProfile;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Domain;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.UserProfile;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,27 +12,22 @@ import java.net.Socket;
 
 public class SignUpCommand extends ActionCommand {
 
+    private Server server;
+    private PrintWriter writer;
     private BufferedReader reader;
 
-    //isCorrect?
-    private Server server;
 
     public SignUpCommand(Domain domain, PrintWriter writer, BufferedReader reader) {
         super(domain, writer);
+        server = domain.getServer();
+        writer = getWriter();
         this.reader = reader;
-        setServer(domain);
     }
 
-    private void setServer(Domain domain) {
-        server = domain.getServer();
-    }
 
     @Override
     protected boolean isMatched(String command) {
-        if ("sign-up".equals(command)) {
-            return true;
-        }
-        return false;
+        return Commands.SIGN_UP.getCommand().equals(command);
     }
 
     @Override
@@ -51,7 +47,6 @@ public class SignUpCommand extends ActionCommand {
         server.addNewActiveUser(username, socket);
         server.saveUserInFile();
 
-        PrintWriter writer = getWriter();
         writer.println("Successful sign-up.");
     }
 
@@ -97,6 +92,7 @@ public class SignUpCommand extends ActionCommand {
         String lastName = tokens[LAST_NAME_INDEX];
         String username = getDomain().getUsername();
 
-        server.addUser(username, new UserProfile(username, password, firstName, lastName));
+        UserProfile newUserProfile = new UserProfile(username, password, firstName, lastName);
+        server.addUser(username, newUserProfile);
     }
 }
