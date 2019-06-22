@@ -51,7 +51,7 @@ public class ClientConnection implements Runnable {
                     if (commands.containsKey(command)) {
                         Command customCommand = commands.get(command);
                         customCommand.executeCommand(tokens);
-                    } else if ("logout".equals(command)) {
+                    } else if (Commands.LOGOUT.getCommand().equals(command)) {
                         return;
                     } else {
                         writer.println("Wrong command, try again.");
@@ -113,7 +113,7 @@ public class ClientConnection implements Runnable {
         commands.put(Commands.SPLIT_GROUP.getCommand(), new SplitGroupMoneyCommand(domain, writer));
     }
 
-    private void execute(){
+    private void execute() {
 
     }
 

@@ -11,8 +11,8 @@ public enum Commands {
     PAYED_GROUP("payed-group"),
     SIGN_UP("sign-up"),
     SPLIT("split"),
-    SPLIT_GROUP("split-group");
-
+    SPLIT_GROUP("split-group"),
+    LOGOUT("logout");
 
     private final String command;
 
