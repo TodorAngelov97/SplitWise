@@ -24,11 +24,12 @@ public class Client {
         printHelpMessage();
         try (Scanner userInput = new Scanner(System.in)) {
             while (true) {
+
                 String input = userInput.nextLine();
 
                 String[] tokens = input.split("\\s+");
                 String command = tokens[0];
-                if (validateInput(tokens)) {
+                if (isInputValid(tokens)) {
                     if (command.equals("sign-up")) {
                         signUp(tokens);
                     } else if (command.equals("login")) {
@@ -47,12 +48,17 @@ public class Client {
     }
 
     private void printHelpMessage() {
-        try (BufferedReader readerOfHelpMessage = new BufferedReader(new FileReader(HELP_MESSAGE_FILE))) {
+        try (FileReader fileReader = new FileReader(HELP_MESSAGE_FILE);
+             BufferedReader readerOfHelpMessage = new BufferedReader(fileReader)) {
 
-            String readLine;
-            while ((readLine = readerOfHelpMessage.readLine()) != null) {
-                System.out.println(readLine);
+            while (true) {
+                final String line = readerOfHelpMessage.readLine();
+                if (line == null) {
+                    break;
+                }
+                writer.println(line);
             }
+
         } catch (FileNotFoundException e) {
             System.out.println("Problem with application, try again later.");
             System.err.println("Exception thrown by readLine: " + e.getMessage());
@@ -60,6 +66,16 @@ public class Client {
             System.out.println("Problem with application, try again later.");
             System.err.println("Exception thrown by createNewFile: " + e.getMessage());
         }
+    }
+
+    private boolean isInputValid(String[] tokens) {
+        for (String token : tokens) {
+            if (token.equals(null)) {
+                System.out.println("Wrong input");
+                return false;
+            }
+        }
+        return true;
     }
 
     private void closeOpenResources() {
@@ -71,27 +87,6 @@ public class Client {
         } catch (IOException e) {
             System.err.println("Error with closing writer stream" + e.getMessage());
         }
-    }
-
-    private void connect(String[] tokens) {
-        setStream();
-        writer.println(String.join(" ", tokens));
-        startNewThreadForPrinting();
-        connected = true;
-
-    }
-
-    private void setStream() {
-        try {
-            writer = new PrintWriter(socket.getOutputStream(), true);
-        } catch (IOException e) {
-            System.err.println("Error with open writer " + e.getMessage());
-        }
-    }
-
-    private void startNewThreadForPrinting() {
-        ClientRunnable clientRunnable = new ClientRunnable(socket);
-        new Thread(clientRunnable).start();
     }
 
     private void signUp(String[] tokens) {
@@ -117,28 +112,40 @@ public class Client {
         return true;
     }
 
+    private void connect(String[] tokens) {
+        setStream();
+        writer.println(String.join(" ", tokens));
+        turnOnListenerThread();
+        connected = true;
+
+    }
+
+    private void setStream() {
+        try {
+            writer = new PrintWriter(socket.getOutputStream(), true);
+        } catch (IOException e) {
+            System.err.println("Error with open writer " + e.getMessage());
+        }
+    }
+
+    private void turnOnListenerThread() {
+        ClientRunnable clientRunnable = new ClientRunnable(socket);
+        new Thread(clientRunnable).start();
+    }
+
     private void login(String[] tokens) {
-        if (validateLogin(tokens)) {
+        if (isNumberOfArgumentsCorrect(tokens)) {
             connect(tokens);
         } else {
             System.out.println("For login you need exactly 3 arguments");
         }
     }
 
-    private boolean validateLogin(String[] tokens) {
+    private boolean isNumberOfArgumentsCorrect(String[] tokens) {
         return tokens.length == 3;
     }
 
-    private boolean validateInput(String[] tokens) {
-        for (String token : tokens) {
-            if (token.equals(null)) {
-                System.out.println("Wrong input");
-                return false;
-            }
-        }
-        return true;
-    }
-
+    
     public static void main(String[] args) {
         try {
             Client client = new Client(new Socket("localhost", ServerOld.PORT));
