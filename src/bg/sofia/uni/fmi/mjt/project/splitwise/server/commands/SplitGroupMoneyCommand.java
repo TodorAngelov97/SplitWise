@@ -4,7 +4,6 @@ import bg.sofia.uni.fmi.mjt.project.splitwise.server.Domain;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
 import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 
 public class SplitGroupMoneyCommand extends ActionCommand {
@@ -22,7 +21,7 @@ public class SplitGroupMoneyCommand extends ActionCommand {
     }
 
     @Override
-    public void executeCommand(String[] tokens) throws IOException {
+    public void executeCommand(String[] tokens) {
         String command = tokens[INDEX_OF_COMMAND];
         if (isMatched(command)) {
             splitGroupMoney(tokens);

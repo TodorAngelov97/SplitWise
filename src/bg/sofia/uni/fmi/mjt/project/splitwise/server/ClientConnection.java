@@ -57,7 +57,7 @@ public class ClientConnection implements Runnable {
                     } else {
                         writer.println("Wrong command, try again.");
                     }
-
+/*
                     if ("sign-up".equals(command)) {
                         signUp(writer, tokens, reader);
                     } else if ("login".equals(command)) {
@@ -85,6 +85,7 @@ public class ClientConnection implements Runnable {
                     } else {
                         writer.println("Wrong command, try again.");
                     }
+  */
                 }
             }
         } catch (IOException e) {

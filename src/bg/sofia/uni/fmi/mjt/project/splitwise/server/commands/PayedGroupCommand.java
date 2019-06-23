@@ -5,7 +5,6 @@ import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.utilities.Messenger;
 import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 
 public class PayedGroupCommand extends ActionCommand {
@@ -24,7 +23,7 @@ public class PayedGroupCommand extends ActionCommand {
 
 
     @Override
-    public void executeCommand(String[] tokens) throws IOException {
+    public void executeCommand(String[] tokens) {
         String command = tokens[INDEX_OF_COMMAND];
         if (isMatched(command)) {
             payedGroup(tokens);
@@ -36,7 +35,7 @@ public class PayedGroupCommand extends ActionCommand {
         return Commands.PAYED_GROUP.getCommand().equals(command);
     }
 
-    private void payedGroup(String[] tokens) throws IOException {
+    private void payedGroup(String[] tokens) {
         if (tokens.length != 4) {
             writer.println(ERROR_MESSAGE);
         } else {

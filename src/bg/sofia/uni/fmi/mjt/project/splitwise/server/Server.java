@@ -75,7 +75,8 @@ public class Server {
     //magic
     public synchronized void addUser(String username, UserProfile newUserProfile) {
         profiles.add(newUserProfile);
-        usersData.put(username, new UserData(newUserProfile));
+        UserData userData = new UserData(newUserProfile);
+        usersData.put(username, userData);
 //        ratesOfCurrencies.put(username, INITIAL_RATE);
     }
 
@@ -312,7 +313,8 @@ public class Server {
 
     public static void main(String[] args) {
         try {
-            ServerOld server = new ServerOld(new ServerSocket(PORT), FILE_NAME);
+            ServerSocket serverSocket = new ServerSocket(PORT);
+            Server server = new Server(serverSocket, FILE_NAME);
             server.execute();
         } catch (IOException e) {
             System.err.println("Exception thrown by SeverSocket: " + e.getMessage());
