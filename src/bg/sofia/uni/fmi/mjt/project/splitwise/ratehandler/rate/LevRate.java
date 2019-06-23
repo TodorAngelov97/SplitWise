@@ -1,4 +1,4 @@
-package bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler;
+package bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.rate;
 
 import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.currency.Lev;
 

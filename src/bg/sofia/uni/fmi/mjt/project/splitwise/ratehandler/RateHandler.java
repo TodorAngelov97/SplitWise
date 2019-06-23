@@ -1,5 +1,8 @@
 package bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler;
 
+import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.rate.DollarRate;
+import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.rate.EuroRate;
+import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.rate.LevRate;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
