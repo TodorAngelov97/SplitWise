@@ -56,7 +56,7 @@ public class Client {
                 if (line == null) {
                     break;
                 }
-                writer.println(line);
+                System.out.println(line);
             }
 
         } catch (FileNotFoundException e) {
