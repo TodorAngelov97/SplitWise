@@ -10,33 +10,35 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
 
 public class RateHandler {
-    private String fromCurrency;
-    private String toCurrency;
+    private String currentCurrency;
+    private String wantedCurrency;
 
     public RateHandler(String fromCurrency, String toCurrency) {
-        this.fromCurrency = fromCurrency;
-        this.toCurrency = toCurrency;
+        this.currentCurrency = fromCurrency;
+        this.wantedCurrency = toCurrency;
     }
 
     private String getJson() throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
-        String req = String.format("https://api.exchangeratesapi.io/latest?base=%s&symbols=%s", fromCurrency,
-                toCurrency);
+        String req = String.format("https://api.exchangeratesapi.io/latest?base=%s&symbols=%s", currentCurrency,
+                wantedCurrency);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(req))
                 .build();
         return client.send(request, BodyHandlers.ofString()).body();
     }
 
+
+    // new interface
     public double getRate() {
 
         Gson gson = new Gson();
         try {
-            if (toCurrency.equals("EUR")) {
+            if (wantedCurrency.equals("EUR")) {
                 EuroRate rate = gson.fromJson(getJson(), EuroRate.class);
                 return rate.getRate();
 
-            } else if (toCurrency.equals("USD")) {
+            } else if (wantedCurrency.equals("USD")) {
                 DollarRate rate = gson.fromJson(getJson(), DollarRate.class);
                 return rate.getRate();
             }

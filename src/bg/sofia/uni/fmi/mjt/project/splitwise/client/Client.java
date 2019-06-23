@@ -145,10 +145,11 @@ public class Client {
         return tokens.length == 3;
     }
 
-    
+
     public static void main(String[] args) {
         try {
-            Client client = new Client(new Socket("localhost", ServerOld.PORT));
+            Socket socket = new Socket("localhost", ServerOld.PORT);
+            Client client = new Client(socket);
             client.execute();
         } catch (UnknownHostException e) {
             System.err.println("Exception thrown by Socket: " + e.getMessage());
