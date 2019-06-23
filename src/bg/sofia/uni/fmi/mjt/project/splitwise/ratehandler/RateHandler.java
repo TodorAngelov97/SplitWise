@@ -3,6 +3,7 @@ package bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler;
 import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.rate.DollarRate;
 import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.rate.EuroRate;
 import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.rate.LevRate;
+import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.rate.Rate;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -36,26 +37,22 @@ public class RateHandler {
     public double getRate() {
 
         Gson gson = new Gson();
+        Rate rate = null;
         try {
             if (wantedCurrency.equals("EUR")) {
-                EuroRate rate = gson.fromJson(getJson(), EuroRate.class);
-                return rate.getRate();
-
+                rate = gson.fromJson(getJson(), EuroRate.class);
             } else if (wantedCurrency.equals("USD")) {
-                DollarRate rate = gson.fromJson(getJson(), DollarRate.class);
-                return rate.getRate();
+                rate = gson.fromJson(getJson(), DollarRate.class);
             }
-            LevRate rate = gson.fromJson(getJson(), LevRate.class);
-            return rate.getRate();
+            rate = gson.fromJson(getJson(), LevRate.class);
         } catch (JsonSyntaxException e) {
             System.err.println("Exception thrown by Json: " + e.getMessage());
         } catch (IOException e) {
             System.err.println("Exception thrown by Json: " + e.getMessage());
         } catch (InterruptedException e) {
             System.err.println("Exception thrown by Json: " + e.getMessage());
-
         }
-        return 0;
+        return rate.getRate();
     }
 
     public static void main(String[] args) {
