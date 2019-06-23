@@ -32,16 +32,15 @@ public class RateHandler {
         return client.send(request, BodyHandlers.ofString()).body();
     }
 
-
     // new interface
     public double getRate() {
 
         Gson gson = new Gson();
         Rate rate = null;
         try {
-            if (wantedCurrency.equals("EUR")) {
+            if (wantedCurrency.equals(Currencies.EUR.getCurrency())) {
                 rate = gson.fromJson(getJson(), EuroRate.class);
-            } else if (wantedCurrency.equals("USD")) {
+            } else if (wantedCurrency.equals(Currencies.USD.getCurrency())) {
                 rate = gson.fromJson(getJson(), DollarRate.class);
             }
             rate = gson.fromJson(getJson(), LevRate.class);

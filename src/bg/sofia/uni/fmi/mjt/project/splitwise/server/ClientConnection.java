@@ -1,5 +1,6 @@
 package bg.sofia.uni.fmi.mjt.project.splitwise.server;
 
+import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.Currencies;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.*;
 import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
 import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Friend;
@@ -15,7 +16,7 @@ public class ClientConnection implements Runnable {
     private static final String NOTIFICATION = "*Notification*";
     private static final String ERROR_MESSAGE = "Wrong number of arguments.";
     private Socket socket;
-    //    private String currency;
+    private String currency;
     //	private double rate;
     private Domain domain;
     private String username;
@@ -26,7 +27,7 @@ public class ClientConnection implements Runnable {
 
         this.socket = socket;
         this.domain = new Domain(server, socket);
-//		currency = "BGN";
+        currency = Currencies.BGN.getCurrency(); ///
 //		rate = 1.0;
         this.server = server;
         commands = new HashMap<>();
