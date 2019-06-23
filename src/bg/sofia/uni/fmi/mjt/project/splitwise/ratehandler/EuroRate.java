@@ -2,14 +2,15 @@ package bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler;
 
 import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.currency.Euro;
 
-public class EuroRate {
-	private Euro rates;
+public class EuroRate implements Rate {
+    private Euro rates;
 
-	public EuroRate(Euro rates) {
-		this.rates = rates;
-	}
+    public EuroRate(Euro rates) {
+        this.rates = rates;
+    }
 
-	public double getRate() {
-		return rates.getRate();
-	}
+    @Override
+    public double getRate() {
+        return rates.getRate();
+    }
 }
