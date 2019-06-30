@@ -41,17 +41,19 @@ public class SplitGroupMoneyCommand extends ActionCommand {
 
             String reasonForPayment = tokens[3];
             sendPaymentMessage(amount, group, reasonForPayment);
-
             sendGroupNotification(group, amount, reasonForPayment);
         }
     }
 
     private void transactMoney(String amountInString, String group) {
         double amount = getAmountPerFriend(amountInString, group);
+//        add better signature
+        server.getGroups(username).get(group).splitMoney(amount);
         for (String friend : server.getMembersNamesInGroup(username, group)) {
             server.decreaseAmountOfGroupMember(friend, group, username, amount);
-            server.increaseAmountOfGroupMember(username, group, friend, amount);
+//            server.increaseAmountOfGroupMember(username, group, friend, amount);
         }
+
     }
 
     private double getAmountPerFriend(String amountInString, String group) {

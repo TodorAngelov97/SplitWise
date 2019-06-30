@@ -19,6 +19,7 @@ public class Messenger {
         Server server = domain.getServer();
         String messageForFriend = sendMessageAfterPayed(amount, friend);
         server.sendFriendNotification(friend, messageForFriend);
+//        server.sendFriendNotification(friend, messageForFriend);
     }
 
     public void sendGroupMessageAfterPayed(double amount, String friend) {

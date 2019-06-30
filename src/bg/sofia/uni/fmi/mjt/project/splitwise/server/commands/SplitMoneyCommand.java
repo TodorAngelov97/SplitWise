@@ -127,5 +127,6 @@ public class SplitMoneyCommand extends ActionCommand {
 
     private void sendFriendNotification(String friend, String friendMessage) {
         server.sendFriendNotification(friend, friendMessage);
+//        server.sendFriendNotification(friend, friendMessage);
     }
 }

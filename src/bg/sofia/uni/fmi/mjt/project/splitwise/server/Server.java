@@ -72,30 +72,22 @@ public class Server {
         return file.length() == 0;
     }
 
-    //magic
-    public synchronized void addUser(String username, UserProfile newUserProfile) {
+    public void addUser(String username, UserProfile newUserProfile) {
         profiles.add(newUserProfile);
         UserData userData = new UserData(newUserProfile);
         usersData.put(username, userData);
-//        ratesOfCurrencies.put(username, INITIAL_RATE);
     }
 
     public boolean isUsernameContained(String user) {
         return usersData.containsKey(user);
-
     }
 
     public int getNumberOfUsers() {
         return profiles.size();
     }
 
-
     public int getNumberOfActiveUsers() {
         return activeUsers.size();
-    }
-
-    public boolean isActive(String username) {
-        return activeUsers.containsKey(username);
     }
 
     public Socket getSocket(String username) {
@@ -106,7 +98,6 @@ public class Server {
         activeUsers.remove(username);
     }
 
-    //not sure to be synchronize
     public synchronized void saveUserInFile() {
 
         try (Writer writer = new FileWriter(fileName)) {
@@ -129,116 +120,100 @@ public class Server {
         return true;
     }
 
-    public boolean isCorrectPassword(String user, String password) {
-        return usersData.get(user).isPasswordCorrect(password);
-
+    private boolean isCorrectPassword(String user, String password) {
+        UserData userData = usersData.get(user);
+        return userData.isPasswordCorrect(password);
     }
 
     public void printUserNotifications(String username, PrintWriter writer) {
-        usersData.get(username).printUserNotifications(writer);
+        UserData userData = usersData.get(username);
+        userData.printUserNotifications(writer);
     }
 
     public boolean isUserInFriends(String username, String friend) {
-        return usersData.get(username).isUserInFriends(friend);
+        UserData userData = usersData.get(username);
+        return userData.isUserInFriends(friend);
     }
 
     public void addFriend(String username, String friend) {
-        usersData.get(username).addFriend(friend);
+        UserData userData = usersData.get(username);
+        userData.addFriend(friend);
     }
 
     public String getProfileNames(String username) {
-        return usersData.get(username).getProfileNames();
+        UserData userData = usersData.get(username);
+        return userData.getProfileNames();
     }
 
     public File getFile(String username) {
-        return usersData.get(username).getFile();
-    }
-
-    public void sendFriendNotificationToNotActive(String receiver, String message) {
-        usersData.get(receiver).addFriendNotification(message);
-    }
-
-    public void sendGroupNotificationToNotActive(String receiver, String message) {
-        usersData.get(receiver).addGroupNotification(message);
+        UserData userData = usersData.get(username);
+        return userData.getFile();
     }
 
     public void addGroup(String username, String name, Group group) {
-        usersData.get(username).addGroup(name, group);
+        UserData userData = usersData.get(username);
+        userData.addGroup(name, group);
     }
 
     public boolean hasNotFriends(String username) {
-        return usersData.get(username).hasNotFriends();
+        UserData userData = usersData.get(username);
+        return userData.hasNotFriends();
     }
 
-    public boolean hasNotGroups(String groupName) {
-        return usersData.get(groupName).hasNotGroups();
+    public boolean hasNotGroups(String username) {
+        UserData userData = usersData.get(username);
+        return userData.hasNotGroups();
     }
 
     public void increaseAmountOfFriend(String username, String friend, double amount) {
-        usersData.get(username).increaseAmountOfFriend(friend, amount);
+        UserData userData = usersData.get(username);
+        userData.increaseAmountOfFriend(friend, amount);
     }
 
     public void decreaseAmountOfFriend(String username, String friend, double amount) {
-        usersData.get(username).decreaseAmountOfFriend(friend, amount);
+        UserData userData = usersData.get(username);
+        userData.decreaseAmountOfFriend(friend, amount);
     }
 
     public double getFriendAmount(String username, String friend) {
-        return usersData.get(username).getFriendAmount(friend);
+        UserData userData = usersData.get(username);
+        return userData.getFriendAmount(friend);
     }
 
     public int getNumberOfMembersInGroup(String username, String groupName) {
-        return usersData.get(username).getNumberOfMembersInGroup(groupName);
+        UserData userData = usersData.get(username);
+        return userData.getNumberOfMembersInGroup(groupName);
     }
 
     public Set<String> getMembersNamesInGroup(String username, String groupName) {
-        return usersData.get(username).getMembersNamesInGroup(groupName);
+        UserData userData = usersData.get(username);
+        return userData.getMembersNamesInGroup(groupName);
     }
 
     public void decreaseAmountOfGroupMember(String username, String groupName, String friend, double amount) {
-        usersData.get(username).decreaseAmountOfGroupMember(groupName, friend, amount);
+        UserData userData = usersData.get(username);
+        userData.decreaseAmountOfGroupMember(groupName, friend, amount);
     }
 
     public void increaseAmountOfGroupMember(String username, String groupName, String friend, double amount) {
-        usersData.get(username).increaseAmountOfGroupMember(groupName, friend, amount);
+        UserData userData = usersData.get(username);
+        userData.increaseAmountOfGroupMember(groupName, friend, amount);
     }
 
     public Map<String, Friend> getFriends(String username) {
-        return usersData.get(username).getFriends();
+        UserData userData = usersData.get(username);
+        return userData.getFriends();
     }
 
     public Map<String, Group> getGroups(String username) {
-        return usersData.get(username).getGroups();
+        UserData userData = usersData.get(username);
+        return userData.getGroups();
     }
 
     public Set<Map.Entry<String, Friend>> getMembersInGroup(String username, String groupName) {
-        return usersData.get(username).getMembersInGroup(groupName);
+        UserData userData = usersData.get(username);
+        return userData.getMembersInGroup(groupName);
     }
-
-    public void sendFriendNotification(String receiver, String message) {
-        if (!sendNotification(receiver, message)) {
-            sendFriendNotificationToNotActive(receiver, message);
-        }
-    }
-
-    private boolean sendNotification(String receiver, String message) {
-
-        if (isActive(receiver)) {
-            Socket toUser = getSocket(receiver);
-            PrintWriter toWriter;
-            try {
-                final String NOTIFICATION = "*Notification*";
-                toWriter = new PrintWriter(toUser.getOutputStream(), true);
-                toWriter.print(String.format("[%s] ", NOTIFICATION));
-                toWriter.println(message);
-                return true;
-            } catch (IOException e) {
-                System.out.println("Problem with application, try again later.");
-                System.err.println("Exception thrown by Print Writer: " + e.getMessage());
-            }
-        }
-        return false;
-    }
-
 
     public void execute() {
         System.out.printf("ServerOld is running on localhost:%d%n", PORT);
@@ -258,25 +233,31 @@ public class Server {
         }
     }
 
+    private void startNewThreadForUser(Socket socket) {
+        ClientConnection runnable = new ClientConnection(socket, this);
+        Thread newClient = new Thread(runnable);
+        newClient.start();
+    }
+
     public void addNewActiveUser(String username, Socket socket) {
         activeUsers.put(username, socket);
     }
 
-    private void startNewThreadForUser(Socket socket) {
-        ClientConnection runnable = new ClientConnection(socket, this);
-        new Thread(runnable).start();
-    }
-
     public int getNumberOfFriends(String username) {
-        return usersData.get(username).getFriends().size();
+        UserData userData = usersData.get(username);
+        return userData.getFriends().size();
     }
 
-    public void sendNofiticationToFriend(String receiver, String message) {
+    public void sendFriendNotification(String receiver, String message) {
         if (isActive(receiver)) {
             sendNotificationToActive(receiver, message);
         } else {
-            sendFriendNotificationToNotActive(receiver, message);
+            sendNotificationToNotActiveFriend(receiver, message);
         }
+    }
+
+    private boolean isActive(String username) {
+        return activeUsers.containsKey(username);
     }
 
     private void sendNotificationToActive(String receiver, String message) {
@@ -294,6 +275,11 @@ public class Server {
     }
 
 
+    private void sendNotificationToNotActiveFriend(String receiver, String message) {
+        UserData userData = usersData.get(receiver);
+        userData.addFriendNotification(message);
+    }
+
     public void sendGroupNotification(String receiver, String message) {
         if (isActive(receiver)) {
             sendNotificationToActive(receiver, message);
@@ -302,9 +288,15 @@ public class Server {
         }
     }
 
+    private void sendGroupNotificationToNotActive(String receiver, String message) {
+        UserData userData = usersData.get(receiver);
+        userData.addGroupNotification(message);
+    }
+
     public void writeInPaymentFile(String paymentMessage, String username) {
         File file = getFile(username);
-        try (FileWriter fileWriter = new FileWriter(file, true); BufferedWriter writer = new BufferedWriter(fileWriter)) {
+        try (FileWriter fileWriter = new FileWriter(file, true);
+             BufferedWriter writer = new BufferedWriter(fileWriter)) {
             writer.write(paymentMessage);
         } catch (IOException e) {
             System.err.println("Exception thrown by fileWriter: " + e.getMessage());
