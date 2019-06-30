@@ -25,8 +25,9 @@ public class Group {
     }
 
     //use in test
-    public double getFriendAmount(String friend) {
-        return groupFriends.get(friend).getAmount();
+    public double getFriendAmount(String friendsName) {
+        Friend friend = groupFriends.get(friendsName);
+        return friend.getAmount();
     }
 
     public void splitMoney(double amount) {
@@ -35,12 +36,14 @@ public class Group {
         }
     }
 
-    public void increaseAmountOfFriend(String friend, double amount) {
-        groupFriends.get(friend).increase(amount);
+    public void increaseAmountOfFriend(String friendsName, double amount) {
+        Friend friend = groupFriends.get(friendsName);
+        friend.increase(amount);
     }
 
-    public void decreaseAmountOfFriend(String friend, double amount) {
-        groupFriends.get(friend).decrease(amount);
+    public void decreaseAmountOfFriend(String friendsName, double amount) {
+        Friend friend = groupFriends.get(friendsName);
+        friend.decrease(amount);
     }
 
     public int getNumberOfMembers() {
