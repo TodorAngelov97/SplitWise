@@ -215,30 +215,6 @@ public class Server {
         return userData.getMembersInGroup(groupName);
     }
 
-    public void execute() {
-        System.out.printf("ServerOld is running on localhost:%d%n", PORT);
-        try {
-            while (true) {
-                Socket socket = socketOfServer.accept();
-                startNewThreadForUser(socket);
-            }
-        } catch (IOException e) {
-            System.err.println("Exception thrown by Socket: " + e.getMessage());
-        } finally {
-            try {
-                socketOfServer.close();
-            } catch (IOException e) {
-                System.err.println("Exception thrown by close Socket: " + e.getMessage());
-            }
-        }
-    }
-
-    private void startNewThreadForUser(Socket socket) {
-        ClientConnection runnable = new ClientConnection(socket, this);
-        Thread newClient = new Thread(runnable);
-        newClient.start();
-    }
-
     public void addNewActiveUser(String username, Socket socket) {
         activeUsers.put(username, socket);
     }
@@ -303,6 +279,7 @@ public class Server {
         }
     }
 
+
     public static void main(String[] args) {
         try {
             ServerSocket serverSocket = new ServerSocket(PORT);
@@ -312,4 +289,29 @@ public class Server {
             System.err.println("Exception thrown by SeverSocket: " + e.getMessage());
         }
     }
+
+    public void execute() {
+        System.out.printf("ServerOld is running on localhost:%d%n", PORT);
+        try {
+            while (true) {
+                Socket socket = socketOfServer.accept();
+                startNewThreadForUser(socket);
+            }
+        } catch (IOException e) {
+            System.err.println("Exception thrown by Socket: " + e.getMessage());
+        } finally {
+            try {
+                socketOfServer.close();
+            } catch (IOException e) {
+                System.err.println("Exception thrown by close Socket: " + e.getMessage());
+            }
+        }
+    }
+
+    private void startNewThreadForUser(Socket socket) {
+        ClientConnection runnable = new ClientConnection(socket, this);
+        Thread newClient = new Thread(runnable);
+        newClient.start();
+    }
+
 }
