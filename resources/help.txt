@@ -1,5 +1,5 @@
 You can use following commands:
-sign-up <username> <password> <confirmed_password> <firstname> <lastname>
+sign-up <username> <password> <confirmed_password> <firstName> <lastName>
 login <username> <password>
 add-friend <username>
 create-group <group_name>  <username> -> minimum 2
@@ -7,5 +7,5 @@ split <amount> <username> <reason_for_payment>
 split-group <amount> <group_name> <reason_for_payment>
 get-status
 payed <amount> <username>
-payed-group <amount> <groupname> <username>
+payed-group <amount> <groupName> <username>
 switch-currency EUR/BGN/USD -> by default BGN
