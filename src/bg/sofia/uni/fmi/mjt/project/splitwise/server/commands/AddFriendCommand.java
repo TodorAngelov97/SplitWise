@@ -67,6 +67,5 @@ public class AddFriendCommand extends ActionCommand {
 
     private void sendFriendNotification(String friend, String message) {
         server.sendFriendNotification(friend, message);
-//        server.sendFriendNotification(friend, message);
     }
 }
