@@ -5,7 +5,6 @@ public class Friend {
 
 	public Friend() {
 		amount = 0;
-
 	}
 
 	public double getAmount() {
