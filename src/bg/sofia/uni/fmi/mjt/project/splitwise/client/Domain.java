@@ -7,19 +7,19 @@ import java.net.Socket;
 public class Domain {
     private PrintWriter writer;
     private Socket socket;
-    private boolean connected;
+    private boolean isConnected;
 
     public Domain(Socket socket) {
         this.socket = socket;
         this.writer = null;
-        this.connected = false;
+        this.isConnected = false;
     }
 
     public void connect(String[] tokens) {
         setStream();
         writer.println(String.join(" ", tokens));
         turnOnListenerThread();
-        connected = true;
+        isConnected = true;
     }
 
     private void setStream() {
@@ -36,5 +36,22 @@ public class Domain {
         newListener.start();
     }
 
+    public void closeOpenResources() {
+        try {
+            if (writer != null) {
+                writer.close();
+            }
+            socket.close();
+        } catch (IOException e) {
+            System.err.println("Error with closing writer stream" + e.getMessage());
+        }
+    }
 
+    public boolean isConnected() {
+        return isConnected;
+    }
+
+    public PrintWriter getWriter() {
+        return writer;
+    }
 }

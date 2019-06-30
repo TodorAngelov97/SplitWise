@@ -10,21 +10,17 @@ import java.util.Scanner;
 public class Client {
 
     private static final String HELP_MESSAGE_FILE = "resources/help.txt";
-    private PrintWriter writer;
-    private Socket socket;
-    private boolean connected;
+    private Domain domain;
 
     public Client(Socket socket) {
-        this.socket = socket;
-        this.writer = null;
-        this.connected = false;
+        domain = new Domain(socket);
     }
 
     public void execute() {
         printHelpMessage();
         try (Scanner userInput = new Scanner(System.in)) {
+            PrintWriter writer = domain.getWriter();
             while (true) {
-
                 String input = userInput.nextLine();
 
                 String[] tokens = input.split("\\s+");
@@ -37,13 +33,13 @@ public class Client {
                     } else if (command.equals("logout")) {
                         writer.println(input);
                         return;
-                    } else if (connected) {
+                    } else if (domain.isConnected()) {
                         writer.println(input);
                     }
                 }
             }
         } finally {
-            closeOpenResources();
+            domain.closeOpenResources();
         }
     }
 
@@ -78,20 +74,10 @@ public class Client {
         return true;
     }
 
-    private void closeOpenResources() {
-        try {
-            if (writer != null) {
-                writer.close();
-            }
-            socket.close();
-        } catch (IOException e) {
-            System.err.println("Error with closing writer stream" + e.getMessage());
-        }
-    }
 
     private void signUp(String[] tokens) {
         if (isValidSignUpInputData(tokens)) {
-            connect(tokens);
+            domain.connect(tokens);
         }
     }
 
@@ -112,29 +98,9 @@ public class Client {
         return true;
     }
 
-    private void connect(String[] tokens) {
-        setStream();
-        writer.println(String.join(" ", tokens));
-        turnOnListenerThread();
-        connected = true;
-    }
-
-    private void setStream() {
-        try {
-            writer = new PrintWriter(socket.getOutputStream(), true);
-        } catch (IOException e) {
-            System.err.println("Error with open writer " + e.getMessage());
-        }
-    }
-
-    private void turnOnListenerThread() {
-        ClientRunnable clientRunnable = new ClientRunnable(socket);
-        new Thread(clientRunnable).start();
-    }
-
     private void login(String[] tokens) {
         if (isNumberOfArgumentsCorrect(tokens)) {
-            connect(tokens);
+            domain.connect(tokens);
         } else {
             System.out.println("For login you need exactly 3 arguments");
         }
