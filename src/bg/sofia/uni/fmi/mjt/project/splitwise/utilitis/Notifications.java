@@ -29,6 +29,12 @@ public class Notifications {
 
     public String getAllNotifications() {
         StringBuilder message = new StringBuilder();
+        appendFriendsNotifications(message);
+        appendGroupsNotifications(message);
+        return message.toString();
+    }
+
+    private void appendFriendsNotifications(StringBuilder message) {
         if (!friendsNotifications.isEmpty()) {
             message.append(FRIENDS_HEAD_MESSAGE);
             message.append(System.getProperty("line.separator"));
@@ -36,7 +42,10 @@ public class Notifications {
                 message.append(notification);
             }
         }
+    }
 
+
+    private void appendGroupsNotifications(StringBuilder message) {
         if (!groupsNotifications.isEmpty()) {
             message.append(GROUPS_HEAD_MESSAGE);
             message.append(System.getProperty("line.separator"));
@@ -44,8 +53,6 @@ public class Notifications {
                 message.append(notification);
             }
         }
-
-        return message.toString();
     }
 }
 
