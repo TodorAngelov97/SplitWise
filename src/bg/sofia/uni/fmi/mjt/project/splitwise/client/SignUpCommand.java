@@ -21,6 +21,11 @@ public class SignUpCommand extends ActionCommand {
         }
     }
 
+    @Override
+    protected boolean isMatched(String command) {
+        return Commands.SIGN_UP.getCommand().equals(command);
+    }
+
     private void signUp(String[] tokens) {
         if (isInputValid(tokens)) {
             domain.connect(tokens);
@@ -29,7 +34,7 @@ public class SignUpCommand extends ActionCommand {
 
     private boolean isInputValid(String[] tokens) {
 
-        if (isNotCorrectNumberOfArguments(tokens)) {
+        if (isNumberOfArgumentsNotCorrect(tokens)) {
             String message = "For sign-up you need exactly 6 arguments";
             System.out.println(message);
             return false;
@@ -45,17 +50,12 @@ public class SignUpCommand extends ActionCommand {
         return true;
     }
 
-    private boolean isNotCorrectNumberOfArguments(String[] tokens) {
+    private boolean isNumberOfArgumentsNotCorrect(String[] tokens) {
         final int NUMBER_OF_ARGUMENTS = 6;
         return tokens.length != NUMBER_OF_ARGUMENTS;
     }
 
     private boolean areNotCorrectPasswords(String password, String confirmationPassword) {
         return !(password.equals(confirmationPassword));
-    }
-
-    @Override
-    protected boolean isMatched(String command) {
-        return Commands.SIGN_UP.getCommand().equals(command);
     }
 }
