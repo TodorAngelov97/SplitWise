@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class LoginCommand extends Command {
+public class LoginCommand extends ActionCommand {
 
     private Server server;
     private PrintWriter writer;

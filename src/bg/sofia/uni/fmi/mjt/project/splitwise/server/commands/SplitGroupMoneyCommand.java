@@ -6,7 +6,7 @@ import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
 
 import java.io.PrintWriter;
 
-public class SplitGroupMoneyCommand extends Command {
+public class SplitGroupMoneyCommand extends ActionCommand {
 
 
     private Server server;

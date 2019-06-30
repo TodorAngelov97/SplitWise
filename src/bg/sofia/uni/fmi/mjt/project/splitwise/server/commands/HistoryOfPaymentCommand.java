@@ -6,7 +6,7 @@ import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
 
 import java.io.*;
 
-public class HistoryOfPaymentCommand extends Command {
+public class HistoryOfPaymentCommand extends ActionCommand {
 
     private Server server;
     private PrintWriter writer;

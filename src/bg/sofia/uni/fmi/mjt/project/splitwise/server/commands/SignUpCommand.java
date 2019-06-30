@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class SignUpCommand extends Command {
+public class SignUpCommand extends ActionCommand {
 
     private Server server;
     private PrintWriter writer;

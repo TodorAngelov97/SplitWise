@@ -20,7 +20,7 @@ public class ClientConnection implements Runnable {
     private String currency;
     private Domain domain;
     private Server server;
-    private Map<String, Command> commands;
+    private Map<String, ActionCommand> commands;
 
     public ClientConnection(Socket socket, Server server) {
 
