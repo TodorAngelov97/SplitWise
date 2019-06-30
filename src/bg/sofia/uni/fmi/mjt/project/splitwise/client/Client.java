@@ -25,26 +25,7 @@ public class Client {
     public void execute() {
         printHelpMessage();
         try (Scanner userInput = new Scanner(System.in)) {
-            PrintWriter writer = domain.getWriter();
-            initializeCommands();
-            while (true) {
-                String input = userInput.nextLine();
-
-                String[] tokens = input.split("\\s+");
-                String command = tokens[0];
-
-                if (isInputValid(tokens)) {
-                    if (commands.containsKey(command)) {
-                        Command customCommand = commands.get(command);
-                        customCommand.executeCommand(tokens);
-                    } else if (Commands.LOGOUT.getCommand().equals(command)) {
-                        writer.println(input);
-                        return;
-                    } else if (domain.isConnected()) {
-                        writer.println(input);
-                    }
-                }
-            }
+            executeCommands(userInput);
         } finally {
             domain.closeOpenResources();
         }
@@ -52,14 +33,8 @@ public class Client {
 
     private void printHelpMessage() {
         try (FileReader fileReader = new FileReader(HELP_MESSAGE_FILE);
-             BufferedReader readerOfHelpMessage = new BufferedReader(fileReader)) {
-            while (true) {
-                final String line = readerOfHelpMessage.readLine();
-                if (line == null) {
-                    break;
-                }
-                System.out.println(line);
-            }
+             BufferedReader reader = new BufferedReader(fileReader)) {
+            printContentOfHelpFile(reader);
         } catch (FileNotFoundException e) {
             System.out.println("Problem with application, try again later.");
             System.err.println("Exception thrown by readLine: " + e.getMessage());
@@ -69,12 +44,33 @@ public class Client {
         }
     }
 
+    private void printContentOfHelpFile(BufferedReader reader) throws IOException {
+        while (true) {
+            final String line = reader.readLine();
+            if (line == null) {
+                break;
+            }
+            System.out.println(line);
+        }
+    }
+
+    private void executeCommands(Scanner userInput) {
+        initializeCommands();
+        while (true) {
+            String input = userInput.nextLine();
+            if (isInputValid(input)) {
+                executeSingleCommand(input);
+            }
+        }
+    }
+
     private void initializeCommands() {
         commands.put(Commands.LOGIN.getCommand(), new LoginCommand(domain));
         commands.put(Commands.SIGN_UP.getCommand(), new SignUpCommand(domain));
     }
 
-    private boolean isInputValid(String[] tokens) {
+    private boolean isInputValid(String input) {
+        String[] tokens = getTokensFromInput(input);
         for (String token : tokens) {
             if (token.equals(null)) {
                 System.out.println("Wrong input");
@@ -82,6 +78,30 @@ public class Client {
             }
         }
         return true;
+    }
+
+    private String[] getTokensFromInput(String input) {
+        return input.split("\\s+");
+    }
+
+    private void executeSingleCommand(String input) {
+        String[] tokens = getTokensFromInput(input);
+        final int INDEX_OF_COMMAND = 0;
+        String command = tokens[INDEX_OF_COMMAND];
+        if (commands.containsKey(command)) {
+            Command customCommand = commands.get(command);
+            customCommand.executeCommand(tokens);
+        } else if (domain.isConnected()) {
+            PrintWriter writer = domain.getWriter();
+            writer.println(input);
+            checkIsLogout(command);
+        }
+    }
+
+    private void checkIsLogout(String command) {
+        if (Commands.LOGOUT.getCommand().equals(command)) {
+            return;
+        }
     }
 
     public static void main(String[] args) {
