@@ -43,7 +43,8 @@ public class LoginCommand extends ActionCommand {
 
         loginWithCorrectData(tokens);
         server.addNewActiveUser(username, socket);
-        writer.println("Successful login.");
+        final String MESSAGE = "Successful login.";
+        writer.println(MESSAGE);
         server.printUserNotifications(username, writer);
     }
 

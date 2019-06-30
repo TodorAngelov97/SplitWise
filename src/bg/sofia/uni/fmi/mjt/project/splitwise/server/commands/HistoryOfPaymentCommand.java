@@ -33,18 +33,22 @@ public class HistoryOfPaymentCommand extends ActionCommand {
     }
 
     private void getHistoryOfPayment() {
-
         File file = server.getFile(username);
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            while (true) {
-                final String line = reader.readLine();
-                if (line == null) {
-                    break;
-                }
-                writer.println(line);
-            }
+        try (FileReader fileReader = new FileReader(file);
+             BufferedReader reader = new BufferedReader(fileReader)) {
+            readInformation(reader);
         } catch (IOException e) {
             System.err.println("Exception thrown by readLine: " + e.getMessage());
+        }
+    }
+
+    private void readInformation(BufferedReader reader) throws IOException {
+        while (true) {
+            final String line = reader.readLine();
+            if (line == null) {
+                break;
+            }
+            writer.println(line);
         }
     }
 }

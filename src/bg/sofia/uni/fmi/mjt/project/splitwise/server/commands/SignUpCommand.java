@@ -67,9 +67,8 @@ public class SignUpCommand extends ActionCommand {
 
     private void repeatUsername() {
         while (true) {
-            String username;
             try {
-                username = reader.readLine();
+                String username = reader.readLine();
                 if (isUsernameNotContained(username)) {
                     this.getDomain().setUsername(username);
                     break;

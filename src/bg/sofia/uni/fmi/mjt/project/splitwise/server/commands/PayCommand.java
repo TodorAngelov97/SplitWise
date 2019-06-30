@@ -34,16 +34,21 @@ public class PayCommand extends ActionCommand {
     }
 
     private void getPayed(String[] tokens) {
-        if (tokens.length != 3) {
-            writer.println(ERROR_MESSAGE);
+        final int NUMBER_OF_ARGUMENTS = 3;
+        if (tokens.length == NUMBER_OF_ARGUMENTS) {
+            payed(tokens);
         } else {
-            String friend = tokens[2];
-            double amount = Double.parseDouble(tokens[1]);
-            server.decreaseAmountOfFriend(username, friend, amount);
-            server.increaseAmountOfFriend(friend, username, amount);
-            Domain domain = getDomain();
-            Messenger messenger = new Messenger(domain);
-            messenger.sendFriendMessageAfterPayed(amount, friend);
+            writer.println(ERROR_MESSAGE);
         }
+    }
+
+    private void payed(String[] tokens) {
+        String friend = tokens[2];
+        double amount = Double.parseDouble(tokens[1]);
+        server.decreaseAmountOfFriend(username, friend, amount);
+        server.increaseAmountOfFriend(friend, username, amount);
+        Domain domain = getDomain();
+        Messenger messenger = new Messenger(domain);
+        messenger.sendFriendMessageAfterPayed(amount, friend);
     }
 }

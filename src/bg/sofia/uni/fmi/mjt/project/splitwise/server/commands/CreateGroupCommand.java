@@ -36,37 +36,38 @@ public class CreateGroupCommand extends ActionCommand {
     }
 
     private void createGroup(String[] tokens) {
-        if (tokens.length >= 4) {
+        final int NUMBER_OF_ARGUMENTS = 4;
+        if (tokens.length >= NUMBER_OF_ARGUMENTS) {
             create(tokens);
         } else {
             writer.println(ERROR_MESSAGE);
         }
     }
 
-    //index;
     private void create(String[] tokens) {
         final int INDEX_GROUP = 1;
         final int BEGIN_OF_MEMBERS = 2;
-        if (tokens.length < 4) {
-            writer.println(ERROR_MESSAGE);
-        } else {
-            String nameOfGroup = tokens[INDEX_GROUP];
-            List<String> friends = new ArrayList<>();
-            for (int i = BEGIN_OF_MEMBERS; i < tokens.length; ++i) {
-                friends.add(tokens[i]);
-            }
-            Group group = new Group(friends);
-            server.addGroup(username, nameOfGroup, group);
-            writer.printf(String.format("You created the group %s.%n", nameOfGroup));
-            friends.add(username);
-            for (int i = BEGIN_OF_MEMBERS; i < tokens.length; ++i) {
-                List<String> newStr = new ArrayList<>(friends);
-                newStr.remove(tokens[i]);
-                server.addGroup(tokens[i], nameOfGroup, new Group(newStr));
-                String message = String.format("* %s:%n%s created group with you.", nameOfGroup,
-                        server.getProfileNames(username));
-                server.sendGroupNotification(tokens[i], message);
-            }
+        String nameOfGroup = tokens[INDEX_GROUP];
+        List<String> friends = new ArrayList<>();
+
+        for (int i = BEGIN_OF_MEMBERS; i < tokens.length; ++i) {
+            friends.add(tokens[i]);
+        }
+
+        Group group = new Group(friends);
+        server.addGroup(username, nameOfGroup, group);
+        String message = String.format("You created the group %s.%n", nameOfGroup);
+        writer.printf(message);
+        friends.add(username);
+
+        for (int i = BEGIN_OF_MEMBERS; i < tokens.length; ++i) {
+            List<String> newStr = new ArrayList<>(friends);
+            newStr.remove(tokens[i]);
+            group = new Group(newStr);
+            server.addGroup(tokens[i], nameOfGroup, group);
+            message = String.format("* %s:%n%s created group with you.", nameOfGroup,
+                    server.getProfileNames(username));
+            server.sendGroupNotification(tokens[i], message);
         }
     }
 }

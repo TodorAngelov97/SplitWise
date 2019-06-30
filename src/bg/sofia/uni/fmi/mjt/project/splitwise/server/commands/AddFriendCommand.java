@@ -34,8 +34,8 @@ public class AddFriendCommand extends ActionCommand {
     }
 
     private void addFriend(String[] tokens) {
-
-        if (tokens.length == 2) {
+        final int NUMBER_OF_ARGUMENTS = 2;
+        if (tokens.length == NUMBER_OF_ARGUMENTS) {
             add(tokens);
         } else {
             writer.println(ERROR_MESSAGE);

@@ -2,6 +2,7 @@ package bg.sofia.uni.fmi.mjt.project.splitwise.server.commands;
 
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Domain;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
+import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.utilities.StatusForFriend;
 import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
 
 import java.io.PrintWriter;
@@ -34,23 +35,28 @@ public class SplitMoneyCommand extends ActionCommand {
     }
 
     private void splitMoney(String[] tokens) {
-        if (tokens.length != 4) {
-            writer.println(ERROR_MESSAGE);
+        final int NUMBER_OF_ARGUMENTS = 4;
+        if (tokens.length == NUMBER_OF_ARGUMENTS) {
+            split(tokens);
         } else {
-            String friend = tokens[2];
-
-            checkIsUsernameContained(writer, friend);
-            checkIsUserInFriendList(friend, writer);
-
-            String amount = tokens[1];
-            transactMoney(friend, amount);
-
-            String reasonForPayment = tokens[3];
-
-            sendPaymentMessage(amount, friend, reasonForPayment);
-            printCurrentStatus(friend);
-            sendFriendNotification(amount, reasonForPayment, friend);
+            writer.println(ERROR_MESSAGE);
         }
+    }
+
+    private void split(String[] tokens) {
+        String friend = tokens[2];
+
+        checkIsUsernameContained(writer, friend);
+        checkIsUserInFriendList(friend, writer);
+
+        String amount = tokens[1];
+        transactMoney(friend, amount);
+
+        String reasonForPayment = tokens[3];
+
+        sendPaymentMessage(amount, friend, reasonForPayment);
+        printCurrentStatus(friend);
+        sendFriendNotification(amount, reasonForPayment, friend);
     }
 
     private void sendFriendNotification(String amount, String reasonForPayment, String friend) {
@@ -61,7 +67,8 @@ public class SplitMoneyCommand extends ActionCommand {
 
     private void checkIsUsernameContained(PrintWriter writer, String friend) {
         if (isUsernameNotContained(friend)) {
-            writer.println(String.format("User with name %s does not exists.", friend));
+            String message = String.format("User with name %s does not exists.", friend);
+            writer.println(message);
             return;
         }
     }
@@ -72,8 +79,9 @@ public class SplitMoneyCommand extends ActionCommand {
 
     private void checkIsUserInFriendList(String friend, PrintWriter writer) {
         if (isUserNotInFriendList(friend)) {
-            writer.println(String.format(
-                    "This user %s is not in your friend list, you have to added before splitting money.", friend));
+            String message = String.format(
+                    "This user %s is not in your friend list, you have to added before splitting money.", friend);
+            writer.println(message);
             return;
         }
     }
@@ -99,30 +107,13 @@ public class SplitMoneyCommand extends ActionCommand {
         StringBuilder message = new StringBuilder();
         message.append("Current status: ");
         String username = getDomain().getUsername();
-        getStatusForOneClient(message, server.getFriendAmount(username, friend));
+        StatusForFriend.getStatusForOneFriend(message, server.getFriendAmount(username, friend));
         writer.println(message.toString());
     }
 
     private void writeInPaymentFile(String paymentMessage) {
         String username = getDomain().getUsername();
         server.writeInPaymentFile(paymentMessage, username);
-    }
-
-    private void getStatusForOneClient(StringBuilder message, double amount) {
-        double result = amountAfterRoundUp(amount);
-        if (amount > 0) {
-            message.append(String.format("Owes you %s %s.", result));
-        } else if (amount < 0) {
-            final int MINUS = -1;
-            message.append(String.format("You owe %s %s", MINUS * result));
-        } else {
-            message.append("Good accounts good friends");
-        }
-    }
-
-    private double amountAfterRoundUp(double amount) {
-        double scale = Math.pow(10, 2);
-        return Math.round(amount * scale) / scale;
     }
 
     private void sendFriendNotification(String friend, String friendMessage) {

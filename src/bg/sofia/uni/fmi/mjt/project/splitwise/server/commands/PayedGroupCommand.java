@@ -19,7 +19,6 @@ public class PayedGroupCommand extends ActionCommand {
         writer = getDomain().getWriter();
     }
 
-
     @Override
     public void executeCommand(String[] tokens) {
         String command = tokens[INDEX_OF_COMMAND];
@@ -34,17 +33,22 @@ public class PayedGroupCommand extends ActionCommand {
     }
 
     private void payedGroup(String[] tokens) {
-        if (tokens.length != 4) {
-            writer.println(ERROR_MESSAGE);
+        final int NUMBER_OF_ARGUMENTS = 4;
+        if (tokens.length == NUMBER_OF_ARGUMENTS) {
+            payed(tokens);
         } else {
-            double amount = Double.parseDouble(tokens[1]);
-            String group = tokens[2];
-            String friend = tokens[3];
-            server.decreaseAmountOfGroupMember(username, group, friend, amount);
-            server.increaseAmountOfGroupMember(friend, group, username, amount);
-            Domain domain = getDomain();
-            Messenger messenger = new Messenger(domain);
-            messenger.sendGroupMessageAfterPayed(amount, friend);
+            writer.println(ERROR_MESSAGE);
         }
+    }
+
+    private void payed(String[] tokens) {
+        double amount = Double.parseDouble(tokens[1]);
+        String group = tokens[2];
+        String friend = tokens[3];
+        server.decreaseAmountOfGroupMember(username, group, friend, amount);
+        server.increaseAmountOfGroupMember(friend, group, username, amount);
+        Domain domain = getDomain();
+        Messenger messenger = new Messenger(domain);
+        messenger.sendGroupMessageAfterPayed(amount, friend);
     }
 }

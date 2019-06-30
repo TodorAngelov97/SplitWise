@@ -41,7 +41,8 @@ public class GetStatusCommand extends ActionCommand {
     private void getStatus() {
 
         if (areListsEmpty(username)) {
-            writer.println("You don't have any added friends and groups");
+            final String MESSAGE = "You don't have any added friends and groups";
+            writer.println(MESSAGE);
             return;
         }
         if (!isFriendListEmpty(username)) {
@@ -70,7 +71,8 @@ public class GetStatusCommand extends ActionCommand {
 
         for (Map.Entry<String, Friend> friend : allFriends) {
             StringBuilder message = new StringBuilder();
-            message.append(String.format("* %s (%s): ", server.getProfileNames(friend.getKey()), friend.getKey()));
+            String getFriendNames = String.format("* %s (%s): ", server.getProfileNames(friend.getKey()), friend.getKey());
+            message.append(getFriendNames);
             StatusForFriend.getStatusForOneFriend(message, friend.getValue().getAmount());
             writer.println(message.toString());
         }
@@ -79,7 +81,8 @@ public class GetStatusCommand extends ActionCommand {
     private void getStatusForGroups(Set<Map.Entry<String, Group>> allGroups, PrintWriter writer) {
 
         for (Map.Entry<String, Group> group : allGroups) {
-            writer.println(String.format("* %s", group.getKey()));
+            String groupName = String.format("* %s", group.getKey());
+            writer.println(groupName);
             getStatusForFriends(server.getMembersInGroup(username, group.getKey()), writer);
         }
     }

@@ -34,7 +34,8 @@ public class SplitGroupMoneyCommand extends ActionCommand {
     }
 
     private void splitGroupMoney(String[] tokens) {
-        if (tokens.length == 4) {
+        final int NUMBER_OF_ARGUMENTS = 4;
+        if (tokens.length == NUMBER_OF_ARGUMENTS) {
             String group = tokens[2];
             String amount = tokens[1];
             transactMoney(amount, group);
