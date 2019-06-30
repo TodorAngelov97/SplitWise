@@ -20,7 +20,7 @@ public class ClientConnection implements Runnable {
     private String currency;
     private Domain domain;
     private Server server;
-    private Map<String, ActionCommand> commands;
+    private Map<String, Command> commands;
 
     public ClientConnection(Socket socket, Server server) {
 
@@ -49,7 +49,7 @@ public class ClientConnection implements Runnable {
 
                     String command = tokens[0];
                     if (commands.containsKey(command)) {
-                        ActionCommand customCommand = commands.get(command);
+                        Command customCommand = commands.get(command);
                         customCommand.executeCommand(tokens);
                     } else if (Commands.LOGOUT.getCommand().equals(command)) {
                         return;

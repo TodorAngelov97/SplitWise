@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 import java.util.Map;
 import java.util.Set;
 
-public class GetStatusCommand extends ActionCommand {
+public class GetStatusCommand extends Command {
 
     private Server server;
     private PrintWriter writer;

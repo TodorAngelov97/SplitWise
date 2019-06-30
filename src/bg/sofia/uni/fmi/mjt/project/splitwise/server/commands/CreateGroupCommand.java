@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateGroupCommand extends ActionCommand {
+public class CreateGroupCommand extends Command {
 
     private Server server;
     private PrintWriter writer;

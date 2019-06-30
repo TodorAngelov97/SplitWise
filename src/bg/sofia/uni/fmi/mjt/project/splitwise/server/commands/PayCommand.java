@@ -7,7 +7,7 @@ import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
 
 import java.io.PrintWriter;
 
-public class PayCommand extends ActionCommand {
+public class PayCommand extends Command {
 
     private Server server;
     private PrintWriter writer;
