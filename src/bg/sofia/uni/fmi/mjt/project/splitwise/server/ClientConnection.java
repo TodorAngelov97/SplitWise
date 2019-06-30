@@ -3,26 +3,14 @@ package bg.sofia.uni.fmi.mjt.project.splitwise.server;
 <<<<<<< HEAD
 import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.Currencies;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.*;
-import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
-import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Friend;
-import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Group;
-import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.UserProfile;
 
-import java.io.*;
 import java.net.Socket;
 import java.util.*;
 =======
 import bg.sofia.uni.fmi.mjt.project.splitwise.Friend;
 import bg.sofia.uni.fmi.mjt.project.splitwise.Group;
-import bg.sofia.uni.fmi.mjt.project.splitwise.UserProfile;
-import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.RateHandler;
 
-import java.io.*;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 >>>>>>> master
 
 public class ClientConnection implements Runnable {
