@@ -53,7 +53,6 @@ public class Client {
     private void printHelpMessage() {
         try (FileReader fileReader = new FileReader(HELP_MESSAGE_FILE);
              BufferedReader readerOfHelpMessage = new BufferedReader(fileReader)) {
-
             while (true) {
                 final String line = readerOfHelpMessage.readLine();
                 if (line == null) {
@@ -61,7 +60,6 @@ public class Client {
                 }
                 System.out.println(line);
             }
-
         } catch (FileNotFoundException e) {
             System.out.println("Problem with application, try again later.");
             System.err.println("Exception thrown by readLine: " + e.getMessage());

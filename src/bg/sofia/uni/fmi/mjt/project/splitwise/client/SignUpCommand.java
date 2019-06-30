@@ -4,8 +4,6 @@ import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
 
 public class SignUpCommand extends ActionCommand {
 
-    public final int INDEX_OF_COMMAND = 0;
-
     private Domain domain;
 
     public SignUpCommand(Domain domain) {
@@ -42,7 +40,7 @@ public class SignUpCommand extends ActionCommand {
 
         String password = tokens[2];
         String confirmationPassword = tokens[3];
-        if (areNotCorrectPasswords(password, confirmationPassword)) {
+        if (arePasswordsNotCorrect(password, confirmationPassword)) {
             String message = "You have to insert same password.";
             System.out.println(message);
             return false;
@@ -55,7 +53,7 @@ public class SignUpCommand extends ActionCommand {
         return tokens.length != NUMBER_OF_ARGUMENTS;
     }
 
-    private boolean areNotCorrectPasswords(String password, String confirmationPassword) {
+    private boolean arePasswordsNotCorrect(String password, String confirmationPassword) {
         return !(password.equals(confirmationPassword));
     }
 }

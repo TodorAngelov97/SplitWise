@@ -14,7 +14,6 @@ public class LoginCommand extends ActionCommand {
     @Override
 
     public void executeCommand(String[] tokens) {
-        final int INDEX_OF_COMMAND = 0;
         String command = tokens[INDEX_OF_COMMAND];
         if (isMatched(command)) {
             login(tokens);
