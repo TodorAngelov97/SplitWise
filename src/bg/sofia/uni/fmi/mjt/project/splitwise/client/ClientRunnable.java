@@ -17,16 +17,19 @@ public class ClientRunnable implements Runnable {
     public void run() {
         try (InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
              BufferedReader reader = new BufferedReader(inputStreamReader)) {
-
-            while (true) {
-                if (socket.isClosed()) {
-                    System.out.println("client socket is closed, stop waiting for server messages");
-                    return;
-                }
-                System.out.println(reader.readLine());
-            }
+            outputClientInformation(reader);
         } catch (IOException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    private void outputClientInformation(BufferedReader reader) throws IOException {
+        while (true) {
+            if (socket.isClosed()) {
+                System.out.println("Client socket is closed, stop waiting for server messages");
+                return;
+            }
+            System.out.println(reader.readLine());
         }
     }
 }
