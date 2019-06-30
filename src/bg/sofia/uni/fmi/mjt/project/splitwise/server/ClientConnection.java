@@ -1,5 +1,6 @@
 package bg.sofia.uni.fmi.mjt.project.splitwise.server;
 
+import bg.sofia.uni.fmi.mjt.project.splitwise.client.Client;
 import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.Currencies;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.*;
 import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
@@ -13,17 +14,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ClientConnection implements Runnable {
-    private static final int MINUS = -1;
-    private static final String NOTIFICATION = "*Notification*";
-    private static final String ERROR_MESSAGE = "Wrong number of arguments.";
     private Socket socket;
-    private String currency;
+    private String currency;//not used with particular point
     private Domain domain;
     private Server server;
     private Map<String, Command> commands;
 
     public ClientConnection(Socket socket, Server server) {
-
         this.socket = socket;
         this.domain = new Domain(server, socket);
         this.currency = Currencies.BGN.getCurrency();
@@ -34,30 +31,10 @@ public class ClientConnection implements Runnable {
 
     @Override
     public void run() {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        try (InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
+             BufferedReader reader = new BufferedReader(inputStreamReader);
              PrintWriter writer = new PrintWriter(socket.getOutputStream(), true)) {
-
-            domain.setWriter(writer);
-            initializeCommands(reader);
-
-            while (true) {
-
-                String commandInput = reader.readLine();
-                if (commandInput != null) {
-
-                    String[] tokens = commandInput.split("\\s+");
-
-                    String command = tokens[0];
-                    if (commands.containsKey(command)) {
-                        Command customCommand = commands.get(command);
-                        customCommand.executeCommand(tokens);
-                    } else if (Commands.LOGOUT.getCommand().equals(command)) {
-                        return;
-                    } else {
-                        writer.println("Wrong command, try again.");
-                    }
-                }
-            }
+            executeCommands(reader, writer);
         } catch (IOException e) {
             System.out.println("socket is closed");
             System.out.println(e.getMessage());
@@ -73,7 +50,6 @@ public class ClientConnection implements Runnable {
     }
 
     private void initializeCommands(BufferedReader reader) {
-
         commands.put(Commands.ADD.getCommand(), new AddFriendCommand(domain));
         commands.put(Commands.CREATE.getCommand(), new CreateGroupCommand(domain));
         commands.put(Commands.GET_STATUS.getCommand(), new GetStatusCommand(domain));
@@ -86,8 +62,28 @@ public class ClientConnection implements Runnable {
         commands.put(Commands.SPLIT_GROUP.getCommand(), new SplitGroupMoneyCommand(domain));
     }
 
-    private void execute() {
-
+    private void executeCommands(BufferedReader reader, PrintWriter writer) throws IOException {
+        domain.setWriter(writer);
+        initializeCommands(reader);
+        while (true) {
+            String commandInput = reader.readLine();
+            if (commandInput != null) {
+                executeCommand(commandInput, writer);
+            }
+        }
     }
 
+    private void executeCommand(String commandInput, PrintWriter writer) {
+        String[] tokens = Client.getTokensFromInput(commandInput);
+        final int INDEX_OF_COMMAND = 0;
+        String command = tokens[INDEX_OF_COMMAND];
+        if (commands.containsKey(command)) {
+            Command customCommand = commands.get(command);
+            customCommand.executeCommand(tokens);
+        } else if (Commands.LOGOUT.getCommand().equals(command)) {
+            return;
+        } else {
+            writer.println("Wrong command, try again.");
+        }
+    }
 }

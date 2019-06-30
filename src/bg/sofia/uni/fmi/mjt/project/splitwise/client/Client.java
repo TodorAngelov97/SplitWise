@@ -80,7 +80,7 @@ public class Client {
         return true;
     }
 
-    private String[] getTokensFromInput(String input) {
+    public static String[] getTokensFromInput(String input) {
         return input.split("\\s+");
     }
 
