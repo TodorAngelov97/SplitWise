@@ -43,7 +43,7 @@ public class PayedGroupCommand extends ActionCommand {
             server.decreaseAmountOfGroupMember(username, group, friend, amount);
             server.increaseAmountOfGroupMember(friend, group, username, amount);
             Domain domain = getDomain();
-            Messenger messenger = new Messenger(domain, writer);
+            Messenger messenger = new Messenger(domain);
             messenger.sendGroupMessageAfterPayed(amount, friend);
         }
     }

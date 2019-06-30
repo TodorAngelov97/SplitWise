@@ -42,7 +42,7 @@ public class PayCommand extends ActionCommand {
             server.decreaseAmountOfFriend(username, friend, amount);
             server.increaseAmountOfFriend(friend, username, amount);
             Domain domain = getDomain();
-            Messenger messenger = new Messenger(domain, writer);
+            Messenger messenger = new Messenger(domain);
             messenger.sendFriendMessageAfterPayed(amount, friend);
         }
     }
