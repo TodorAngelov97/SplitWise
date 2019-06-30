@@ -1,7 +1,5 @@
 package bg.sofia.uni.fmi.mjt.project.splitwise.client;
 
-import bg.sofia.uni.fmi.mjt.project.splitwise.server.ServerOld;
-
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
