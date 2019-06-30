@@ -200,6 +200,11 @@ public class Server {
         userData.increaseAmountOfGroupMember(groupName, friend, amount);
     }
 
+    public void increaseAmountOfGroup(String username, String groupName, double amount) {
+        Group group = getGroups(username).get(username);
+        group.splitMoney(amount);
+    }
+
     public Map<String, Friend> getFriends(String username) {
         UserData userData = usersData.get(username);
         return userData.getFriends();
