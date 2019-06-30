@@ -20,13 +20,13 @@ public class ClientConnection implements Runnable {
     private String currency;
     private Domain domain;
     private Server server;
-    private Map<String, ActionCommand> commands;
+    private Map<String, Command> commands;
 
     public ClientConnection(Socket socket, Server server) {
 
         this.socket = socket;
         this.domain = new Domain(server, socket);
-        currency = Currencies.BGN.getCurrency();
+        this.currency = Currencies.BGN.getCurrency();
         this.server = server;
         commands = new HashMap<>();
     }
