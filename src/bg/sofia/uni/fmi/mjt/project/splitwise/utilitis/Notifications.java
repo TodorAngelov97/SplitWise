@@ -28,25 +28,24 @@ public class Notifications {
     }
 
     public String getAllNotifications() {
-        StringBuilder s = new StringBuilder();
+        StringBuilder message = new StringBuilder();
         if (!friendsNotifications.isEmpty()) {
-            s.append(FRIENDS_HEAD_MESSAGE);
-            s.append(System.getProperty("line.separator"));
+            message.append(FRIENDS_HEAD_MESSAGE);
+            message.append(System.getProperty("line.separator"));
             for (String notification : friendsNotifications) {
-                s.append(notification);
+                message.append(notification);
             }
         }
 
         if (!groupsNotifications.isEmpty()) {
-            s.append(GROUPS_HEAD_MESSAGE);
-            s.append(System.getProperty("line.separator"));
+            message.append(GROUPS_HEAD_MESSAGE);
+            message.append(System.getProperty("line.separator"));
             for (String notification : groupsNotifications) {
-                s.append(notification);
+                message.append(notification);
             }
         }
 
-        return s.toString();
+        return message.toString();
     }
-
 }
 

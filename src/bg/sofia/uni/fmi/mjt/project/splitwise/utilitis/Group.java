@@ -24,6 +24,7 @@ public class Group {
 
     }
 
+    //use in test
     public double getFriendAmount(String friend) {
         return groupFriends.get(friend).getAmount();
     }

@@ -24,8 +24,9 @@ public class RateHandler {
 
     private String getJson() throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
-        String req = String.format("https://api.exchangeratesapi.io/latest?base=%s&symbols=%s", currentCurrency,
-                wantedCurrency);
+        String req = String
+                .format("https://api.exchangeratesapi.io/latest?base=%s&symbols=%s", currentCurrency,
+                        wantedCurrency);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(req))
                 .build();
