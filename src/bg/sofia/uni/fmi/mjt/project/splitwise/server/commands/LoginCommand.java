@@ -9,22 +9,21 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-
-//not ready
 public class LoginCommand extends ActionCommand {
 
-    private BufferedReader reader;
     private Server server;
     private PrintWriter writer;
     private String username;
     private Socket socket;
+    private BufferedReader reader;
 
-    public LoginCommand(Domain domain, PrintWriter writer) {
-        super(domain, writer);
+    public LoginCommand(Domain domain, BufferedReader reader) {
+        super(domain);
         server = getDomain().getServer();
-        writer = getWriter();
+        writer = getDomain().getWriter();
         username = getDomain().getUsername();
         socket = getDomain().getSocket();
+        this.reader = reader;
     }
 
     @Override
@@ -44,8 +43,6 @@ public class LoginCommand extends ActionCommand {
 
         loginWithCorrectData(tokens);
         server.addNewActiveUser(username, socket);
-
-        PrintWriter writer = getWriter();
         writer.println("Successful login.");
         server.printUserNotifications(username, writer);
     }
@@ -66,7 +63,6 @@ public class LoginCommand extends ActionCommand {
     }
 
     private void repeatData() {
-
         while (true) {
             try {
                 String line = reader.readLine();

@@ -16,10 +16,10 @@ public class GetStatusCommand extends ActionCommand {
     private PrintWriter writer;
     private String username;
 
-    public GetStatusCommand(Domain domain, PrintWriter writer) {
-        super(domain, writer);
+    public GetStatusCommand(Domain domain) {
+        super(domain);
         server = getDomain().getServer();
-        writer = getWriter();
+        writer = getDomain().getWriter();
         username = getDomain().getUsername();
     }
 

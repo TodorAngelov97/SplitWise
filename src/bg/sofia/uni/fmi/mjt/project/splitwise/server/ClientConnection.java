@@ -20,7 +20,7 @@ public class ClientConnection implements Runnable {
     private String currency;
     private Domain domain;
     private Server server;
-    private Map<String, Command> commands;
+    private Map<String, ActionCommand> commands;
 
     public ClientConnection(Socket socket, Server server) {
 
@@ -37,7 +37,9 @@ public class ClientConnection implements Runnable {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter writer = new PrintWriter(socket.getOutputStream(), true)) {
 
-            initializeCommands(writer, reader);
+            domain.setWriter(writer);
+            initializeCommands(reader);
+
             while (true) {
 
                 String commandInput = reader.readLine();
@@ -47,7 +49,7 @@ public class ClientConnection implements Runnable {
 
                     String command = tokens[0];
                     if (commands.containsKey(command)) {
-                        Command customCommand = commands.get(command);
+                        ActionCommand customCommand = commands.get(command);
                         customCommand.executeCommand(tokens);
                     } else if (Commands.LOGOUT.getCommand().equals(command)) {
                         return;
@@ -70,18 +72,18 @@ public class ClientConnection implements Runnable {
         }
     }
 
-    private void initializeCommands(PrintWriter writer, BufferedReader reader) {
+    private void initializeCommands(BufferedReader reader) {
 
-        commands.put(Commands.ADD.getCommand(), new AddFriendCommand(domain, writer));
-        commands.put(Commands.CREATE.getCommand(), new CreateGroupCommand(domain, writer));
-        commands.put(Commands.GET_STATUS.getCommand(), new GetStatusCommand(domain, writer));
-        commands.put(Commands.HISTORY_OF_PAYMENT.getCommand(), new HistoryOfPaymentCommand(domain, writer));
-        commands.put(Commands.LOGIN.getCommand(), new LoginCommand(domain, writer));
-        commands.put(Commands.PAYED.getCommand(), new PayCommand(domain, writer));
-        commands.put(Commands.PAYED_GROUP.getCommand(), new PayedGroupCommand(domain, writer));
-        commands.put(Commands.SIGN_UP.getCommand(), new SignUpCommand(domain, writer, reader));
-        commands.put(Commands.SPLIT.getCommand(), new SplitMoneyCommand(domain, writer));
-        commands.put(Commands.SPLIT_GROUP.getCommand(), new SplitGroupMoneyCommand(domain, writer));
+        commands.put(Commands.ADD.getCommand(), new AddFriendCommand(domain));
+        commands.put(Commands.CREATE.getCommand(), new CreateGroupCommand(domain));
+        commands.put(Commands.GET_STATUS.getCommand(), new GetStatusCommand(domain));
+        commands.put(Commands.HISTORY_OF_PAYMENT.getCommand(), new HistoryOfPaymentCommand(domain));
+        commands.put(Commands.LOGIN.getCommand(), new LoginCommand(domain, reader));
+        commands.put(Commands.PAYED.getCommand(), new PayCommand(domain));
+        commands.put(Commands.PAYED_GROUP.getCommand(), new PayedGroupCommand(domain));
+        commands.put(Commands.SIGN_UP.getCommand(), new SignUpCommand(domain, reader));
+        commands.put(Commands.SPLIT.getCommand(), new SplitMoneyCommand(domain));
+        commands.put(Commands.SPLIT_GROUP.getCommand(), new SplitGroupMoneyCommand(domain));
     }
 
     private void execute() {

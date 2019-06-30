@@ -8,17 +8,15 @@ import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
 import java.io.PrintWriter;
 
 public class PayedGroupCommand extends ActionCommand {
-
-
     private Server server;
     private PrintWriter writer;
     private String username;
 
-    public PayedGroupCommand(Domain domain, PrintWriter writer) {
-        super(domain, writer);
+    public PayedGroupCommand(Domain domain) {
+        super(domain);
         server = getDomain().getServer();
         username = getDomain().getUsername();
-        writer = getWriter();
+        writer = getDomain().getWriter();
     }
 
 

@@ -12,10 +12,10 @@ public class SplitMoneyCommand extends ActionCommand {
     private PrintWriter writer;
     private String username;
 
-    public SplitMoneyCommand(Domain domain, PrintWriter writer) {
-        super(domain, writer);
+    public SplitMoneyCommand(Domain domain) {
+        super(domain);
         server = getDomain().getServer();
-        writer = getWriter();
+        writer = getDomain().getWriter();
         username = getDomain().getUsername();
     }
 
@@ -91,7 +91,6 @@ public class SplitMoneyCommand extends ActionCommand {
     private void sendPaymentMessage(String amount, String friend, String reasonForPayment) {
         String paymentMessage = String.format("Split %s  between you and %s for %s.%n", amount,
                 friend, reasonForPayment);
-        PrintWriter writer = getWriter();
         writer.printf(paymentMessage);
         writeInPaymentFile(paymentMessage);
     }
@@ -101,7 +100,6 @@ public class SplitMoneyCommand extends ActionCommand {
         message.append("Current status: ");
         String username = getDomain().getUsername();
         getStatusForOneClient(message, server.getFriendAmount(username, friend));
-        PrintWriter writer = getWriter();
         writer.println(message.toString());
     }
 

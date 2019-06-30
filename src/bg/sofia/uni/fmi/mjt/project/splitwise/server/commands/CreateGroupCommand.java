@@ -15,10 +15,10 @@ public class CreateGroupCommand extends ActionCommand {
     private PrintWriter writer;
     private String username;
 
-    public CreateGroupCommand(Domain domain, PrintWriter writer) {
-        super(domain, writer);
+    public CreateGroupCommand(Domain domain) {
+        super(domain);
         server = getDomain().getServer();
-        writer = getWriter();
+        writer = getDomain().getWriter();
         username = getDomain().getUsername();
     }
 

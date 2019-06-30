@@ -9,13 +9,13 @@ import java.io.PrintWriter;
 public class AddFriendCommand extends ActionCommand {
 
     private Server server;
-    private PrintWriter writer;
     private String username;
+    private PrintWriter writer;
 
-    public AddFriendCommand(Domain domain, PrintWriter writer) {
-        super(domain, writer);
+    public AddFriendCommand(Domain domain) {
+        super(domain);
         server = getDomain().getServer();
-        writer = getWriter();
+        writer = getDomain().getWriter();
         username = getDomain().getUsername();
     }
 

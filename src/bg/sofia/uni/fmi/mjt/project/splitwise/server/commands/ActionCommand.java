@@ -2,17 +2,24 @@ package bg.sofia.uni.fmi.mjt.project.splitwise.server.commands;
 
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Domain;
 
-import java.io.PrintWriter;
+import java.io.IOException;
 
-public abstract class ActionCommand extends Command {
-    private PrintWriter writer;
+public abstract class ActionCommand {
 
-    public ActionCommand(Domain domain, PrintWriter writer) {
-        super(domain);
-        this.writer = writer;
+    public final int INDEX_OF_COMMAND = 0;
+    public static final String ERROR_MESSAGE = "Wrong number of arguments.";
+    private Domain domain;
+
+    public ActionCommand(Domain domain) {
+        this.domain = domain;
     }
 
-    public PrintWriter getWriter() {
-        return writer;
+    protected Domain getDomain() {
+        return domain;
     }
+
+    public abstract void executeCommand(String[] tokens) throws IOException;
+
+    protected abstract boolean isMatched(String command);
+
 }

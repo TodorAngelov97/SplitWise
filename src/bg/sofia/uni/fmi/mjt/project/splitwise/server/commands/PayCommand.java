@@ -13,16 +13,11 @@ public class PayCommand extends ActionCommand {
     private PrintWriter writer;
     private String username;
 
-
-    public PayCommand(Domain domain, PrintWriter writer) {
-        super(domain, writer);
+    public PayCommand(Domain domain) {
+        super(domain);
         server = getDomain().getServer();
-        writer = getWriter();
+        writer = getDomain().getWriter();
         username = getDomain().getUsername();
-    }
-
-    private void setServer() {
-        server = getDomain().getServer();
     }
 
     @Override

@@ -13,11 +13,11 @@ public class SplitGroupMoneyCommand extends ActionCommand {
     private String username;
     private PrintWriter writer;
 
-    public SplitGroupMoneyCommand(Domain domain, PrintWriter writer) {
-        super(domain, writer);
+    public SplitGroupMoneyCommand(Domain domain) {
+        super(domain);
         server = getDomain().getServer();
         username = getDomain().getUsername();
-        writer = getWriter();
+        writer = getDomain().getWriter();
     }
 
     @Override

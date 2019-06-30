@@ -17,10 +17,10 @@ public class SignUpCommand extends ActionCommand {
     private BufferedReader reader;
 
 
-    public SignUpCommand(Domain domain, PrintWriter writer, BufferedReader reader) {
-        super(domain, writer);
+    public SignUpCommand(Domain domain, BufferedReader reader) {
+        super(domain);
         server = domain.getServer();
-        writer = getWriter();
+        writer = getDomain().getWriter();
         this.reader = reader;
     }
 
