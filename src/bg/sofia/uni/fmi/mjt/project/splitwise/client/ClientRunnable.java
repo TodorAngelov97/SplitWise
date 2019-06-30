@@ -26,10 +26,12 @@ public class ClientRunnable implements Runnable {
     private void outputClientInformation(BufferedReader reader) throws IOException {
         while (true) {
             if (socket.isClosed()) {
-                System.out.println("Client socket is closed, stop waiting for server messages");
+                String message = "Client socket is closed, stop waiting for server messages";
+                System.out.println(message);
                 return;
             }
-            System.out.println(reader.readLine());
+            String nextLine = reader.readLine();
+            System.out.println(nextLine);
         }
     }
 }

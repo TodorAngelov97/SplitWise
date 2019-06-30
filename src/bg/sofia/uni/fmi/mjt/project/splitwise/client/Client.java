@@ -73,7 +73,8 @@ public class Client {
         String[] tokens = getTokensFromInput(input);
         for (String token : tokens) {
             if (token.equals(null)) {
-                System.out.println("Wrong input");
+                final String INVALIT_INPUT = "Wrong input";
+                System.out.println(INVALIT_INPUT);
                 return false;
             }
         }

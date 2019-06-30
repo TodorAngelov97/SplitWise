@@ -28,7 +28,6 @@ public class ClientConnection implements Runnable {
         commands = new HashMap<>();
     }
 
-
     @Override
     public void run() {
         try (InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
