@@ -7,38 +7,41 @@ import java.io.PrintWriter;
 
 public class Messenger {
 
-    private Domain domain;
+    private Server server;
+    private String username;
     private PrintWriter writer;
 
-    public Messenger(Domain domain, PrintWriter writer) {
-        this.domain = domain;
-        this.writer = writer;
+    public Messenger(Domain domain) {
+        this.server = domain.getServer();
+        this.username = domain.getUsername();
+        this.writer = domain.getWriter();
     }
 
     public void sendFriendMessageAfterPayed(double amount, String friend) {
-        Server server = domain.getServer();
-        String messageForFriend = sendMessageAfterPayed(amount, friend);
+        printMessage(amount, friend);
+        String messageForFriend = getMessageForFriendAfterPayed(amount);
         server.sendFriendNotification(friend, messageForFriend);
     }
 
-    public void sendGroupMessageAfterPayed(double amount, String friend) {
-        Server server = domain.getServer();
-        String messageForFriend = sendMessageAfterPayed(amount, friend);
-        server.sendGroupNotification(friend, messageForFriend);
+    private void printMessage(double amount, String friend) {
+        StringBuilder message = new StringBuilder();
+        String leadLine = "Current status: ";
+        message.append(leadLine);
+        StatusForFriend.getStatusForOneFriend(message, amount);
+        String payedLine = String.format("%nYou payed %s to %s", amount, friend);
+        message.append(payedLine);
+        writer.println(message.toString());
     }
 
-    private String sendMessageAfterPayed(double amount, String friend) {
-
-        StringBuilder message = new StringBuilder();
-        message.append("Current status: ");
-        StatusForFriend.getStatusForOneFriend(message, amount);
-        message.append(String.format("%nYou payed %s to %s", amount, friend));
-
-        writer.println(message.toString());
-        Server server = domain.getServer();
-        String username = domain.getUsername();
+    private String getMessageForFriendAfterPayed(double amount) {
         String messageForFriend = String.format("%s approved your payment %s %s", server.getProfileNames(username),
                 amount);
         return messageForFriend;
+    }
+
+    public void sendGroupMessageAfterPayed(double amount, String friend) {
+        printMessage(amount, friend);
+        String messageForFriend = getMessageForFriendAfterPayed(amount);
+        server.sendGroupNotification(friend, messageForFriend);
     }
 }

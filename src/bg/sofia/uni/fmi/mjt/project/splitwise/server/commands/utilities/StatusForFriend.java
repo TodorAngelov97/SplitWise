@@ -6,12 +6,15 @@ public class StatusForFriend {
 
         double result = amountAfterRoundUp(amount);
         if (amount > 0) {
-            messageLine.append(String.format("Owes you %s %s.", result));
+            String message = String.format("Owes you %s %s.", result);
+            messageLine.append(message);
         } else if (amount < 0) {
             final int MINUS = -1;
-            messageLine.append(String.format("You owe %s %s", MINUS * result));
+            String message = String.format("You owe %s %s", MINUS * result);
+            messageLine.append(message);
         } else {
-            messageLine.append("Good accounts good friends");
+            String message = "Good accounts good friends";
+            messageLine.append(message);
         }
     }
 
@@ -19,5 +22,4 @@ public class StatusForFriend {
         double scale = Math.pow(10, 2);
         return Math.round(amount * scale) / scale;
     }
-
 }
