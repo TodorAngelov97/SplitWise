@@ -8,14 +8,6 @@ import java.util.Set;
 public class Group {
     private Map<String, Friend> groupFriends;
 
-    public Group(String[] friends) {
-        groupFriends = new HashMap<>();
-        for (String friend : friends) {
-            groupFriends.put(friend, new Friend());
-        }
-
-    }
-
     public Group(List<String> friends) {
         groupFriends = new HashMap<>();
         for (String friend : friends) {
@@ -24,7 +16,6 @@ public class Group {
 
     }
 
-    //use in test
     public double getFriendAmount(String friendsName) {
         Friend friend = groupFriends.get(friendsName);
         return friend.getAmount();
