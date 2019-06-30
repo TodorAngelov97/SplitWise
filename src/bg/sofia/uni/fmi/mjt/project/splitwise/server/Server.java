@@ -221,7 +221,7 @@ public class Server {
 
     public int getNumberOfFriends(String username) {
         UserData userData = usersData.get(username);
-        return userData.getFriends().size();
+        return userData.getNumberOfFriends();
     }
 
     public void sendFriendNotification(String receiver, String message) {

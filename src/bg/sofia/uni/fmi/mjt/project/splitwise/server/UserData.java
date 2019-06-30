@@ -14,14 +14,14 @@ import java.util.Set;
 
 public class UserData {
     private static final String PATH_TO_PAYMENT_DIR = "resources/payment/";
-    static final double INITIAL_RATE = 1;
+//    static final double INITIAL_RATE = 1;
 
     private UserProfile userProfile;
     private Map<String, Friend> friends;
     private Map<String, Group> groups;
     private Notifications notifications;
     private File fileWithHistoryOfPayments;
-    private Map<String, Double> ratesOfCurrencies;//not used yet -->implements switch currency
+//    private Map<String, Double> ratesOfCurrencies;//not used yet -->implements switch currency
 
 
     public UserData(UserProfile userProfile) {
@@ -48,7 +48,7 @@ public class UserData {
         }
     }
 
-    public int getNumberOfFriends(String username) {
+    public int getNumberOfFriends() {
         return friends.size();
     }
 
@@ -68,10 +68,6 @@ public class UserData {
         return notifications.getAllNotifications();
     }
 
-    private boolean hasNotifications() {
-        return notifications.isNotEmpty();
-    }
-
     public void printUserNotifications(PrintWriter writer) {
         if (hasNotifications()) {
             writer.println(getUserNotifications());
@@ -79,6 +75,10 @@ public class UserData {
             String message = "No notifications to show";
             writer.println(message);
         }
+    }
+
+    private boolean hasNotifications() {
+        return notifications.isNotEmpty();
     }
 
     public String getProfileNames() {
@@ -109,48 +109,48 @@ public class UserData {
         return friends.size() == 0;
     }
 
-    public void increaseAmountOfFriend(String friend, double amount) {
-        friends.get(friend).increase(amount);
+    public void increaseAmountOfFriend(String friendsName, double amount) {
+        Friend friend = friends.get(friendsName);
+        friend.increase(amount);
     }
 
-    public void decreaseAmountOfFriend(String friend, double amount) {
-        friends.get(friend).decrease(amount);
+    public void decreaseAmountOfFriend(String friendsName, double amount) {
+        Friend friend = friends.get(friendsName);
+        friend.decrease(amount);
     }
 
-    public double getFriendAmount(String friend) {
-        return friends.get(friend).getAmount();
+    public double getFriendAmount(String friendsName) {
+        Friend friend = friends.get(friendsName);
+        return friend.getAmount();
     }
 
     public Set<String> getMembersNamesInGroup(String groupName) {
-        return groups.get(groupName).getAllNamesOfMembers();
+        Group group = groups.get(groupName);
+        return group.getAllNamesOfMembers();
     }
 
     public int getNumberOfMembersInGroup(String groupName) {
-        return groups.get(groupName).getNumberOfMembers();
+        Group group = groups.get(groupName);
+        return group.getNumberOfMembers();
     }
 
     public void decreaseAmountOfGroupMember(String groupName, String friend, double amount) {
-        groups.get(groupName).decreaseAmountOfFriend(friend, amount);
+        Group group = groups.get(groupName);
+        group.decreaseAmountOfFriend(friend, amount);
     }
 
     public void increaseAmountOfGroupMember(String groupName, String friend, double amount) {
-        groups.get(groupName).increaseAmountOfFriend(friend, amount);
+        Group group = groups.get(groupName);
+        group.increaseAmountOfFriend(friend, amount);
     }
 
     public Set<Map.Entry<String, Friend>> getMembersInGroup(String groupName) {
-        return groups.get(groupName).getMembersInGroup();
+        Group group = groups.get(groupName);
+        return group.getMembersInGroup();
     }
 
     public boolean isPasswordCorrect(String password) {
         return userProfile.isPasswordCorrect(password);
-    }
-
-    public double getRate(String username) {
-        return ratesOfCurrencies.get(username);
-    }
-
-    public void setRate(String username, double rate) {
-        ratesOfCurrencies.put(username, rate);
     }
 
     public void addFriend(String friend) {
