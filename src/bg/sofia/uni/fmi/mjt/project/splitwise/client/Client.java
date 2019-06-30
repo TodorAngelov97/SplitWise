@@ -1,5 +1,7 @@
 package bg.sofia.uni.fmi.mjt.project.splitwise.client;
 
+import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
+
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -115,7 +117,6 @@ public class Client {
         writer.println(String.join(" ", tokens));
         turnOnListenerThread();
         connected = true;
-
     }
 
     private void setStream() {
@@ -146,7 +147,7 @@ public class Client {
 
     public static void main(String[] args) {
         try {
-            Socket socket = new Socket("localhost", ServerOld.PORT);
+            Socket socket = new Socket("localhost", Server.PORT);
             Client client = new Client(socket);
             client.execute();
         } catch (UnknownHostException e) {
