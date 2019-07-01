@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class ClientConnection implements Runnable {
     private Socket socket;
-    private String currency;//not used with particular point
+    private String currency;
     private Domain domain;
     private Server server;
     private Map<String, Command> commands;
@@ -25,7 +25,7 @@ public class ClientConnection implements Runnable {
         this.domain = new Domain(server, socket);
         this.currency = Currencies.BGN.getCurrency();
         this.server = server;
-        commands = new HashMap<>();
+        this.commands = new HashMap<>();
     }
 
     @Override
@@ -82,7 +82,8 @@ public class ClientConnection implements Runnable {
         } else if (Commands.LOGOUT.getCommand().equals(command)) {
             return;
         } else {
-            writer.println("Wrong command, try again.");
+            final String MESSAGE = "Wrong command, try again.";
+            writer.println(MESSAGE);
         }
     }
 }

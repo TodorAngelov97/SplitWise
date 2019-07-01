@@ -20,7 +20,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Server {
 
     public static final int PORT = 8080;
-    static final double INITIAL_RATE = 1;
     private static final String FILE_NAME = "resources/users.json";
     private ServerSocket socketOfServer;
 
@@ -111,10 +110,12 @@ public class Server {
     public boolean isLoggedIn(String name, String password, PrintWriter writer) {
 
         if (!isUsernameContained(name)) {
-            writer.println("Non-existent user");
+            final String MESSAGE = "Non-existent user";
+            writer.println(MESSAGE);
             return false;
         } else if (!isCorrectPassword(name, password)) {
-            writer.println("Incorrect password");
+            final String MESSAGE = "Incorrect password";
+            writer.println(MESSAGE);
             return false;
         }
         return true;
@@ -296,7 +297,8 @@ public class Server {
     }
 
     public void execute() {
-        System.out.printf("ServerOld is running on localhost:%d%n", PORT);
+        final String WELCOME_MESSAGE = String.format("ServerOld is running on localhost:%d%n", PORT);
+        System.out.println(WELCOME_MESSAGE);
         try {
             while (true) {
                 Socket socket = socketOfServer.accept();

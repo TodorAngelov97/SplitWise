@@ -14,14 +14,12 @@ import java.util.Set;
 
 public class UserData {
     private static final String PATH_TO_PAYMENT_DIR = "resources/payment/";
-//    static final double INITIAL_RATE = 1;
 
     private UserProfile userProfile;
     private Map<String, Friend> friends;
     private Map<String, Group> groups;
     private Notifications notifications;
     private File fileWithHistoryOfPayments;
-//    private Map<String, Double> ratesOfCurrencies;//not used yet -->implements switch currency
 
 
     public UserData(UserProfile userProfile) {
@@ -72,8 +70,8 @@ public class UserData {
         if (hasNotifications()) {
             writer.println(getUserNotifications());
         } else {
-            String message = "No notifications to show";
-            writer.println(message);
+            final String MESSAGE = "No notifications to show";
+            writer.println(MESSAGE);
         }
     }
 
