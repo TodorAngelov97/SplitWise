@@ -69,9 +69,10 @@ public class ClientConnection implements Runnable {
         initializeCommands(reader);
         while (true) {
             String commandInput = reader.readLine();
-            if (commandInput != null) {
-                executeCommand(commandInput, writer);
+            if (commandInput == null) {
+                break;
             }
+            executeCommand(commandInput, writer);
         }
     }
 
