@@ -29,8 +29,8 @@ public class LoginCommand extends ActionCommand {
         if (isNumberOfArgumentsCorrect(tokens)) {
             domain.connect(tokens);
         } else {
-            final String message = "For login you need exactly 3 arguments";
-            System.out.println(message);
+            final String MESSAGE = "For login you need exactly 3 arguments";
+            System.out.println(MESSAGE);
         }
     }
 

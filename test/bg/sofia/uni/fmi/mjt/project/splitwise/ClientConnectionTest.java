@@ -26,7 +26,7 @@ public class ClientConnectionTest {
 
     @Before
     public void setUp() throws IOException {
-        serverSocket = new ServerSocket(8080);
+        serverSocket = new ServerSocket(Server.PORT);
         server = new Server(serverSocket, TEST_DATA_PATH);
     }
 

@@ -33,16 +33,19 @@ public class SignUpCommand extends ActionCommand {
     private boolean isInputValid(String[] tokens) {
 
         if (isNumberOfArgumentsNotCorrect(tokens)) {
-            String message = "For sign-up you need exactly 6 arguments";
-            System.out.println(message);
+            final String MESSAGE = "For sign-up you need exactly 6 arguments";
+            System.out.println(MESSAGE);
             return false;
         }
 
-        String password = tokens[2];
-        String confirmationPassword = tokens[3];
+        final int INDEX_OF_PASSWORD = 2;
+        String password = tokens[INDEX_OF_PASSWORD];
+
+        final int INDEX_OF_CONFIRMATION = 3;
+        String confirmationPassword = tokens[INDEX_OF_CONFIRMATION];
         if (arePasswordsNotCorrect(password, confirmationPassword)) {
-            String message = "You have to insert same password.";
-            System.out.println(message);
+            final String MESSAGE = "You have to insert same password.";
+            System.out.println(MESSAGE);
             return false;
         }
         return true;

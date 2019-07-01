@@ -73,8 +73,8 @@ public class Client {
         String[] tokens = getTokensFromInput(input);
         for (String token : tokens) {
             if (token.equals(null)) {
-                final String INVALIT_INPUT = "Wrong input";
-                System.out.println(INVALIT_INPUT);
+                final String INVALID_INPUT = "Wrong input";
+                System.out.println(INVALID_INPUT);
                 return false;
             }
         }
@@ -86,9 +86,11 @@ public class Client {
     }
 
     private void executeSingleCommand(String input) {
+
         String[] tokens = getTokensFromInput(input);
         final int INDEX_OF_COMMAND = 0;
         String command = tokens[INDEX_OF_COMMAND];
+
         if (commands.containsKey(command)) {
             Command customCommand = commands.get(command);
             customCommand.executeCommand(tokens);

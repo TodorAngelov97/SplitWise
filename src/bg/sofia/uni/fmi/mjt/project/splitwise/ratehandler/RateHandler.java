@@ -55,22 +55,22 @@ public class RateHandler {
     }
 
     public static void main(String[] args) {
-        HttpClient client = HttpClient.newHttpClient();
-        String req = String.format("https://api.exchangeratesapi.io/latest?base=%s&symbols=%s", "EUR", "USD");
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(req))
-                .build();
-        try {
-            Gson gson = new Gson();
-            DollarRate rate = gson.fromJson(client.send(request, BodyHandlers.ofString()).body(), DollarRate.class);
-            System.out.println(rate.getRate());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        RateHandler rater = new RateHandler("EUR", "USD");
-        System.out.println(rater.getRate());
+//        HttpClient client = HttpClient.newHttpClient();
+//        String req = String.format("https://api.exchangeratesapi.io/latest?base=%s&symbols=%s", "EUR", "USD");
+//        HttpRequest request = HttpRequest.newBuilder()
+//                .uri(URI.create(req))
+//                .build();
+//        try {
+//            Gson gson = new Gson();
+//            DollarRate rate = gson.fromJson(client.send(request, BodyHandlers.ofString()).body(), DollarRate.class);
+//            System.out.println(rate.getRate());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        RateHandler rater = new RateHandler("EUR", "USD");
+//        System.out.println(rater.getRate());
     }
 }
 	
