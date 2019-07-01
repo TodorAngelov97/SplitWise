@@ -2,6 +2,7 @@ package bg.sofia.uni.fmi.mjt.project.splitwise.client;
 
 import bg.sofia.uni.fmi.mjt.project.splitwise.client.commands.LoginCommand;
 import bg.sofia.uni.fmi.mjt.project.splitwise.client.commands.SignUpCommand;
+import bg.sofia.uni.fmi.mjt.project.splitwise.client.utilitis.Domain;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.Command;
 import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;

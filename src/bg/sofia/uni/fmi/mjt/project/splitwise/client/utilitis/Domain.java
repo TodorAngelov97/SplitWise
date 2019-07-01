@@ -1,4 +1,6 @@
-package bg.sofia.uni.fmi.mjt.project.splitwise.client;
+package bg.sofia.uni.fmi.mjt.project.splitwise.client.utilitis;
+
+import bg.sofia.uni.fmi.mjt.project.splitwise.client.ClientRunnable;
 
 import java.io.IOException;
 import java.io.PrintWriter;
