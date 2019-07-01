@@ -42,9 +42,15 @@ public class PayedGroupCommand extends ActionCommand {
     }
 
     private void payed(String[] tokens) {
-        double amount = Double.parseDouble(tokens[1]);
-        String group = tokens[2];
-        String friend = tokens[3];
+        final int INDEX_OF_AMOUNT = 1;
+        double amount = Double.parseDouble(tokens[INDEX_OF_AMOUNT]);
+
+        final int INDEX_OF_GROUP = 2;
+        String group = tokens[INDEX_OF_GROUP];
+
+        final int INDEX_OF_FRIEND = 3;
+        String friend = tokens[INDEX_OF_FRIEND];
+
         server.decreaseAmountOfGroupMember(username, group, friend, amount);
         server.increaseAmountOfGroupMember(friend, group, username, amount);
         Domain domain = getDomain();

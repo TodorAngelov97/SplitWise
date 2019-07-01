@@ -4,17 +4,20 @@ public class StatusForFriend {
 
     public static void getStatusForOneFriend(StringBuilder messageLine, double amount) {
 
+
         double result = amountAfterRoundUp(amount);
-        if (amount > 0) {
+
+        final int DELIMITATION = 0;
+        if (amount > DELIMITATION) {
             String message = String.format("Owes you %s %s.", result);
             messageLine.append(message);
-        } else if (amount < 0) {
+        } else if (amount < DELIMITATION) {
             final int MINUS = -1;
             String message = String.format("You owe %s %s", MINUS * result);
             messageLine.append(message);
         } else {
-            String message = "Good accounts good friends";
-            messageLine.append(message);
+            final String MESSAGE = "Good accounts good friends";
+            messageLine.append(MESSAGE);
         }
     }
 

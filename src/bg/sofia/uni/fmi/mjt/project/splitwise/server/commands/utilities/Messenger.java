@@ -25,8 +25,8 @@ public class Messenger {
 
     private void printMessage(double amount, String friend) {
         StringBuilder message = new StringBuilder();
-        String leadLine = "Current status: ";
-        message.append(leadLine);
+        final String LEAD_LINE = "Current status: ";
+        message.append(LEAD_LINE);
         StatusForFriend.getStatusForOneFriend(message, amount);
         String payedLine = String.format("%nYou payed %s to %s", amount, friend);
         message.append(payedLine);

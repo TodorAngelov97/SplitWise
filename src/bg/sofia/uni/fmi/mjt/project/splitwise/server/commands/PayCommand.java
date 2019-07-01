@@ -43,8 +43,11 @@ public class PayCommand extends ActionCommand {
     }
 
     private void payed(String[] tokens) {
-        String friend = tokens[2];
-        double amount = Double.parseDouble(tokens[1]);
+        final int INDEX_OF_FRIEND = 2;
+        String friend = tokens[INDEX_OF_FRIEND];
+        final int INDEX_OF_AMOUNT = 1;
+        double amount = Double.parseDouble(tokens[INDEX_OF_AMOUNT]);
+
         server.decreaseAmountOfFriend(username, friend, amount);
         server.increaseAmountOfFriend(friend, username, amount);
         Domain domain = getDomain();

@@ -35,12 +35,17 @@ public class SplitGroupMoneyCommand extends ActionCommand {
 
     private void splitGroupMoney(String[] tokens) {
         final int NUMBER_OF_ARGUMENTS = 4;
+
         if (tokens.length == NUMBER_OF_ARGUMENTS) {
-            String group = tokens[2];
-            String amount = tokens[1];
+            final int INDEX_OF_GROUP = 2;
+            String group = tokens[INDEX_OF_GROUP];
+
+            final int INDEX_OF_AMOUNT = 1;
+            String amount = tokens[INDEX_OF_AMOUNT];
             transactMoney(amount, group);
 
-            String reasonForPayment = tokens[3];
+            final int INDEX_OF_PAYMENT_REASON = 3;
+            String reasonForPayment = tokens[INDEX_OF_PAYMENT_REASON];
             sendPaymentMessage(amount, group, reasonForPayment);
             sendGroupNotification(group, amount, reasonForPayment);
         }

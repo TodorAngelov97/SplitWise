@@ -47,7 +47,8 @@ public class SignUpCommand extends ActionCommand {
         server.addNewActiveUser(username, socket);
         server.saveUserInFile();
 
-        writer.println("Successful sign-up.");
+        final String MESSAGE = "Successful sign-up.";
+        writer.println(MESSAGE);
     }
 
     private void setCorrectUsername(String[] tokens) {

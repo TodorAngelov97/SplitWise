@@ -44,15 +44,18 @@ public class SplitMoneyCommand extends ActionCommand {
     }
 
     private void split(String[] tokens) {
-        String friend = tokens[2];
+        final int INDEX_OF_FRIEND = 2;
+        String friend = tokens[INDEX_OF_FRIEND];
 
         checkIsUsernameContained(writer, friend);
         checkIsUserInFriendList(friend, writer);
 
-        String amount = tokens[1];
+        final int INDEX_OF_AMOUNT = 1;
+        String amount = tokens[INDEX_OF_AMOUNT];
         transactMoney(friend, amount);
 
-        String reasonForPayment = tokens[3];
+        final int INDEX_OF_PAYMENT_REASON = 3;
+        String reasonForPayment = tokens[INDEX_OF_PAYMENT_REASON];
 
         sendPaymentMessage(amount, friend, reasonForPayment);
         printCurrentStatus(friend);
@@ -91,7 +94,8 @@ public class SplitMoneyCommand extends ActionCommand {
     }
 
     private void transactMoney(String friend, String preAmount) {
-        double amount = Double.parseDouble(preAmount) / 2;
+        final int DIVIDER = 2;
+        double amount = Double.parseDouble(preAmount) / DIVIDER;
         server.increaseAmountOfFriend(username, friend, amount);
         server.decreaseAmountOfFriend(friend, username, amount);
     }
