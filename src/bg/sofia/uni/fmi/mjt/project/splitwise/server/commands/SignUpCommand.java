@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import static bg.sofia.uni.fmi.mjt.project.splitwise.server.Server.SERVER_ERROR_MESSAGE;
+
 public class SignUpCommand extends ActionCommand {
 
     private Server server;
@@ -75,6 +77,7 @@ public class SignUpCommand extends ActionCommand {
                     break;
                 }
             } catch (IOException e) {
+                System.out.println(SERVER_ERROR_MESSAGE);
                 System.err.println("Error when reading line. " + e.getMessage());
             }
         }

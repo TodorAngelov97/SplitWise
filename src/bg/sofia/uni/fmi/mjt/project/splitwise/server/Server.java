@@ -19,6 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Server {
 
+    public static final String SERVER_ERROR_MESSAGE = "Error occurred in Server, try again later";
     public static final int PORT = 8080;
     private static final String FILE_NAME = "resources/users.json";
     private ServerSocket socketOfServer;
@@ -62,6 +63,7 @@ public class Server {
                 users = gson.fromJson(readerForUsers, type);
             }
         } catch (FileNotFoundException e) {
+            System.out.println(SERVER_ERROR_MESSAGE);
             System.err.println("Exception thrown by Json: " + e.getMessage());
         }
         return users;
@@ -103,6 +105,7 @@ public class Server {
             Gson gson = new GsonBuilder().create();
             gson.toJson(profiles, writer);
         } catch (IOException e) {
+            System.out.println(SERVER_ERROR_MESSAGE);
             System.err.println("Exception thrown by Json: " + e.getMessage());
         }
     }
@@ -251,6 +254,7 @@ public class Server {
             toWriter.print(String.format("[%s] ", NOTIFICATION));
             toWriter.println(message);
         } catch (IOException e) {
+            System.out.println(SERVER_ERROR_MESSAGE);
             System.err.println("Exception thrown by Print Writer: " + e.getMessage());
         }
     }
@@ -280,6 +284,7 @@ public class Server {
              BufferedWriter writer = new BufferedWriter(fileWriter)) {
             writer.write(paymentMessage);
         } catch (IOException e) {
+            System.out.println(SERVER_ERROR_MESSAGE);
             System.err.println("Exception thrown by fileWriter: " + e.getMessage());
         }
     }
@@ -291,6 +296,7 @@ public class Server {
             Server server = new Server(serverSocket, FILE_NAME);
             server.execute();
         } catch (IOException e) {
+            System.out.println(SERVER_ERROR_MESSAGE);
             System.err.println("Exception thrown by SeverSocket: " + e.getMessage());
         }
     }
@@ -304,11 +310,13 @@ public class Server {
                 startNewThreadForUser(socket);
             }
         } catch (IOException e) {
+            System.out.println(SERVER_ERROR_MESSAGE);
             System.err.println("Exception thrown by Socket: " + e.getMessage());
         } finally {
             try {
                 socketOfServer.close();
             } catch (IOException e) {
+                System.out.println(SERVER_ERROR_MESSAGE);
                 System.err.println("Exception thrown by close Socket: " + e.getMessage());
             }
         }

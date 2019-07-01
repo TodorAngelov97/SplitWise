@@ -13,8 +13,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class UserData {
-    private static final String PATH_TO_PAYMENT_DIR = "resources/payment/";
 
+    private static final String PATH_TO_PAYMENT_DIR = "resources/payment/";
     private UserProfile userProfile;
     private Map<String, Friend> friends;
     private Map<String, Group> groups;

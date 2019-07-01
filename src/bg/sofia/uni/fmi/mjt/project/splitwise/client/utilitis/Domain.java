@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import static bg.sofia.uni.fmi.mjt.project.splitwise.client.Client.CLIENT_ERROR_MESSAGE;
+
 public class Domain {
     private PrintWriter writer;
     private Socket socket;
@@ -28,6 +30,7 @@ public class Domain {
         try {
             writer = new PrintWriter(socket.getOutputStream(), true);
         } catch (IOException e) {
+            System.out.println(CLIENT_ERROR_MESSAGE);
             System.err.println("Error with open writer " + e.getMessage());
         }
     }
@@ -45,6 +48,7 @@ public class Domain {
             }
             socket.close();
         } catch (IOException e) {
+            System.out.println(CLIENT_ERROR_MESSAGE);
             System.err.println("Error with closing writer stream" + e.getMessage());
         }
     }

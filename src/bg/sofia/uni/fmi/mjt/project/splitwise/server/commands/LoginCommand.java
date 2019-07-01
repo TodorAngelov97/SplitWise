@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import static bg.sofia.uni.fmi.mjt.project.splitwise.server.Server.SERVER_ERROR_MESSAGE;
+
 public class LoginCommand extends ActionCommand {
 
     private Server server;
@@ -79,6 +81,7 @@ public class LoginCommand extends ActionCommand {
                     break;
                 }
             } catch (IOException e) {
+                System.out.println(SERVER_ERROR_MESSAGE);
                 System.err.println("Exception thrown by ReadLine: " + e.getMessage());
             }
         }

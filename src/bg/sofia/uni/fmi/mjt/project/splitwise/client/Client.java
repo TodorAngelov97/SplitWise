@@ -16,6 +16,7 @@ import java.util.Scanner;
 
 public class Client {
 
+    public static final String CLIENT_ERROR_MESSAGE = "Error occurred, try again later";
     private static final String HELP_MESSAGE_FILE = "resources/help.txt";
     private Domain domain;
     private Map<String, Command> commands;
@@ -39,8 +40,10 @@ public class Client {
              BufferedReader reader = new BufferedReader(fileReader)) {
             printContentOfHelpFile(reader);
         } catch (FileNotFoundException e) {
+            System.out.println(CLIENT_ERROR_MESSAGE);
             System.err.println("Exception thrown by readLine: " + e.getMessage());
         } catch (IOException e) {
+            System.out.println(CLIENT_ERROR_MESSAGE);
             System.err.println("Exception thrown by createNewFile: " + e.getMessage());
         }
     }
@@ -115,8 +118,10 @@ public class Client {
             client.execute();
         } catch (UnknownHostException e) {
             System.err.println("Exception thrown by Socket: " + e.getMessage());
+            System.out.println(CLIENT_ERROR_MESSAGE);
         } catch (IOException e) {
             System.err.println("Exception thrown by Socket: " + e.getMessage());
+            System.out.println(CLIENT_ERROR_MESSAGE);
         }
     }
 }

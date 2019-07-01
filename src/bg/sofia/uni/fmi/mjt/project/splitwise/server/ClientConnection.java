@@ -13,6 +13,8 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
+import static bg.sofia.uni.fmi.mjt.project.splitwise.server.Server.SERVER_ERROR_MESSAGE;
+
 public class ClientConnection implements Runnable {
     private Socket socket;
     private String currency;
@@ -35,6 +37,7 @@ public class ClientConnection implements Runnable {
              PrintWriter writer = new PrintWriter(socket.getOutputStream(), true)) {
             executeCommands(reader, writer);
         } catch (IOException e) {
+            System.out.println(SERVER_ERROR_MESSAGE);
             System.err.println("Error with closing socket" + e.getMessage());
         } finally {
             String username = domain.getUsername();
@@ -42,6 +45,7 @@ public class ClientConnection implements Runnable {
             try {
                 socket.close();
             } catch (IOException e) {
+                System.out.println(SERVER_ERROR_MESSAGE);
                 System.err.println("Error with closing socket" + e.getMessage());
             }
         }

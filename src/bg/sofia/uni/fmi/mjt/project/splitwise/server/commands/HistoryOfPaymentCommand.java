@@ -6,6 +6,8 @@ import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
 
 import java.io.*;
 
+import static bg.sofia.uni.fmi.mjt.project.splitwise.server.Server.SERVER_ERROR_MESSAGE;
+
 public class HistoryOfPaymentCommand extends ActionCommand {
 
     private Server server;
@@ -38,6 +40,7 @@ public class HistoryOfPaymentCommand extends ActionCommand {
              BufferedReader reader = new BufferedReader(fileReader)) {
             readInformation(reader);
         } catch (IOException e) {
+            System.out.println(SERVER_ERROR_MESSAGE);
             System.err.println("Exception thrown by readLine: " + e.getMessage());
         }
     }

@@ -15,6 +15,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
 
 public class RateHandler {
+    private static final String ERROR_MESSAGE = "Problem with currency switch, try again later";
     private String currentCurrency;
     private String wantedCurrency;
 
@@ -35,7 +36,6 @@ public class RateHandler {
     }
 
     public double getRate() {
-
         Gson gson = new Gson();
         Rate rate = null;
         try {
@@ -47,10 +47,13 @@ public class RateHandler {
             rate = gson.fromJson(getJson(), LevRate.class);
         } catch (JsonSyntaxException e) {
             System.err.println("Exception thrown by Json: " + e.getMessage());
+            System.out.println(ERROR_MESSAGE);
         } catch (IOException e) {
             System.err.println("Exception thrown by Json: " + e.getMessage());
+            System.out.println(ERROR_MESSAGE);
         } catch (InterruptedException e) {
             System.err.println("Exception thrown by Json: " + e.getMessage());
+            System.out.println(ERROR_MESSAGE);
         }
         return rate.getRate();
     }
