@@ -1,5 +1,7 @@
-package bg.sofia.uni.fmi.mjt.project.splitwise.client;
+package bg.sofia.uni.fmi.mjt.project.splitwise.client.commands;
 
+import bg.sofia.uni.fmi.mjt.project.splitwise.client.Domain;
+import bg.sofia.uni.fmi.mjt.project.splitwise.client.commands.ActionCommand;
 import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
 
 public class LoginCommand extends ActionCommand {

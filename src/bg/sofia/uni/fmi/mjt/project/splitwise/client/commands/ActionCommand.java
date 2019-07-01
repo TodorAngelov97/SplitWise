@@ -1,5 +1,6 @@
-package bg.sofia.uni.fmi.mjt.project.splitwise.client;
+package bg.sofia.uni.fmi.mjt.project.splitwise.client.commands;
 
+import bg.sofia.uni.fmi.mjt.project.splitwise.client.Domain;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.Command;
 
 public abstract class ActionCommand extends Command {
