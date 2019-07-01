@@ -1,5 +1,6 @@
 # SplitWise:
 ***Check the branch refactoringProjec for better readability***
+
 Kлиент-сървър приложение с функционалност, наподобяваща тази на [Splitwise](https://www.splitwise.com/).
 
 Splitwise цели улесняване на поделянето на сметки между приятели и съквартиранти и намаляване на споровете от тип "само аз купувам бира в това общежитие".
