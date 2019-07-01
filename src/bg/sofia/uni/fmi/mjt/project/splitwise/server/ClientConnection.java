@@ -1,7 +1,7 @@
 package bg.sofia.uni.fmi.mjt.project.splitwise.server;
 
 import bg.sofia.uni.fmi.mjt.project.splitwise.client.Client;
-import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.Currencies;
+import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.utilities.Currencies;
 import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.*;
 import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
 

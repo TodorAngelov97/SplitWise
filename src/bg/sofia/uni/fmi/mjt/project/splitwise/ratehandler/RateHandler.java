@@ -4,6 +4,7 @@ import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.rate.DollarRate;
 import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.rate.EuroRate;
 import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.rate.LevRate;
 import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.rate.Rate;
+import bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.utilities.Currencies;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 

@@ -1,4 +1,4 @@
-package bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler;
+package bg.sofia.uni.fmi.mjt.project.splitwise.ratehandler.utilities;
 
 public enum Currencies {
 
