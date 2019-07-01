@@ -39,10 +39,8 @@ public class Client {
              BufferedReader reader = new BufferedReader(fileReader)) {
             printContentOfHelpFile(reader);
         } catch (FileNotFoundException e) {
-            System.out.println("Problem with application, try again later.");
             System.err.println("Exception thrown by readLine: " + e.getMessage());
         } catch (IOException e) {
-            System.out.println("Problem with application, try again later.");
             System.err.println("Exception thrown by createNewFile: " + e.getMessage());
         }
     }

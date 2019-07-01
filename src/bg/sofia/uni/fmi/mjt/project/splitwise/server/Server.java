@@ -251,7 +251,6 @@ public class Server {
             toWriter.print(String.format("[%s] ", NOTIFICATION));
             toWriter.println(message);
         } catch (IOException e) {
-            System.out.println("Problem with application, try again later.");
             System.err.println("Exception thrown by Print Writer: " + e.getMessage());
         }
     }

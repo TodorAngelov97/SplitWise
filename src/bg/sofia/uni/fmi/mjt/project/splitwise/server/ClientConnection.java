@@ -35,8 +35,7 @@ public class ClientConnection implements Runnable {
              PrintWriter writer = new PrintWriter(socket.getOutputStream(), true)) {
             executeCommands(reader, writer);
         } catch (IOException e) {
-            System.out.println("socket is closed");
-            System.out.println(e.getMessage());
+            System.err.println("Error with closing socket" + e.getMessage());
         } finally {
             String username = domain.getUsername();
             server.removeUser(username);
