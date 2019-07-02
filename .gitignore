@@ -1,10 +1,10 @@
 my_local_setup.conf
 *.exe
-*.bin
+*bin
 *.project
 *.iml
 *.idea
 *.settings
-*.lib
+*lib
 *.classpath
 /out
