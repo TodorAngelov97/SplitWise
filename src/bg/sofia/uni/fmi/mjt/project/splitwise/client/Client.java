@@ -1,159 +1,127 @@
 package bg.sofia.uni.fmi.mjt.project.splitwise.client;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import bg.sofia.uni.fmi.mjt.project.splitwise.client.commands.LoginCommand;
+import bg.sofia.uni.fmi.mjt.project.splitwise.client.commands.SignUpCommand;
+import bg.sofia.uni.fmi.mjt.project.splitwise.client.utilitis.Domain;
+import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
+import bg.sofia.uni.fmi.mjt.project.splitwise.server.commands.Command;
+import bg.sofia.uni.fmi.mjt.project.splitwise.utilitis.Commands;
+
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
-
-import bg.sofia.uni.fmi.mjt.project.splitwise.server.Server;
 
 public class Client {
 
-	private static final String HELP_MESSAGE_FILE = "resources/help.txt";
-	private PrintWriter writer;
-	private Socket socket;
-	private boolean connected;
+    public static final String CLIENT_ERROR_MESSAGE = "Error occurred, try again later";
+    private static final String HELP_MESSAGE_FILE = "resources/help.txt";
+    private Domain domain;
+    private Map<String, Command> commands;
 
-	public Client(Socket socket) {
-		this.socket = socket;
-		this.writer = null;
-		this.connected = false;
+    public Client(Socket socket) {
+        this.domain = new Domain(socket);
+        this.commands = new HashMap<>();
+    }
 
-	}
+    public void execute() {
+        printHelpMessage();
+        try (Scanner userInput = new Scanner(System.in)) {
+            executeCommands(userInput);
+        } finally {
+            domain.closeOpenResources();
+        }
+    }
 
-	public void execute() {
-		printHelpMessage();
-		try (Scanner userInput = new Scanner(System.in)) {
-			while (true) {
-				String input = userInput.nextLine();
+    private void printHelpMessage() {
+        try (FileReader fileReader = new FileReader(HELP_MESSAGE_FILE);
+             BufferedReader reader = new BufferedReader(fileReader)) {
+            printContentOfHelpFile(reader);
+        } catch (FileNotFoundException e) {
+            System.out.println(CLIENT_ERROR_MESSAGE);
+            System.err.println("Exception thrown by readLine: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println(CLIENT_ERROR_MESSAGE);
+            System.err.println("Exception thrown by createNewFile: " + e.getMessage());
+        }
+    }
 
-				String[] tokens = input.split("\\s+");
-				String command = tokens[0];
-				if (validateInput(tokens)) {
-					if (command.equals("sign-up")) {
-						signUp(tokens);
-					} else if (command.equals("login")) {
-						login(tokens);
-					} else if (command.equals("logout")) {
-						writer.println(input);
-						return;
-					} else if (connected) {
-						writer.println(input);
-					}
-				}
-			}
-		} finally {
-			closeOpenResources();
-		}
-	}
+    private void printContentOfHelpFile(BufferedReader reader) throws IOException {
+        while (true) {
+            final String line = reader.readLine();
+            if (line == null) {
+                break;
+            }
+            System.out.println(line);
+        }
+    }
 
-	private void printHelpMessage() {
-		try (BufferedReader readerOfHelpMessage = new BufferedReader(new FileReader(HELP_MESSAGE_FILE))) {
+    private void executeCommands(Scanner userInput) {
+        initializeCommands();
+        while (true) {
+            String input = userInput.nextLine();
+            if (isInputValid(input)) {
+                executeSingleCommand(input);
+            }
+        }
+    }
 
-			String readLine;
-			while ((readLine = readerOfHelpMessage.readLine()) != null) {
-				System.out.println(readLine);
-			}
-		} catch (FileNotFoundException e) {
-			System.out.println("Problem with application, try again later.");
-			System.err.println("Exception thrown by readLine: " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("Problem with application, try again later.");
-			System.err.println("Exception thrown by createNewFile: " + e.getMessage());
-		}
+    private void initializeCommands() {
+        commands.put(Commands.LOGIN.getCommand(), new LoginCommand(domain));
+        commands.put(Commands.SIGN_UP.getCommand(), new SignUpCommand(domain));
+    }
 
-	}
+    private boolean isInputValid(String input) {
+        String[] tokens = getTokensFromInput(input);
+        for (String token : tokens) {
+            if (token.equals(null)) {
+                final String INVALID_INPUT = "Wrong input";
+                System.out.println(INVALID_INPUT);
+                return false;
+            }
+        }
+        return true;
+    }
 
-	private void closeOpenResources() {
-		try {
-			if (writer != null) {
-				writer.close();
-			}
-			socket.close();
-		} catch (IOException e) {
-			System.err.println("Error with closing writer stream" + e.getMessage());
-		}
-	}
+    public static String[] getTokensFromInput(String input) {
+        return input.split("\\s+");
+    }
 
-	private void connect(String[] tokens) {
-		setStream();
-		writer.println(String.join(" ", tokens));
-		startNewThreadForPrinting();
-		connected = true;
+    private void executeSingleCommand(String input) {
 
-	}
+        String[] tokens = getTokensFromInput(input);
+        final int INDEX_OF_COMMAND = 0;
+        String command = tokens[INDEX_OF_COMMAND];
 
-	private void setStream() {
-		try {
-			writer = new PrintWriter(socket.getOutputStream(), true);
-		} catch (IOException e) {
-			System.err.println("Error with open writer " + e.getMessage());
-		}
-	}
+        if (commands.containsKey(command)) {
+            Command customCommand = commands.get(command);
+            customCommand.executeCommand(tokens);
+        } else if (domain.isConnected()) {
+            PrintWriter writer = domain.getWriter();
+            writer.println(input);
+            checkIsLogout(command);
+        }
+    }
 
-	private void startNewThreadForPrinting() {
-		ClientRunnable clientRunnable = new ClientRunnable(socket);
-		new Thread(clientRunnable).start();
-	}
+    private void checkIsLogout(String command) {
+        if (Commands.LOGOUT.getCommand().equals(command)) {
+            return;
+        }
+    }
 
-	private void signUp(String[] tokens) {
-		if (isValidSignUpInputData(tokens)) {
-			connect(tokens);
-		}
-	}
-
-	private boolean isValidSignUpInputData(String[] tokens) {
-
-		if (tokens.length != 6) {
-			System.out.println("For sign-up you need exactly 6 arguments");
-			return false;
-		}
-
-		String password = tokens[2];
-		String confirmationPassword = tokens[3];
-		if (!password.equals(confirmationPassword)) {
-			String message = "You have to insert same password.";
-			System.out.println(message);
-			return false;
-		}
-		return true;
-	}
-
-	private void login(String[] tokens) {
-		if (validateLogin(tokens)) {
-			connect(tokens);
-		} else {
-			System.out.println("For login you need exactly 3 argumentsFor login you need exactly 3 arguments");
-		}
-	}
-
-	private boolean validateLogin(String[] tokens) {
-		return tokens.length == 3;
-	}
-
-	private boolean validateInput(String[] tokens) {
-		for (String token : tokens) {
-			if (token.equals(null)) {
-				System.out.println("Wrong input");
-				return false;
-			}
-		}
-		return true;
-	}
-
-	public static void main(String[] args) {
-		try {
-			Client c = new Client(new Socket("localhost", Server.PORT));
-			c.execute();
-		} catch (UnknownHostException e) {
-			System.err.println("Exception thrown by Socket: " + e.getMessage());
-		} catch (IOException e) {
-			System.err.println("Exception thrown by Socket: " + e.getMessage());
-		}
-
-	}
+    public static void main(String[] args) {
+        try {
+            Socket socket = new Socket("localhost", Server.PORT);
+            Client client = new Client(socket);
+            client.execute();
+        } catch (UnknownHostException e) {
+            System.err.println("Exception thrown by Socket: " + e.getMessage());
+            System.out.println(CLIENT_ERROR_MESSAGE);
+        } catch (IOException e) {
+            System.err.println("Exception thrown by Socket: " + e.getMessage());
+            System.out.println(CLIENT_ERROR_MESSAGE);
+        }
+    }
 }
