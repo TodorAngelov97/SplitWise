@@ -4,4 +4,7 @@ my_local_setup.conf
 *.project
 *.iml
 *.idea
+*.settings
+*.lib
+*.classpath
 /out
